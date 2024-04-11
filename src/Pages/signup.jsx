@@ -13,7 +13,7 @@ const Signup = ({signup}) => {
     console.log(password_issue)
 
 
-    if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify([]))
+    if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify([{}]))
     const userinfos = localStorage.getItem('userinfo')
 
     useEffect(() => {
@@ -88,7 +88,7 @@ const Signup = ({signup}) => {
                                      autoComplete="false" 
                                      name='username' 
                                      className='text-md pl-2 text-white outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
-                                     placeholder='@mrdev' 
+                                     placeholder='type a username. ex: @johnsmith' 
                                      id='username' 
                                      type="text" /> 
                                     
