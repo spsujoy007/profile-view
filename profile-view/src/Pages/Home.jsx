@@ -10,7 +10,7 @@ const Home = () => {
     let user = JSON.parse(localStorage.getItem('userinfo'))[0]
     console.log(user)
     return (
-        <div className='h-screen'>
+        <div className='min-h-screen'>
             {
                 user?.username ?
                 <div className='h-screen flex items-center justify-center flex-col'>
