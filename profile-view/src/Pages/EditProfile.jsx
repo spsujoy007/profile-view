@@ -20,7 +20,33 @@ const EditProfile = () => {
 
     const handleSaveProfile = (e) => {
         e.preventDefault()
-        
+        const form = e.target
+        const name = form.name.value
+        const bio = form.bio.value
+        const github = form.github.value
+        const portfolio = form.portfolio.value
+        const hackerRank = form.hackerRank.value
+        const codeForce = form.codeForce.value
+        const drible = form.drible.value
+        const linkedin = form.linkedin.value
+        const facebook = form.facebook.value
+        const instagram = form.instagram.value
+        const twitter = form.linkedin.value
+
+        const userdetails = {
+            name: name,
+            bio: bio,
+            github_link: github,
+            portfolio_link: portfolio,
+            hackerRank_link: hackerRank,
+            codeForce_link: codeForce,
+            drible_link: drible,
+            linkedin_link: linkedin,
+            facebook_link: facebook,
+            instagram_link: instagram,
+            twitter_link: twitter
+        }
+        console.log(userdetails)
     }
 
     const buttonBg = 'bg-zinc-900 border-2 border-slate-500 border-dashed '
@@ -45,12 +71,12 @@ const EditProfile = () => {
 
                     <div className='w-full '>
                         <p className='py-2 ml-2'>Information section</p>
+                        <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full p-5 '>
-                            <input type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={"Sujoy Paul"} /> <br />
-                            <input type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={'Education makes a man to live in live'} />
+                            <input name='name' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={"Sujoy Paul"} /> <br />
+                            <input name='bio' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={'Education makes a man to live in live'} />
                             <hr />
 
-                            <form >
                                 <div className='mt-5 md:w-[100%]'>
                                     <div className='flex items-center border-y-[1px] border-black'>
                                         <label htmlFor="github" className='text-2xl py-2 text-white bg-black px-8'><FaGithub /></label>
@@ -99,8 +125,8 @@ const EditProfile = () => {
 
                                     <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button>
                                 </div>
-                            </form>
                         </div>
+                        </form>
                     </div>
                 </div>
             </Container>
