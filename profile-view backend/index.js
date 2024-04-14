@@ -35,7 +35,7 @@ async function run(){
         }
         else{
           const result = await usersCollection.insertOne(userinfo)
-          return res.send(result)
+          return res.send([result, userinfo])
         }
       })
 
