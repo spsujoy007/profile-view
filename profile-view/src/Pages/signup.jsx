@@ -111,7 +111,7 @@ const Signup = ({signup}) => {
                                     <span className='text-red-500 block'> {password_issue && `Password must be 8+ characters.`}</span>
                                      <br />
                                     <button type="submit" className='bg-[#101317] border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
-                                    <p className='mt-2'>Do you have an account? <a href='/login' className='text-white underline font-bold'>click to log in</a></p>
+                                    <p className='mt-2'>Do you have an account? <span onClick={() => navigate('/login')} className='text-white underline font-bold cursor-pointer'>click to log in</span></p>
                             </div>
                             </form>
                     </div>

@@ -127,9 +127,7 @@ const EditProfile = () => {
                 toast.success("Profile updated",{
                     icon: '😀',
                 })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1200);
+                navigate(`/profile/${user.username}`)
             }
             else{
                 setServerMsg(`Invalid user!`)

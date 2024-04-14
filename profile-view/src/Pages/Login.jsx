@@ -25,6 +25,7 @@ const Login = () => {
             if(data?.username){
                 toast.success("Login successful")
                 setSuccess(true)
+                setError(false)
                 setServerMsg(`Hey ${data.username}! Login successful.`)
                 localStorage.setItem('userinfo', JSON.stringify(data))
                 setTimeout(() => {
@@ -35,6 +36,7 @@ const Login = () => {
             {
                 toast.error(data.message)
                 setError(true)
+                setSuccess(false)
                 setServerMsg("user name or password is incorrect!")
             }
         })
@@ -57,7 +59,7 @@ const Login = () => {
                                     {error && <p className='text-red-600'>{serverMsg}</p>}
                                     {success && <p className='text-green-600'>{serverMsg}</p>}
                                     <button type="submit" className='bg-[#1b1b1b] border-[1px] uppercase border-[#262626] px-5 py-2 mt-2  md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Submit</button>
-                                    <p className='mt-2'>Are you new in Profile-View? <a href='/signup' className='text-white underline font-bold'>click to create a account</a></p>
+                                    <p className='mt-2'>Are you new in Profile-View? <span onClick={() => navigate('/signup')} className='text-white underline font-bold cursor-pointer'>click to create a account</span></p>
                             </div>
                             </form>
                     </div>
