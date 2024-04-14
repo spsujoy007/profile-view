@@ -86,6 +86,12 @@ async function run(){
           const userdata = await userProfileCollection.findOne(query)
           res.send(userdata)
       })
+
+      app.get('/profile/:username', async(req, res) => {
+          const query = {username: req.params.username}
+          const userData = await userProfileCollection.findOne(query)
+          res.send(userData)
+      })
       
 
     }
