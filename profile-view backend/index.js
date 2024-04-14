@@ -1,7 +1,8 @@
 const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5000 
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -87,16 +88,31 @@ async function run(){
         res.send(userdata)
       })
 
-      app.get('/userAccountInfo', async(req, res) => {
+      app.get('/login', async(req, res) => {
         const query = {
             username: req.query.username,
             password: req.query.pass
         }
-        console.log(query)
-        
         const userAccountInfo = await usersCollection.findOne(query)
-        res.send(userAccountInfo)
+        // console.log(userAccountInfo)
+        if(userAccountInfo && userAccountInfo?.password === query.password){
+          return res.send(userAccountInfo)
+        }
+        else{
+          return res.json({message: 'Invalid user', code: 21})
+        }
       })
+
+      // app.get('/userAccountInfo', async(req, res) => {
+      //   const query = {
+      //       username: req.query.username,
+      //       password: req.query.pass
+      //   }
+      //   console.log(query)
+        
+      //   const userAccountInfo = await usersCollection.findOne(query)
+      //   res.send(userAccountInfo)
+      // })
       
       app.get('/profile/:username', async(req, res) => {
         const query = {username: req.params.username}
