@@ -24,7 +24,10 @@ const Home = () => {
                         {user?.username}
                     </div> */}
                     <span className='mt-1 text-slate-300 text-sm uppercase'>Hey <span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button </span>
-                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 w-[300px] btn-bg rounded-md border-[1px] border-[#242424] uppercase mt-10'>Arrange Profile</button>
+                    <div className='flex items-center gap-3'>
+                        <button onClick={() => navigate('/editprofile')} className='px-5 py-2 w-[250px] btn-bg rounded-md border-[1px] border-[#242424] uppercase mt-10'>Arrange Profile</button>
+                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 w-[250px] btn-bg rounded-md border-[1px] border-[#242424] uppercase mt-10'>My Profile</button>
+                    </div>
                 </div>
                 :
                 <>
