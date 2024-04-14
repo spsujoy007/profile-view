@@ -7,15 +7,15 @@ import { useNavigate } from 'react-router-dom';
 const Signup = ({signup}) => {
 
     const [error, setError] = useState(false)
-    const [message, setMessage] = useState(undefined)
+    const [message, setMessage] = useState(null)
     const [suggestion_name, setSuggestion_name] = useState(undefined)
     const [password_issue, setPasswordIssue] = useState(false)
     const [pass, setPass] = useState('')
-    console.log(password_issue)
+    // console.log(password_issue)
 
     const navigate = useNavigate()
 
-    if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify([{}]))
+    // if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify({}))
     const userinfos = localStorage.getItem('userinfo')
 
     useEffect(() => {
@@ -46,7 +46,7 @@ const Signup = ({signup}) => {
             }
             // console.log(userinfo)
 
-            fetch('http://localhost:5000/signup', {
+            fetch('https://profile-view-be.vercel.app/signup', {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -55,21 +55,23 @@ const Signup = ({signup}) => {
             })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if(data.code === 20){
                     toast.error('username already exists')
                     setError(true)
                     setMessage(data.error)
-                    setSuggestion_name(name+ Math.floor(Math.random() * (100 - 10 + 1))+1)
+                    setSuggestion_name(name + Math.floor(Math.random() * (100 - 10 + 1))+1)
                 }
                 else{
-                    if(data.acknowledged === true){
+                    if(data[0].acknowledged === true){
                         if(error === false)
                         {
                             setError(false)
                         }
-                            localStorage.setItem('userinfo', JSON.stringify([userinfo]))
+                            localStorage.setItem('userinfo', JSON.stringify(userinfo))
                             toast.success('Account created!')
-                            signup(false)
+                            navigate('/')
+                            // signup(false)
                     }
                 }
             })
@@ -109,6 +111,7 @@ const Signup = ({signup}) => {
                                     <span className='text-red-500 block'> {password_issue && `Password must be 8+ characters.`}</span>
                                      <br />
                                     <button type="submit" className='bg-[#101317] border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
+                                    <p className='mt-2'>Do you have an account? <a href='/login' className='text-white underline font-bold'>click to log in</a></p>
                             </div>
                             </form>
                     </div>

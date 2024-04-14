@@ -16,7 +16,7 @@ const EditProfile = () => {
     const [imgFile, setimgFile] = useState(undefined)
     const [callServer, setCallServer] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
-    const user = JSON.parse(localStorage.getItem('userinfo'))[0]
+    const user = JSON.parse(localStorage.getItem('userinfo'))
     const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
 
@@ -38,12 +38,11 @@ const EditProfile = () => {
     }, [user?.username])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
+        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
     .then(text => {
-        console.log(text); // Log the response text
         return JSON.parse(text); // Parse JSON
     })
     .then(data => {
@@ -73,7 +72,7 @@ const EditProfile = () => {
     
     const handleSaveProfile = (e) => {
         e.preventDefault()
-
+        refetch()
         if(uploadPhoto){
             toast.error("Please upload your new photo!")
             return
@@ -91,25 +90,26 @@ const EditProfile = () => {
         const facebook = form.facebook.value
         const instagram = form.instagram.value
         const twitter = form.twitter.value
+        console.log(github)
         
         const userdetails = {
             username: user.username,
             name: name,
             bio: bio,
-            profile_pic: imglink ? imglink : profile_pic,
-            github_link: github ? github : github_link,
-            portfolio_link: portfolio ? portfolio : portfolio_link,
-            hackerRank_link: hackerRank ? hackerRank : hackerRank_link,
-            codeForce_link: codeForce ? codeForce : codeForce_link,
-            dribble_link: dribble ? dribble : dribble_link,
-            linkedin_link: linkedin ? linkedin : linkedin_link,
-            facebook_link: facebook ? facebook : facebook_link,
-            instagram_link: instagram ? instagram : instagram_link,
-            twitter_link: twitter ? twitter : twitter_link
+            profile_pic: imglink != null ? imglink : profile_pic,
+            github_link: github != null ? github : github_link,
+            portfolio_link: portfolio != null ? portfolio : portfolio_link,
+            hackerRank_link: hackerRank != null ? hackerRank : hackerRank_link,
+            codeForce_link: codeForce != null ? codeForce : codeForce_link,
+            dribble_link: dribble != null ? dribble : dribble_link,
+            linkedin_link: linkedin != null ? linkedin : linkedin_link,
+            facebook_link: facebook != null ? facebook : facebook_link,
+            instagram_link: instagram != null ? instagram : instagram_link,
+            twitter_link: twitter != null ? twitter : twitter_link
         }
-        console.log("edit", userdetails)
+        console.log(userdetails)
         
-        fetch(`http://localhost:5000/saveprofile`, {
+        fetch(`https://profile-view-be.vercel.app/saveprofile`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'Application/json'
@@ -119,7 +119,6 @@ const EditProfile = () => {
         .then(res => res.json())
         .then(data => {
             setCallServer(true)
-            refetch()
             if(data.acknowledged)
             {
                 setServerMsg(`Hey ${user.username}! Your profile is now updated `)
@@ -127,11 +126,16 @@ const EditProfile = () => {
                 toast.success("Profile updated",{
                     icon: '😀',
                 })
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1200);
             }
             else{
                 setServerMsg(`Invalid user!`)
                 toast.error("Invalid user!")
+                navigate('/signup')
             }
+            refetch()
             // console.log(data)
         })
     }
@@ -203,9 +207,9 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
                             <div className='flex justify-end'>
-                                <div className="form-control">
+                            <div className="form-control">
                                     <label className="label cursor-pointer">
-                                        <span className="label-text mr-2">{editMode ? "tap to edit" :"tap to view"}</span> 
+                                        <span className="label-text mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
                                         <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle" checked />
                                     </label>
                                 </div>
@@ -300,7 +304,7 @@ const EditProfile = () => {
                         <div className='flex justify-end'>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
-                                        <span className="label-text mr-2">{editMode ? "tap to edit" :"tap to view"}</span> 
+                                        <span className="label-text mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
                                         <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle"  />
                                     </label>
                                 </div>

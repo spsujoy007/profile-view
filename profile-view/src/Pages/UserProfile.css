@@ -5,3 +5,25 @@
     background-position: bottom;
     /* rotate: 90deg; */
 }
+
+/* .userImage {
+    animation: imageRotate 2s linear infinite;
+    animation-delay: 2s;
+    animation-duration: 1s;
+}
+
+@keyframes imageRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(2deg);
+    }
+    75% {
+        transform: rotate(-2deg);
+    }
+    100% {
+        transform: rotate(0deg);
+
+    }
+} */

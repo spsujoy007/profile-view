@@ -36,7 +36,7 @@ const UserProfile = () => {
             </div>
             <div className='profile_card md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px]'>
                 <div className='flex items-center gap-4 '>
-                    <img className='w-[80px] h-[80px] rounded-xl' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                    <img className='userImage w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
                         <h3 className='text-[26px] uppercase py-0 font-bold text-white'>{name}</h3>
                         <p className='text-lg text-white'>{bio}</p>
