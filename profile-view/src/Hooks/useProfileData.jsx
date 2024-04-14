@@ -5,19 +5,21 @@ const useProfileData = () => {
     const [userProfile, setUserProfile] = useState({})
 
     useEffect(() => {
-        refetch()
-    }, [user.username])
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/userdata?username=${user.username}`);
+                const data = await response.json();
+                setUserProfile(data);
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
 
-    const refetch = () => {
-        fetch(`http://localhost:5000/userdata?username=${user.username}`, {
-        method: "GET"
-    })
-    .then(res => res.json())
-    .then(data => {
-        setUserProfile(data)
-    })
-    }
-    return userProfile
+        fetchData();
+    }, [user.username]); // Only re-run the effect if user.username changes
+
+    return userProfile;
 };
 
 export default useProfileData;

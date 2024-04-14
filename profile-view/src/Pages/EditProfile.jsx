@@ -5,6 +5,9 @@ import { CgWebsite } from "react-icons/cg";
 import { SiCodeforces } from "react-icons/si";
 import './global.css'
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { IoReturnDownBack } from 'react-icons/io5';
+import { FaPlus } from 'react-icons/fa6';
 
 const EditProfile = () => {
     // document.cookie = "username=John Doe";
@@ -17,29 +20,39 @@ const EditProfile = () => {
     const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
 
+    const [uploadPhoto, setUploadPhoto] = useState(false)
+
     const [userProfile, setUserProfile] = useState([])
-    console.log(userProfile)
     
     const handleGetPhoto = (e) => {
         const file = e.target.files[0]
         if(file){
             const img = URL.createObjectURL(file)
+            setUploadPhoto(true)
             setimgFile(file)
             setViewImg(img)
         }
     }
     useEffect(() => {
         refetch()
-    }, [user.username])
+    }, [user?.username])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/userdata?username=${user.username}`, {
+        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
         method: "GET"
     })
-    .then(res => res.json())
-    .then(data => {
-        setUserProfile(data)
+    .then(res => res.text()) // Convert response to text
+    .then(text => {
+        console.log(text); // Log the response text
+        return JSON.parse(text); // Parse JSON
     })
+    .then(data => {
+        setUserProfile(data);
+        setViewImg(data.profile_pic)
+    })
+    .catch(error => {
+        console.error('Error fetching user data:', error);
+    });
     }
 
     // user informations
@@ -51,7 +64,7 @@ const EditProfile = () => {
         portfolio_link,
         hackerRank_link,
         profile_pic, 
-        drible_link,
+        dribble_link,
         linkedin_link,
         facebook_link,
         codeForce_link,
@@ -60,6 +73,12 @@ const EditProfile = () => {
     
     const handleSaveProfile = (e) => {
         e.preventDefault()
+
+        if(uploadPhoto){
+            toast.error("Please upload your new photo!")
+            return
+        }
+
         const form = e.target
         const name = form.name.value
         const bio = form.bio.value
@@ -67,11 +86,11 @@ const EditProfile = () => {
         const portfolio = form.portfolio.value
         const hackerRank = form.hackerRank.value
         const codeForce = form.codeForce.value
-        const drible = form.drible.value
+        const dribble = form.dribble.value
         const linkedin = form.linkedin.value
         const facebook = form.facebook.value
         const instagram = form.instagram.value
-        const twitter = form.linkedin.value
+        const twitter = form.twitter.value
         
         const userdetails = {
             username: user.username,
@@ -82,7 +101,7 @@ const EditProfile = () => {
             portfolio_link: portfolio ? portfolio : portfolio_link,
             hackerRank_link: hackerRank ? hackerRank : hackerRank_link,
             codeForce_link: codeForce ? codeForce : codeForce_link,
-            drible_link: drible ? drible : drible_link,
+            dribble_link: dribble ? dribble : dribble_link,
             linkedin_link: linkedin ? linkedin : linkedin_link,
             facebook_link: facebook ? facebook : facebook_link,
             instagram_link: instagram ? instagram : instagram_link,
@@ -101,16 +120,13 @@ const EditProfile = () => {
         .then(data => {
             setCallServer(true)
             refetch()
-            if(data.acknowledged && data.modifiedCount === 1)
+            if(data.acknowledged)
             {
                 setServerMsg(`Hey ${user.username}! Your profile is now updated `)
+                setEditMode(!editMode)
                 toast.success("Profile updated",{
                     icon: '😀',
                 })
-            }
-            else if(data.acknowledged){
-                setServerMsg(`Hello ${user.username}! Your profile is created successfully.`)
-                toast.success("Profile created")
             }
             else{
                 setServerMsg(`Invalid user!`)
@@ -133,32 +149,47 @@ const EditProfile = () => {
         })
         .then(res => res.json())
         .then(data => {
-            setImgLink(data.url)
+            if(data.url){
+                setImgLink(data.url)
+                setUploadPhoto(false)
+                toast.success('Image uploaded', {
+                    icon: '👌',
+                    style: {
+                        borderRadius: '50px',
+                        backgroundColor: '#fff',
+                        color: '#000'
+                    }
+                })
+            }
+            console.log(data)
         })
         .catch(e => console.log(e))
     }
 
-
-    
-
-    
+    const navigate = useNavigate()
     
     const buttonBg = 'bg-zinc-900 border-2 border-slate-500 border-dashed '
+    
     return (
-        <div className='min-h-screen pb-20'>
+        <div className='md:min-h-screen md:pb-20'>
             {
                 editMode ?
                 <Container>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center sticky top-0 ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
-                <div className='flex md:flex-row flex-col gap-5 mt-10 p-5 md:p-0'>
+                <div className='flex md:flex-row flex-col gap-5 md:mt-10 p-5 md:p-0'>
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`w-[300px] h-[300px] overflow-hidden ${buttonBg} rounded-lg`}>
-                                <img src={viewImg ? viewImg : profile_pic} alt="" />
+                            <div className={`w-[300px] h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-center justify-center`}>
+                                {
+                                    viewImg ?
+                                    <img src={viewImg ? viewImg : profile_pic} alt="" />
+                                    :
+                                    <FaPlus className='text-[100px]' />
+                                }
                             </div>
                             {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
@@ -172,10 +203,15 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
                             <div className='flex justify-end'>
-                                <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle "  />
+                                <div className="form-control">
+                                    <label className="label cursor-pointer">
+                                        <span className="label-text mr-2">{editMode ? "tap to edit" :"tap to view"}</span> 
+                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle" checked />
+                                    </label>
+                                </div>
                             </div>
 
-                            <input name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
+                            <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
                             <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
                             <hr />
 
@@ -201,8 +237,8 @@ const EditProfile = () => {
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="drible" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
-                                        <input defaultValue={drible_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your drible id' id='drible' name='drible' type="url" />
+                                        <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
+                                        <input defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your dribble id' id='dribble' name='dribble' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
@@ -238,17 +274,19 @@ const EditProfile = () => {
             // view mode 
             <Container>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center sticky top-0 ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
+                        <div className=' flex justify-end'>
+                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 underline'>back to home page<IoReturnDownBack /></p>
+            </div>
                 <div className='flex md:flex-row flex-col gap-5 mt-10 p-5 md:p-0'>
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`w-[300px] h-[300px] overflow-hidden  rounded-lg`}>
+                            <div className={`w-[300px] h-[300px] overflow-hidden #${!profile_pic && buttonBg} rounded-lg`}>
                                 <img src={viewImg ? viewImg : profile_pic} alt="" />
                             </div>
-                            {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
                         <input disabled onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
                         {/* <button onClick={handleImageChange}>Upload</button> */}
@@ -259,8 +297,13 @@ const EditProfile = () => {
                         <p className='py-2 ml-2'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
-                            <div className='flex justify-end block'>
-                                <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle "  />
+                        <div className='flex justify-end'>
+                                <div className="form-control">
+                                    <label className="label cursor-pointer">
+                                        <span className="label-text mr-2">{editMode ? "tap to edit" :"tap to view"}</span> 
+                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle"  />
+                                    </label>
+                                </div>
                             </div>
 
                             <input disabled name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
@@ -289,8 +332,8 @@ const EditProfile = () => {
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="drible" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
-                                        <input disabled defaultValue={drible_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your drible id' id='drible' name='drible' type="url" />
+                                        <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
+                                        <input disabled defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your dribble id' id='dribble' name='dribble' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>

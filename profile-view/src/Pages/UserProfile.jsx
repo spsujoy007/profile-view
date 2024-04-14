@@ -10,6 +10,8 @@ import { IoReturnDownBack } from "react-icons/io5";
 
 const UserProfile = () => {
 
+    console.log('user page')
+
     const {
         bio, 
         name, 
@@ -18,7 +20,7 @@ const UserProfile = () => {
         portfolio_link,
         hackerRank_link,
         profile_pic, 
-        drible_link,
+        dribble_link,
         linkedin_link,
         facebook_link,
         codeForce_link,
@@ -34,7 +36,7 @@ const UserProfile = () => {
             </div>
             <div className='profile_card md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px]'>
                 <div className='flex items-center gap-4 '>
-                    <img className='w-[80px] h-[80px] rounded-xl' src={profile_pic ? profile_pic : null_avatar} alt="" />
+                    <img className='w-[80px] h-[80px] rounded-xl' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
                         <h3 className='text-[26px] uppercase py-0 font-bold text-white'>{name}</h3>
                         <p className='text-lg text-white'>{bio}</p>
@@ -44,9 +46,9 @@ const UserProfile = () => {
                 <div className='border-[1px] border-[#2e2e2e] mt-10 p-2 rounded-xl bg-[#151515c1]'>
                 <div className=''>
                     <p className=''>coding related</p>
-                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 space-x-2'>
+                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
-                            github_link &&<a href={github_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 bg-[#1a1a1a] rounded-lg border-[1px] border-black hover:border-[#3d3d3d] duration-300 text-white p-2'><FaGithub className='text-5xl' /> 
+                            github_link &&<a href={github_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#ededed] rounded-lg border-[1px] border-black hover:border-[#3d3d3d] duration-300 text-white hover:text-black p-2'><FaGithub className='text-5xl' /> 
                                 <div>
                                     <p className='font-bold'>Github</p>
                                     <p className='text-sm'>Find out my projects</p>
@@ -75,7 +77,7 @@ const UserProfile = () => {
                 {/* professional profiles */}
                 <div className='mt-10'>
                     <p className=''>professional profiles and portfolio</p>
-                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 space-x-2'>
+                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             linkedin_link &&<a href={linkedin_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#0073AF] bg-[#1A1A1A] duration-300 rounded-lg text-white p-2'><FaLinkedin className='text-5xl' /> 
                                 <div>
@@ -93,7 +95,7 @@ const UserProfile = () => {
                             </a>
                         }
                         {
-                            drible_link &&<a href={drible_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#EB528D] duration-300 rounded-lg bg-[#1A1A1A] text-white px-3 py-1'><FaDribbble className='text-5xl' /> 
+                            dribble_link &&<a href={dribble_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#EB528D] duration-300 rounded-lg bg-[#1A1A1A] text-white px-3 py-1'><FaDribbble className='text-5xl' /> 
                                 <div>
                                     <p className='font-bold'>Dribble</p>
                                     <p className='text-sm'>my design skills</p>
@@ -106,7 +108,7 @@ const UserProfile = () => {
                 {/* social links */}
                 <div className='mt-10'>
                     <p className=''>social media profiles</p>
-                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 space-x-2'>
+                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             facebook_link &&<a href={facebook_link} target='_blank' rel="noreferrer" className='flex flex-col items-center gap-2 bg-[#1F7BF2] rounded-lg overflow-hidden text-white pt-5 hover:bg-[#1A1A1A] duration-500'>
                                 <FaFacebook className='text-5xl' /> 

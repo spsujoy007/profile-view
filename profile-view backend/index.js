@@ -51,20 +51,19 @@ async function run(){
               const updatedDoc = {
                 $set: {
                   name: userdata.name,
-                  bio: userdata.bio,
-                  profile_pic: userdata.profile_pic,
-                  github_link: userdata.github_link,
-                  portfolio_link: userdata.portfolio_link,
-                  hackerRank_link: userdata.hackerRank_link,
-                  codeForce_link: userdata.codeForce_link,
-                  drible_link: userdata.drible_link,
-                  linkedin_link: userdata.linkedin_link,
-                  facebook_link: userdata.facebook_link,
-                  instagram_link: userdata.instagram_link,
-                  twitter_link: userdata.twitter_link
+                  bio: userdata.bio ? userdata.bio : null,
+                  profile_pic: userdata.profile_pic ? userdata.profile_pic : null,
+                  github_link: userdata.github_link ? userdata.github_link : null,
+                  portfolio_link: userdata.portfolio_link ? userdata.portfolio_link : null,
+                  hackerRank_link: userdata.hackerRank_link ? userdata.hackerRank_link : null,
+                  codeForce_link: userdata.codeForce_link ? userdata.codeForce_link : null,
+                  dribble_link: userdata.dribble_link ? userdata.dribble_link : null,
+                  linkedin_link: userdata.linkedin_link ? userdata.linkedin_link : null,
+                  facebook_link: userdata.facebook_link ? userdata.facebook_link : null,
+                  instagram_link: userdata.instagram_link ? userdata.instagram_link : null,
+                  twitter_link: userdata.twitter_link ? userdata.twitter_link : null
                 }
               }
-              console.log(updatedDoc)
               const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
 
               return res.send(saveInfo)
