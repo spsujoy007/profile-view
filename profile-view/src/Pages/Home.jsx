@@ -6,6 +6,7 @@ import './global.css'
 import { useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import { CiLogout } from "react-icons/ci";
+import toast from 'react-hot-toast';
 
 const Home = () => {
     const glitch = useGlitch()
@@ -13,6 +14,21 @@ const Home = () => {
     let user = JSON.parse(localStorage.getItem('userinfo'))
 
     const {username} = useProfileData()
+
+    const handleLogout = () => {
+        const permission = window.confirm("Are sure want to logout?")
+        if(permission){
+            localStorage.removeItem('userinfo')     
+            setTimeout(() => {
+                window.location.reload()
+                toast.success("Logout successful")
+            }, 1000);
+        }
+        else{
+            window.location.reload()
+        }
+    }
+
     return (
         <>
             <div className='min-h-screen'>
@@ -21,7 +37,7 @@ const Home = () => {
                 <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col'>
                     <h1 className='md:text-[6rem] text-[3rem] text-center text-slate-200 uppercase' ref={glitch.ref} >Hello dear</h1>
                     {/* <span className='text-[#ddcf37]'>{user?.username}</span> */}
-                    <p className='text-lg text-center '>Your account was created successfully. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
+                    <p className='text-lg text-center '>Your account was created successfully and you are also locked in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
                     <span className='mt-1 text-slate-300 text-sm uppercase'>Hey <span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button </span>
                     <div className='flex items-center gap-3'>
@@ -32,7 +48,7 @@ const Home = () => {
                     }
                         {
                             username &&
-                            <button onClick={() => console.log('first')} className='px-5 py-2 btn-bg rounded-md border-[1px] border-[#242424]  mt-10 flex items-center  gap-2'><CiLogout className='text-lg' /> Log out</button>
+                            <button onClick={() => handleLogout()} className='px-5 py-2 btn-bg rounded-md border-[1px] border-[#242424]  mt-10 flex items-center  gap-2'><CiLogout className='text-lg' /> Log out</button>
                         }
                     </div>
                 </div>

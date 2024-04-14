@@ -21,6 +21,7 @@ const EditProfile = () => {
     const [editMode, setEditMode] = useState(false)
 
     const [uploadPhoto, setUploadPhoto] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [userProfile, setUserProfile] = useState([])
     
@@ -142,6 +143,7 @@ const EditProfile = () => {
     
     
     const handleImageChange = () =>{
+        setLoading(true)
         const data = new FormData()
         data.append('file', imgFile)
         data.append('upload_preset', 'profile-view')
@@ -164,6 +166,7 @@ const EditProfile = () => {
                         color: '#000'
                     }
                 })
+                setLoading(false)
             }
             console.log(data)
         })
@@ -178,7 +181,7 @@ const EditProfile = () => {
         <div className='md:min-h-screen md:pb-20'>
             {
                 editMode ?
-                <Container>
+                <div className='max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
                         <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
@@ -187,7 +190,7 @@ const EditProfile = () => {
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`w-[300px] h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-center justify-center`}>
+                            <div className={`md:w-[300px] md:h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-center justify-center`}>
                                 {
                                     viewImg ?
                                     <img src={viewImg ? viewImg : profile_pic} alt="" />
@@ -198,7 +201,13 @@ const EditProfile = () => {
                             {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
                         <input onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
-                        <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md`} onClick={handleImageChange}>Upload</button>
+                        {
+                            loading ?
+                            <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md animate-pulse`}>Uploading...</button>
+                            :
+                            <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md`} onClick={handleImageChange}>Upload</button>
+                        }
+                        <p className="ml-1 md:w-[250px]">after uploading the image tap the save button for update your profile image...</p>
                     </div>
 
 
@@ -271,12 +280,12 @@ const EditProfile = () => {
                         </form>
                     </div>
                 </div>
-            </Container>
+            </div>
 
             :
 
             // view mode 
-            <Container>
+            <div className='max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
                         <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
@@ -288,7 +297,7 @@ const EditProfile = () => {
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`w-[300px] h-[300px] overflow-hidden #${!profile_pic && buttonBg} rounded-lg`}>
+                            <div className={`md:w-[300px] md:h-[300px] overflow-hidden #${!profile_pic && buttonBg} rounded-lg`}>
                                 <img src={viewImg ? viewImg : profile_pic} alt="" />
                             </div>
                         </label>
@@ -366,7 +375,7 @@ const EditProfile = () => {
                         </form>
                     </div>
                 </div>
-            </Container>
+            </div>
             }
         </div>
     );
