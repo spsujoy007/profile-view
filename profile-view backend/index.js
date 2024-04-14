@@ -52,17 +52,19 @@ async function run(){
                 $set: {
                   name: userdata.name,
                   bio: userdata.bio,
-                  github_link: userdata.github,
-                  portfolio_link: userdata.portfolio,
-                  hackerRank_link: userdata.hackerRank,
-                  codeForce_link: userdata.codeForce,
-                  drible_link: userdata.drible,
-                  linkedin_link: userdata.linkedin,
-                  facebook_link: userdata.facebook,
-                  instagram_link: userdata.instagram,
-                  twitter_link: userdata.twitter
+                  profile_pic: userdata.profile_pic,
+                  github_link: userdata.github_link,
+                  portfolio_link: userdata.portfolio_link,
+                  hackerRank_link: userdata.hackerRank_link,
+                  codeForce_link: userdata.codeForce_link,
+                  drible_link: userdata.drible_link,
+                  linkedin_link: userdata.linkedin_link,
+                  facebook_link: userdata.facebook_link,
+                  instagram_link: userdata.instagram_link,
+                  twitter_link: userdata.twitter_link
                 }
               }
+              console.log(updatedDoc)
               const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
 
               return res.send(saveInfo)
@@ -79,31 +81,12 @@ async function run(){
 
       })
 
-      // app.post('/saveprofile', async(req, res) => {
-      //     const userdata = req.body
-      //     const query = req.query.username
-      //     const filter = {username: query}
-      //     const option = {upsert: true}
-
-      //     const updatedDoc = {
-      //       $set: {
-      //         name: req.body.name,
-      //         bio: req.body.bio,
-      //         github_link: req.body.github,
-      //         portfolio_link: req.body.portfolio,
-      //         hackerRank_link: req.body.hackerRank,
-      //         codeForce_link: req.body.codeForce,
-      //         drible_link: req.body.drible,
-      //         linkedin_link: req.body.linkedin,
-      //         facebook_link: req.body.facebook,
-      //         instagram_link: req.body.instagram,
-      //         twitter_link: req.body.twitter
-      //       }
-      //     }
-      //     const saveInfo = userProfileCollection.updateOne(filter, updatedDoc, option)
-
-      //     res.send(saveInfo)
-      // })
+      app.get('/userdata', async(req, res) => {
+          const query = {username: req.query.username}
+          const userdata = await userProfileCollection.findOne(query)
+          res.send(userdata)
+      })
+      
 
     }
 

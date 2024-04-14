@@ -18,6 +18,7 @@ const EditProfile = () => {
     const [editMode, setEditMode] = useState(false)
 
     const [userProfile, setUserProfile] = useState([])
+    console.log(userProfile)
     
     const handleGetPhoto = (e) => {
         const file = e.target.files[0]
@@ -26,6 +27,19 @@ const EditProfile = () => {
             setimgFile(file)
             setViewImg(img)
         }
+    }
+    useEffect(() => {
+        refetch()
+    }, [user.username])
+
+    const refetch = () => {
+        fetch(`http://localhost:5000/userdata?username=${user.username}`, {
+        method: "GET"
+    })
+    .then(res => res.json())
+    .then(data => {
+        setUserProfile(data)
+    })
     }
 
     // user informations
@@ -64,17 +78,17 @@ const EditProfile = () => {
             name: name,
             bio: bio,
             profile_pic: imglink ? imglink : profile_pic,
-            github: github,
-            portfolio: portfolio,
-            hackerRank: hackerRank,
-            codeForce: codeForce,
-            drible: drible,
-            linkedin: linkedin,
-            facebook: facebook,
-            instagram: instagram,
-            twitter: twitter
+            github_link: github ? github : github_link,
+            portfolio_link: portfolio ? portfolio : portfolio_link,
+            hackerRank_link: hackerRank ? hackerRank : hackerRank_link,
+            codeForce_link: codeForce ? codeForce : codeForce_link,
+            drible_link: drible ? drible : drible_link,
+            linkedin_link: linkedin ? linkedin : linkedin_link,
+            facebook_link: facebook ? facebook : facebook_link,
+            instagram_link: instagram ? instagram : instagram_link,
+            twitter_link: twitter ? twitter : twitter_link
         }
-        // console.log(userdetails)
+        console.log("edit", userdetails)
         
         fetch(`http://localhost:5000/saveprofile`, {
             method: 'POST',
@@ -102,7 +116,7 @@ const EditProfile = () => {
                 setServerMsg(`Invalid user!`)
                 toast.error("Invalid user!")
             }
-            console.log(data)
+            // console.log(data)
         })
     }
     
@@ -125,20 +139,7 @@ const EditProfile = () => {
     }
 
 
-    useEffect(() => {
-        refetch()
-    }, [user.username])
-
-    const refetch = () => {
-        fetch(`http://localhost:5000/userdata?username=${user.username}`, {
-        method: "GET"
-    })
-    .then(res => res.json())
-    .then(data => {
-        setUserProfile(data)
-        // console.table('user: ', data)
-    })
-    }
+    
 
     
     
@@ -162,7 +163,7 @@ const EditProfile = () => {
                             {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
                         <input onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
-                        <button onClick={handleImageChange}>Upload</button>
+                        <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md`} onClick={handleImageChange}>Upload</button>
                     </div>
 
 
@@ -170,12 +171,12 @@ const EditProfile = () => {
                         <p className='py-2 ml-2'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
-                            <div className='flex justify-end block'>
+                            <div className='flex justify-end'>
                                 <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle "  />
                             </div>
 
                             <input name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
-                            <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={'Education makes a man to live in live'} />
+                            <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
                             <hr />
 
                                 <div className='mt-5 md:w-[100%]'>
@@ -234,6 +235,7 @@ const EditProfile = () => {
 
             :
 
+            // view mode 
             <Container>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
                         <div className={`text-center sticky top-0 ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
@@ -243,7 +245,7 @@ const EditProfile = () => {
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`w-[300px] h-[300px] overflow-hidden ${buttonBg} rounded-lg`}>
+                            <div className={`w-[300px] h-[300px] overflow-hidden  rounded-lg`}>
                                 <img src={viewImg ? viewImg : profile_pic} alt="" />
                             </div>
                             {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
@@ -256,13 +258,13 @@ const EditProfile = () => {
                     <div className='w-full '>
                         <p className='py-2 ml-2'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
-                        <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
+                        <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
                             <div className='flex justify-end block'>
                                 <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle "  />
                             </div>
 
                             <input disabled name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
-                            <input disabled name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={'Education makes a man to live in live'} />
+                            <input disabled name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
                             <hr />
 
                                 <div className='mt-5 md:w-[100%]'>
@@ -311,7 +313,7 @@ const EditProfile = () => {
                                         <input disabled defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your twitter id' id='twitter' name='twitter' type="url" />
                                     </div>
 
-                                    <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button>
+                                    {/* <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button> */}
                                 </div>
                         </div>
                         </form>

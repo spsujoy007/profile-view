@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import boyimg from '../pics/signupboy.jpg'
 import './signup.css'
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = ({signup}) => {
 
@@ -12,6 +13,7 @@ const Signup = ({signup}) => {
     const [pass, setPass] = useState('')
     console.log(password_issue)
 
+    const navigate = useNavigate()
 
     if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify([{}]))
     const userinfos = localStorage.getItem('userinfo')

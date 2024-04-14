@@ -3,14 +3,17 @@ import Signup from './signup';
 import Login from './Login';
 import { useGlitch } from 'react-powerglitch'
 import './global.css'
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const glitch = useGlitch()
     const [singup, setSignup] = useState(false)
+    const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('userinfo'))[0]
     console.log(user)
     return (
-        <div className='min-h-screen'>
+        <>
+            <div className='min-h-screen'>
             {
                 user?.username ?
                 <div className='h-screen flex items-center justify-center flex-col'>
@@ -21,7 +24,7 @@ const Home = () => {
                         {user?.username}
                     </div> */}
                     <span className='mt-1 text-slate-300 text-sm uppercase'>Hey <span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button </span>
-                    <button className='px-5 py-2 w-[300px] btn-bg rounded-md border-[1px] border-[#242424] uppercase mt-10'>Arrange Profile</button>
+                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 w-[300px] btn-bg rounded-md border-[1px] border-[#242424] uppercase mt-10'>Arrange Profile</button>
                 </div>
                 :
                 <>
@@ -46,6 +49,7 @@ const Home = () => {
             }
             
         </div>
+        </>
     );
 };
 
