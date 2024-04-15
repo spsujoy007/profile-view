@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { MdAdminPanelSettings } from "react-icons/md";
 
+
 const Home = () => {
     const glitch = useGlitch()
     const navigate = useNavigate()
@@ -76,7 +77,7 @@ const Home = () => {
             <div className='absolute md:top-5 right-10 md:bottom-auto bottom-5 rounded-full flex gap-2'>
                 <a target='_blank' rel='noreferrer' href='https://github.com/spsujoy007/' className='flex items-center gap-1 text-white underline'><HiOutlineInformationCircle className='text-xl mt-1' /> creator information</a>
                 <p>|</p>
-                <a target='_blank' rel='noreferrer' href='http://localhost:3000/profile/@spsujoy' className='flex items-center gap-1 text-white underline'><MdAdminPanelSettings  className='text-xl mt-1' /> creator profile</a>
+                <a target='_blank' rel='noreferrer' href='https://profileview-v01.web.app/profile/@spsujoy' className='flex items-center gap-1 text-white underline'><MdAdminPanelSettings  className='text-xl mt-1' /> creator profile</a>
             </div>
         </div>
         </>

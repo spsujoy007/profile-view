@@ -5,8 +5,32 @@ import null_avatar from '../Assets/null_avatar.jpg'
 import './UserProfile.css'
 import { FaDatabase, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter } from "react-icons/fa6";
 import { SiCodeforces } from "react-icons/si";
-import { FaBackspace } from 'react-icons/fa';
 import { IoReturnDownBack } from "react-icons/io5";
+import {
+    EmailShareButton,
+    FacebookIcon,
+    FacebookShareButton,
+    GabShareButton,
+    HatenaShareButton,
+    InstapaperShareButton,
+    LineShareButton,
+    LinkedinIcon,
+    LinkedinShareButton,
+    LivejournalShareButton,
+    MailruShareButton,
+    OKShareButton,
+    PinterestShareButton,
+    PocketShareButton,
+    RedditShareButton,
+    TelegramShareButton,
+    TumblrShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    ViberShareButton,
+    VKShareButton,
+    WhatsappShareButton,
+    WorkplaceShareButton,
+  } from "react-share";
 
 const UserProfile = () => {
     const [user, setUser] = useState({})
@@ -45,6 +69,8 @@ const UserProfile = () => {
         codeForce_link,
         instagram_link,)
 
+        const profile_link = `${user?.profile_link}`
+        console.log(profile_link)
     return (
         <div className='min-h-screen pt-20'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
@@ -170,6 +196,35 @@ const UserProfile = () => {
                 </div>
                 }
 
+                </div>
+
+                {/* social share links */}
+                <p className='mt-3 ml-1'>share with</p>
+                <div className='flex justify-center bg-[#1c1c1caa]  p-2 rounded-lg'>
+                    <div className=' flex gap-10'>
+                        {/* <FacebookShareButton url={`https://profileview-v01.web.app/profile/${user?.username}`} /> */}
+                        <FacebookShareButton
+                            title={`Profile - ${user.username}`}
+                            url={profile_link}
+                            caption="Hey! this is my profile-view. Let's connect each other."
+                        >
+                            <FacebookIcon size={25} round={true} />
+                        </FacebookShareButton>
+                        <TwitterShareButton
+                            title={`Profile - ${user.username}`}
+                            url={profile_link}
+                            caption="Hey! this is my profile-view. Let's connect each other."
+                        >
+                            <TwitterIcon size={25} round={true} />
+                        </TwitterShareButton>
+                        <LinkedinShareButton
+                            title={`Profile - ${user.username}`}
+                            url={profile_link}
+                            caption="Hey! this is my profile-view. Let's connect each other."
+                        >
+                            <LinkedinIcon size={25} round={true} />
+                        </LinkedinShareButton>
+                    </div>
                 </div>
             </div>
                 <div className='flex justify-center mt-20'>

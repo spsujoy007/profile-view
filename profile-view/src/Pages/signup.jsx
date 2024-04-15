@@ -32,6 +32,7 @@ const Signup = ({signup}) => {
         const form = e.target
         const name = form.username.value;
         const password = form.password.value;
+        const profile_link = `https://profileview-v01.web.app/profile/${name}`
         
         if(password.length < 8)
         {
@@ -45,6 +46,7 @@ const Signup = ({signup}) => {
             const userinfo = {
                 username: name,
                 password: password,
+                profile_link: profile_link,
                 join_date: Date()
             }
             // console.log(userinfo)

@@ -38,6 +38,7 @@ async function run(){
                 const result = await usersCollection.insertOne(userinfo);
                 const updateData = {
                   name: null,
+                profile_link: profile_link,
                   username: userinfo.username,
                   bio: null,
                   profile_pic: null,
