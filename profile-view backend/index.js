@@ -38,7 +38,7 @@ async function run(){
                 const result = await usersCollection.insertOne(userinfo);
                 const updateData = {
                   name: null,
-                profile_link: profile_link,
+                  profile_link: userinfo.profile_link,
                   username: userinfo.username,
                   bio: null,
                   profile_pic: null,
@@ -62,6 +62,18 @@ async function run(){
             }
         }
     });
+
+    app.get('/allusers', async(req, res) => {
+        const admin = req.query.admin
+        const users = await usersCollection.find({}).toArray()
+        const total_user = users.length
+        if(admin === "sujoy"){
+          return res.json({total_user})
+        }
+        else{
+          return res.send(users)
+        }
+    })
     
       
       
