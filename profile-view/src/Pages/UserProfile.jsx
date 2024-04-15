@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import null_avatar from '../Assets/null_avatar.jpg'
@@ -9,8 +9,13 @@ import { FaBackspace } from 'react-icons/fa';
 import { IoReturnDownBack } from "react-icons/io5";
 
 const UserProfile = () => {
+    const [user, setUser] = useState({})
 
-    const user = JSON.parse(localStorage.getItem('userinfo'))
+    useEffect(() => {
+        if(localStorage.getItem('userinfo')){
+            setUser(JSON.parse(localStorage.getItem('userinfo')))
+        }
+    }, [])
 
     const {
         bio, 
@@ -27,7 +32,18 @@ const UserProfile = () => {
         instagram_link,
     } = useLoaderData()
     const navigate = useNavigate()
-    // console.log('From hook:', useProfileData())
+    console.log(bio, 
+        name, 
+        github_link,
+        twitter_link,
+        portfolio_link,
+        hackerRank_link,
+        profile_pic, 
+        dribble_link,
+        linkedin_link,
+        facebook_link,
+        codeForce_link,
+        instagram_link,)
 
     return (
         <div className='min-h-screen pt-20'>
@@ -157,7 +173,7 @@ const UserProfile = () => {
                 </div>
             </div>
                 <div className='flex justify-center mt-20'>
-                    <p>Share your profiles and connect each other. {!user.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
+                    <p>Share your profiles and connect each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
         </div>
     );

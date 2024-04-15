@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//http://localhost:5000/
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -109,7 +109,6 @@ async function run(){
         const query = {username: req.query.username}
         const userdata = await userProfileCollection.findOne(query)
         const userAthenticate  = await usersCollection.findOne(query)
-        console.log(userAthenticate)
         if(userAthenticate?.username){
           // const result2 = await userProfileCollection.deleteOne({query})
           return res.send(userdata)

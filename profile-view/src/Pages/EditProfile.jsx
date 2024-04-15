@@ -39,7 +39,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
+        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -110,7 +110,7 @@ const EditProfile = () => {
         }
         console.log(userdetails)
         
-        fetch(`http://localhost:5000/saveprofile`, {
+        fetch(`https://profile-view-be.vercel.app/saveprofile`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'Application/json'
