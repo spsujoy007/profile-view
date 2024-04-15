@@ -10,7 +10,7 @@ import { IoReturnDownBack } from "react-icons/io5";
 
 const UserProfile = () => {
 
-    console.log('user page')
+    const user = JSON.parse(localStorage.getItem('userinfo'))
 
     const {
         bio, 
@@ -44,9 +44,17 @@ const UserProfile = () => {
                 </div>
 
                 <div className='border-[1px] border-[#2e2e2e] mt-10 p-2 rounded-xl bg-[#151515c1]'>
+                    {
+                        (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
+                        <div>
+                            <p>Nothing to show</p>
+                        </div>
+                    }
+                    {
+                    (github_link !=null || hackerRank_link !=null || codeForce_link !=null) &&
                 <div className=''>
                     <p className=''>coding related</p>
-                    <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
+                        <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             github_link &&<a href={github_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#ededed] rounded-lg border-[1px] border-black hover:border-[#3d3d3d] duration-300 text-white hover:text-black p-2'><FaGithub className='text-5xl' /> 
                                 <div>
@@ -73,8 +81,11 @@ const UserProfile = () => {
                         }
                     </div>
                 </div>
+                }
 
                 {/* professional profiles */}
+                {
+                    (linkedin_link !=null || portfolio_link !=null || dribble_link !=null) &&
                 <div className='mt-10'>
                     <p className=''>professional profiles and portfolio</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
@@ -104,8 +115,11 @@ const UserProfile = () => {
                         }
                     </div>
                 </div>
+                    }
 
                 {/* social links */}
+                {
+                    (facebook_link !=null || twitter_link !=null || instagram_link !=null) &&
                 <div className='mt-10'>
                     <p className=''>social media profiles</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
@@ -138,8 +152,13 @@ const UserProfile = () => {
                         }
                     </div>
                 </div>
+                }
+
                 </div>
             </div>
+                <div className='flex justify-center mt-20'>
+                    <p>Share your profiles and connect each other. {!user.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
+                </div>
         </div>
     );
 };

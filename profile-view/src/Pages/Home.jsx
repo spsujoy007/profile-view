@@ -37,7 +37,7 @@ const Home = () => {
                 <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col'>
                     <h1 className='md:text-[6rem] text-[3rem] text-center text-slate-200 uppercase' ref={glitch.ref} >Hello dear</h1>
                     {/* <span className='text-[#ddcf37]'>{user?.username}</span> */}
-                    <p className='text-lg text-center '>Your account was created successfully and you are also locked in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
+                    <p className='text-lg text-center '>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
                     <span className='mt-1 text-slate-300 text-sm uppercase'>Hey <span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button </span>
                     <div className='flex items-center gap-3'>
@@ -54,8 +54,8 @@ const Home = () => {
                 </div>
                 :
                 <>
-                        <div className='h-screen flex items-center justify-center flex-col'>
-                            <h1 className='md:text-[6rem] text-[4rem] text-center text-slate-200 uppercase'><span ref={glitch.ref} className='text-[#e4bf39] font-bold'>Hey dev!</span> <br /> Welcome to the "profile-view"</h1>
+                        <div className='h-screen flex items-center justify-center flex-col w-[80%] mx-auto overflow-hidden'>
+                            <h1 className='md:text-[5rem] text-[4rem] text-center text-slate-200 uppercase'><span ref={glitch.ref} className='text-[#e4bf39] font-bold'>Hey dev!</span> <br /> Welcome to the "profile-view"</h1>
                             {
                                 !user.username &&
                                     <div className='flex gap-2'>

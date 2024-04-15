@@ -27,7 +27,7 @@ export const routes = createBrowserRouter([
     },
     {
         path: '/profile/:username',
-        loader:  ({params}) =>  fetch(`https://profile-view-be.vercel.app/profile/${params.username}`),
+        loader:  ({params}) =>  fetch(`http://localhost:5000/profile/${params.username}`),
         element: <UserProfile></UserProfile>
     }
 ])

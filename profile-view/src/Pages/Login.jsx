@@ -8,7 +8,10 @@ const Login = () => {
     const [success, setSuccess] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
     const navigate = useNavigate()
-    // const user = JSON.stringify(localStorage.getItem('userinfo'))
+    const user = JSON.stringify(localStorage.getItem('userinfo'))
+    if(user.username) {
+        navigate('/')
+    }
     // console.log(user)
     const handleSubmitForm = (e) => {
         e.preventDefault()
@@ -16,7 +19,7 @@ const Login = () => {
         const username = form.username.value;
         const password = form.password.value;
         // console.log(name, password)
-        fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
+        fetch(`http://localhost:5000/login?username=${username}&pass=${password}`, {
             method: 'GET'
         })
         .then(res => res.json())

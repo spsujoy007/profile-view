@@ -16,7 +16,10 @@ const Signup = ({signup}) => {
     const navigate = useNavigate()
 
     // if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify({}))
-    const userinfos = localStorage.getItem('userinfo')
+    const user = JSON.stringify(localStorage.getItem('userinfo'))
+    if(user.username) {
+        navigate('/')
+    }
 
     useEffect(() => {
         if (pass.length >= 8) {
@@ -46,7 +49,7 @@ const Signup = ({signup}) => {
             }
             // console.log(userinfo)
 
-            fetch('https://profile-view-be.vercel.app/signup', {
+            fetch('http://localhost:5000/signup', {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'

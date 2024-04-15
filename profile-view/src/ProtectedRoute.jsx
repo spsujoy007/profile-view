@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const ProtectedRoute = ({children}) => {
     const user = JSON.parse(localStorage.getItem('userinfo'))
     const userProfile = useProfileData();
-    console.log(user)
-    console.log(userProfile)
 
     const navigate = useNavigate()
     if(user?.username !== userProfile?.username){
