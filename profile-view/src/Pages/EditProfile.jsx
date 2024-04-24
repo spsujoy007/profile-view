@@ -20,7 +20,6 @@ const EditProfile = () => {
     // const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
     
-    const [uploadPhoto, setUploadPhoto] = useState(false)
     const [selectedPhoto, setSelectedPhoto] = useState(false)
     const [loading, setLoading] = useState(false)
     const [saveLoading, setSaveLoading] = useState(false)
@@ -43,7 +42,6 @@ const EditProfile = () => {
         if(file){
             setSelectedPhoto(true)
             const img = URL.createObjectURL(file)
-            setUploadPhoto(true)
             setimgFile(file)
             setViewImg(img)
         }

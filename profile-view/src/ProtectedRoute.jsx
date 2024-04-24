@@ -3,15 +3,21 @@ import useProfileData from './Hooks/useProfileData';
 import { useNavigate } from 'react-router-dom';
 
 const ProtectedRoute = ({children}) => {
-    const user = JSON.parse(localStorage.getItem('userinfo'))
+    const jsonuser = localStorage.getItem('userinfo')
+    const user = JSON.parse(jsonuser)
     const userProfile = useProfileData();
 
     const navigate = useNavigate()
-    if(user?.username !== userProfile?.username){
-        navigate('/signup')
+    try{
+        if(jsonuser && userProfile.code === 22){
+            return navigate('/signup')
+        }
+        else{
+            return children
+        }
     }
-    else{
-        return children
+    finally{
+
     }
 };
 
