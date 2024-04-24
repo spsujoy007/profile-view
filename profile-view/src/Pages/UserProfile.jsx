@@ -27,10 +27,12 @@ const UserProfile = () => {
     }, [])
 
     const [loading, setLoading] = useState(true)
+    const [checkValid, setCheckValid] = useState(true)
     
     const {
         bio, 
         name, 
+        username,
         profile_link,
         github_link,
         twitter_link,
@@ -46,18 +48,50 @@ const UserProfile = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(useLoaderData){
+        if(username){
             setLoading(false)
         }
-    }, [user])
-    
+        else if(!username){
+            setLoading(false)
+            setCheckValid(false)
+            // goHome()
+        }
+    }, [username])
+
+    const pathname = window.location.pathname.split("/")[2]
+
+    // for return home automatic ===========================
+    const [timer, setTimer] = useState(5)
+    if(!checkValid){
+        if(timer === 0){
+            navigate('/')
+        }
+        if(timer !== 0){
+            setInterval(() => {
+                setTimer(timer - 1)
+            }, 1000)
+        }
+    }
+    //======================================================
+
     return (
         <>
             {
                 loading ?
                 <LoadingPage></LoadingPage>
                 :
-                <div className='min-h-screen pt-20'>
+                <>
+                    {
+                        !checkValid ?
+                        <div className='min-h-screen flex items-center justify-center bg-[#000000c0]'>
+                            <div>
+                                <p className=' text-xl'>Profile-view says: This is a invalid URL. No user founded in our database with this username: <span className='font-bold text-yellow-600'>{pathname}</span></p>
+                                <span className='text-white font-bold'>Check again and back to profile-view</span>
+                                <p className='mt-5'>Back to home in <span className='text-red-700 font-bold'>({timer}) seconds</span></p>
+                            </div>
+                        </div>
+                        :
+                        <div className='min-h-screen pt-20'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
                 <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:text-white cursor-pointer duration-200'>back to home page<IoReturnDownBack /></p>
             </div>
@@ -215,7 +249,9 @@ const UserProfile = () => {
                 <div className='flex justify-center mt-20'>
                     <p>Share your profiles and connect each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
-        </div>
+                        </div>
+                    }
+                </>
             }
         </>
     );

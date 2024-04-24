@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { IoReturnDownBack } from 'react-icons/io5';
 import { FaPlus } from 'react-icons/fa6';
+import LoadingPage from './LoadingPage';
 
 const EditProfile = () => {
     // document.cookie = "username=John Doe";
@@ -17,18 +18,26 @@ const EditProfile = () => {
     const [callServer, setCallServer] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
 
-    const user = JSON.parse(localStorage.getItem('userinfo')) // user
-
+    
     const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
-
+    
     const [uploadPhoto, setUploadPhoto] = useState(false)
     const [selectedPhoto, setSelectedPhoto] = useState(false)
     const [loading, setLoading] = useState(false)
     const [saveLoading, setSaveLoading] = useState(false)
-
-    const [userProfile, setUserProfile] = useState([])
     
+    // user profile details ==============================================
+    const user = JSON.parse(localStorage.getItem('userinfo')) // user
+    const [userProfile, setUserProfile] = useState([])
+    // user profile details ==============================================
+    const [webloading, setwebLoading] = useState(true)
+    useEffect(() => {
+        if(user.username === userProfile.username){
+            setwebLoading(false)
+        }
+    }, [user.username, userProfile.username])
+
     const handleGetPhoto = (e) => {
         const file = e.target.files[0]
         if(file){
@@ -189,7 +198,12 @@ const EditProfile = () => {
     const buttonBg = 'bg-zinc-900 border-2 border-slate-500 border-dashed '
     
     return (
-        <div className='md:min-h-screen md:pb-20'>
+        <>
+            {
+                webloading ?
+                <LoadingPage></LoadingPage>
+                :
+                <div className='md:min-h-screen md:pb-20'>
             {
                 editMode ?
                 <div className='max-w-[1240px] mx-auto'>
@@ -389,6 +403,8 @@ const EditProfile = () => {
             </div>
             }
         </div>
+            }
+        </>
     );
 };
 
