@@ -280,47 +280,47 @@ const EditProfile = () => {
                                 <div className='mt-5 md:w-[100%]'>
                                     <div className='flex items-center border-black'>
                                         <label htmlFor="github" className='text-2xl py-2 text-white bg-black px-8'><FaGithub /></label>
-                                        <input defaultValue={github_link} className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your github id' id='github' name='github' type="url" />
+                                        <input defaultValue={github_link} className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type github profile username only' id='github' name='github' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="portfolio" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><CgWebsite /></label>
-                                        <input defaultValue={portfolio_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your portfolio' id='portfolio' name='portfolio' type="url" />
+                                        <input defaultValue={portfolio_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type portfolio link' id='portfolio' name='portfolio' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="hackerRank" className='text-2xl py-2 text-white bg-[#000] px-8'><FaHackerrank /></label>
-                                        <input defaultValue={hackerRank_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your hackerRank id' id='hackerRank' name='hackerRank' type="url" />
+                                        <input defaultValue={hackerRank_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type hackerRank profile username only' id='hackerRank' name='hackerRank' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="codeForce" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><SiCodeforces /></label>
-                                        <input defaultValue={codeForce_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your codeForce id' id='codeForce' name='codeForce' type="url" />
+                                        <input defaultValue={codeForce_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type codeForce profile username only' id='codeForce' name='codeForce' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
-                                        <input defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your dribble id' id='dribble' name='dribble' type="url" />
+                                        <input defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type dribble profile username only' id='dribble' name='dribble' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="linkedin" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><FaLinkedinIn /></label>
-                                        <input defaultValue={linkedin_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your linkedin id' id='linkedin' name='linkedin' type="url" />
+                                        <input defaultValue={linkedin_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type linkedin profile username only' id='linkedin' name='linkedin' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="facebook" className='text-2xl py-2 text-white bg-[#000] px-8'><FaFacebook /></label>
-                                        <input defaultValue={facebook_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your facebook id' id='facebook' name='facebook' type="url" />
+                                        <input defaultValue={facebook_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type facebook profile username only' id='facebook' name='facebook' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="instagram" className='text-2xl py-2 text-[#000] bg-[#cbcbcb] px-8'><FaInstagram /></label>
-                                        <input defaultValue={instagram_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your instagram id' id='instagram' name='instagram' type="url" />
+                                        <input defaultValue={instagram_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type instagram profile username only' id='instagram' name='instagram' type="text" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="twitter" className='text-2xl py-2 text-white bg-[#000] px-8'><FaTwitter /></label>
-                                        <input defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your twitter id' id='twitter' name='twitter' type="url" />
+                                        <input defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type twitter profile username only' id='twitter' name='twitter' type="text" />
                                     </div>
 
                                     <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">{saveLoading ? 'Please wait to save...' : 'Click to save'}</button>
@@ -369,53 +369,53 @@ const EditProfile = () => {
                             </div>
 
                             <input disabled name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
-                            <input disabled name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
+                            <input disabled name='bio' placeholder='short biodata...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
                             <hr />
 
                                 <div className='mt-5 md:w-[100%]'>
                                     <div className='flex items-center border-black'>
                                         <label htmlFor="github" className='text-2xl py-2 text-white bg-black px-8'><FaGithub /></label>
-                                        <input disabled defaultValue={github_link} className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your github id' id='github' name='github' type="url" />
+                                        <input disabled defaultValue={github_link} className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='github' name='github' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="portfolio" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><CgWebsite /></label>
-                                        <input disabled defaultValue={portfolio_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your portfolio' id='portfolio' name='portfolio' type="url" />
+                                        <input disabled defaultValue={portfolio_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='portfolio' name='portfolio' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="hackerRank" className='text-2xl py-2 text-white bg-[#000] px-8'><FaHackerrank /></label>
-                                        <input disabled defaultValue={hackerRank_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your hackerRank id' id='hackerRank' name='hackerRank' type="url" />
+                                        <input disabled defaultValue={hackerRank_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='hackerRank' name='hackerRank' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="codeForce" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><SiCodeforces /></label>
-                                        <input disabled defaultValue={codeForce_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your codeForce id' id='codeForce' name='codeForce' type="url" />
+                                        <input disabled defaultValue={codeForce_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='codeForce' name='codeForce' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#000] px-8'><FaDribbble /></label>
-                                        <input disabled defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your dribble id' id='dribble' name='dribble' type="url" />
+                                        <input disabled defaultValue={dribble_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='dribble' name='dribble' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="linkedin" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><FaLinkedinIn /></label>
-                                        <input disabled defaultValue={linkedin_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your linkedin id' id='linkedin' name='linkedin' type="url" />
+                                        <input disabled defaultValue={linkedin_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='linkedin' name='linkedin' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="facebook" className='text-2xl py-2 text-white bg-[#000] px-8'><FaFacebook /></label>
-                                        <input disabled defaultValue={facebook_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your facebook id' id='facebook' name='facebook' type="url" />
+                                        <input disabled defaultValue={facebook_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='facebook' name='facebook' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="instagram" className='text-2xl py-2 text-[#000] bg-[#cbcbcb] px-8'><FaInstagram /></label>
-                                        <input disabled defaultValue={instagram_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your instagram id' id='instagram' name='instagram' type="url" />
+                                        <input disabled defaultValue={instagram_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='instagram' name='instagram' type="url" />
                                     </div>
 
                                     <div className='flex items-center border-[#000] mt-4'>
                                         <label htmlFor="twitter" className='text-2xl py-2 text-white bg-[#000] px-8'><FaTwitter /></label>
-                                        <input disabled defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your twitter id' id='twitter' name='twitter' type="url" />
+                                        <input disabled defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' id='twitter' name='twitter' type="url" />
                                     </div>
 
                                     {/* <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button> */}
