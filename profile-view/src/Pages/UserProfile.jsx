@@ -114,7 +114,7 @@ const UserProfile = () => {
                 backgroundPosition: 'top',
                 imageRendering: 'pixelated'
             }}
-            className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px]'>
+            className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
                 <div className='flex items-center gap-4 '>
                     <img className='userImage w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
@@ -237,39 +237,44 @@ const UserProfile = () => {
                 </div>
 
                 {/* social share links */}
-                <p className='mt-3 ml-1'>share with</p>
-                <div className='flex justify-center bg-[#1c1c1caa]  p-2 rounded-lg'>
-                    <div className=' flex gap-10'>
-                        {/* <FacebookShareButton url={`https://profileview-v01.web.app/profile/${user?.username}`} /> */}
-                        <FacebookShareButton
-                            title={`Profile - ${user.username}`}
-                            url={profile_link}
-                            caption="Hey! this is my profile-view. Let's connect each other."
-                        >
-                            <FacebookIcon size={25} round={true} />
-                        </FacebookShareButton>
-                        <TwitterShareButton
-                            title={`Profile - ${user.username}`}
-                            url={profile_link}
-                            caption="Hey! this is my profile-view. Let's connect each other."
-                        >
-                            <TwitterIcon size={25} round={true} />
-                        </TwitterShareButton>
-                        <LinkedinShareButton
-                            title={`Profile - ${user.username}`}
-                            url={profile_link}
-                            caption="Hey! this is my profile-view. Let's connect each other."
-                        >
-                            <LinkedinIcon size={25} round={true} />
-                        </LinkedinShareButton>
+                {
+                    (github_link !== null || hackerRank_link !==null || codeForce_link !==null || linkedin_link !==null || portfolio_link !==null || dribble_link !==null || facebook_link !==null || twitter_link !==null || instagram_link !==null) &&
+                    <div className=''>
+                        <p className='mt-3 ml-1'>share with</p>
+                        <div className='flex justify-center bg-[#1c1c1caa] h-full p-2 rounded-lg'>
+                            <div className=' flex gap-10'>
+                                {/* <FacebookShareButton url={`https://profileview-v01.web.app/profile/${user?.username}`} /> */}
+                                <FacebookShareButton
+                                    title={`Profile - ${user.username}`}
+                                    url={profile_link}
+                                    caption="Hey! this is my profile-view. Let's connect each other."
+                                >
+                                    <FacebookIcon size={25} round={true} />
+                                </FacebookShareButton>
+                                <TwitterShareButton
+                                    title={`Profile - ${user.username}`}
+                                    url={profile_link}
+                                    caption="Hey! this is my profile-view. Let's connect each other."
+                                >
+                                    <TwitterIcon size={25} round={true} />
+                                </TwitterShareButton>
+                                <LinkedinShareButton
+                                    title={`Profile - ${user.username}`}
+                                    url={profile_link}
+                                    caption="Hey! this is my profile-view. Let's connect each other."
+                                >
+                                    <LinkedinIcon size={25} round={true} />
+                                </LinkedinShareButton>
 
-                        <p className='bg-sky-700 hover:bg-sky-900 duration-200 flex items-center gap-2 cursor-pointer px-2   rounded-full text-white text-sm' onClick={TapToCopy}
-                        ><FaCopy></FaCopy><p>Tap to copy</p></p>
+                                <p className='bg-sky-700 hover:bg-sky-900 duration-200 flex items-center gap-2 cursor-pointer px-2   rounded-full text-white text-sm' onClick={TapToCopy}
+                                ><FaCopy></FaCopy><p>Tap to copy</p></p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
                 <div className='flex justify-center mt-20'>
-                    <p>Share your profiles and connect each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
+                    <p>Share your profiles and connect with each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
                         </div>
                     }

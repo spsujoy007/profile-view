@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Signup = ({signup}) => {
 
     const [error, setError] = useState(false)
+    const [getSpace, setGetSpace] = useState(false)
     const [message, setMessage] = useState(null)
     const [suggestion_name, setSuggestion_name] = useState(undefined)
     const [password_issue, setPasswordIssue] = useState(false)
@@ -33,7 +34,14 @@ const Signup = ({signup}) => {
         const name = form.username.value;
         const password = form.password.value;
         const profile_link = `https://profileview-v01.web.app/profile/${name}`
-        
+
+        if(name.includes(" ")){
+            // alert('Remove space')
+            setGetSpace(true)
+            setMessage("Please remove space from username")
+            return
+        }
+
         if(password.length < 8)
         {
             setPasswordIssue(true)
@@ -64,6 +72,7 @@ const Signup = ({signup}) => {
                 if(data.code === 20){
                     toast.error('username already exists')
                     setError(true)
+                    setMessage(false)
                     setMessage(data.error)
                     setSuggestion_name(name + Math.floor(Math.random() * (100 - 10 + 1))+1)
                 }
@@ -102,6 +111,7 @@ const Signup = ({signup}) => {
                                      type="text" /> 
                                     
                                     <span className='text-red-500 block'> {error && `${message} Try ${suggestion_name} or other`}</span>
+                                    <span className='text-red-500 block'> {getSpace && `${message}`}</span>
 
                                     {/* <label htmlFor="password" className='text-white  mt-5'>create a strong password</label> <br /> */}
                                     <input

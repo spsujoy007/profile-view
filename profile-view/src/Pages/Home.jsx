@@ -50,11 +50,11 @@ const Home = () => {
                 {
                     user?.username ?
                     <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col'>
-                        <h1 className='md:text-[6rem] text-[3rem] text-center text-slate-200 uppercase' ref={glitch.ref} >Hello {user.username.split("@")[1]}</h1>
+                        <h1 className='md:text-[6rem] text-[3rem] text-center text-slate-200 uppercase ' ref={glitch.ref} >Hello {user.username.split("@")[1]}</h1>
                         {/* <span className='text-[#ddcf37]'>{user?.username}</span> */}
                         <p className='text-lg text-center '>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
-                        <span className='mt-1 text-slate-300 text-sm uppercase'><span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button </span>
+                        <span className='mt-1 text-slate-300 text-sm uppercase'><span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button to edit profile </span>
                         <div className=' mt-10 mx-auto w-full md:w-fit'>
                         <div className='flex md:flex-row gap-3 flex-col items-center  '>
                             <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-md border-[1px] border-[#242424] uppercase '>Arrange Profile</button>
