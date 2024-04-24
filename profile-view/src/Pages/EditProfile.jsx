@@ -11,15 +11,13 @@ import { FaPlus } from 'react-icons/fa6';
 import LoadingPage from './LoadingPage';
 
 const EditProfile = () => {
-    // document.cookie = "username=John Doe";
-    // console.log(document.cookie)
     const [viewImg, setViewImg] = useState(undefined)
     const [imgFile, setimgFile] = useState(undefined)
     const [callServer, setCallServer] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
 
     
-    const [imglink, setImgLink] = useState(null)
+    // const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
     
     const [uploadPhoto, setUploadPhoto] = useState(false)
@@ -30,7 +28,8 @@ const EditProfile = () => {
     // user profile details ==============================================
     const user = JSON.parse(localStorage.getItem('userinfo')) // user
     const [userProfile, setUserProfile] = useState([])
-    // user profile details ==============================================
+    //====================================================================
+
     const [webloading, setwebLoading] = useState(true)
     useEffect(() => {
         if(user.username === userProfile.username){
@@ -38,6 +37,7 @@ const EditProfile = () => {
         }
     }, [user.username, userProfile.username])
 
+    
     const handleGetPhoto = (e) => {
         const file = e.target.files[0]
         if(file){
@@ -87,82 +87,8 @@ const EditProfile = () => {
     
     const handleSaveProfile = (e) => {
         e.preventDefault()
-        if(uploadPhoto){
-            toast.error("Please upload your new photo!")
-            return
-        }
-        fethingData()
-        setSaveLoading(true)
-
-        const form = e.target
-        const name = form.name.value
-        const bio = form.bio.value
-        const github = form.github.value
-        const portfolio = form.portfolio.value
-        const hackerRank = form.hackerRank.value
-        const codeForce = form.codeForce.value
-        const dribble = form.dribble.value
-        const linkedin = form.linkedin.value
-        const facebook = form.facebook.value
-        const instagram = form.instagram.value
-        const twitter = form.twitter.value
-        console.log(github)
-        
-        const userdetails = {
-            username: user.username,
-            name: name,
-            bio: bio,
-            profile_pic: imglink != null ? imglink : profile_pic,
-            github_link: github != null ? github : github_link,
-            portfolio_link: portfolio != null ? portfolio : portfolio_link,
-            hackerRank_link: hackerRank != null ? hackerRank : hackerRank_link,
-            codeForce_link: codeForce != null ? codeForce : codeForce_link,
-            dribble_link: dribble != null ? dribble : dribble_link,
-            linkedin_link: linkedin != null ? linkedin : linkedin_link,
-            facebook_link: facebook != null ? facebook : facebook_link,
-            instagram_link: instagram != null ? instagram : instagram_link,
-            twitter_link: twitter != null ? twitter : twitter_link
-        }
-        console.log(userdetails)
-        
-        fetch(`http://localhost:5000/saveprofile`, {
-            method: 'POST',
-            headers: {
-                'Content-Type' : 'Application/json'
-            },
-            body: JSON.stringify(userdetails) 
-        })
-        .then(res => res.json())
-        .then(data => {
-            setCallServer(true)
-            setSaveLoading(false)
-            if(data.acknowledged)
-            {
-                setServerMsg(`Hey ${user.username}! Your profile is now updated `)
-                setEditMode(!editMode)
-                toast.success("Profile updated",{
-                    icon: '😀',
-                })
-                navigate(`/profile/${user.username}`)
-            }
-            else{
-                setServerMsg(`Invalid user!`)
-                toast.error("Invalid user!")
-                navigate('/signup')
-            }
-            fethingData()
-            // console.log(data)
-        })
-    }
-    
-    
-    const handleImageChange = () =>{
-        if(!selectedPhoto)
-        {
-            toast.error('Please select a photo first')
-        }
-        else{
-            setLoading(true)
+        if(selectedPhoto){
+            // setLoading(true)
             const data = new FormData()
             data.append('file', imgFile)
             data.append('upload_preset', 'profile-view')
@@ -175,26 +101,131 @@ const EditProfile = () => {
             .then(res => res.json())
             .then(data => {
                 if(data.url){
-                    setImgLink(data.url)
-                    setUploadPhoto(false)
-                    toast.success('Image uploaded', {
-                        icon: '👌',
-                        style: {
-                            borderRadius: '50px',
-                            backgroundColor: '#fff',
-                            color: '#000'
+                    const photoURL = data.url
+                    const form = e.target
+                    const name = form.name.value
+                    const bio = form.bio.value
+                    const github = form.github.value
+                    const portfolio = form.portfolio.value
+                    const hackerRank = form.hackerRank.value
+                    const codeForce = form.codeForce.value
+                    const dribble = form.dribble.value
+                    const linkedin = form.linkedin.value
+                    const facebook = form.facebook.value
+                    const instagram = form.instagram.value
+                    const twitter = form.twitter.value
+                    
+                    const userdetails = {
+                        username: user.username,
+                        name: name,
+                        bio: bio,
+                        profile_pic: photoURL != null ? photoURL : profile_pic,
+                        github_link: github != null ? github : github_link,
+                        portfolio_link: portfolio != null ? portfolio : portfolio_link,
+                        hackerRank_link: hackerRank != null ? hackerRank : hackerRank_link,
+                        codeForce_link: codeForce != null ? codeForce : codeForce_link,
+                        dribble_link: dribble != null ? dribble : dribble_link,
+                        linkedin_link: linkedin != null ? linkedin : linkedin_link,
+                        facebook_link: facebook != null ? facebook : facebook_link,
+                        instagram_link: instagram != null ? instagram : instagram_link,
+                        twitter_link: twitter != null ? twitter : twitter_link
+                    }
+                    
+                    fetch(`http://localhost:5000/saveprofile`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type' : 'Application/json'
+                        },
+                        body: JSON.stringify(userdetails) 
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        setCallServer(true)
+                        setSaveLoading(false)
+                        if(data.acknowledged)
+                        {
+                            setServerMsg(`Hey ${user.username}! Your profile is now updated `)
+                            setEditMode(!editMode)
+                            toast.success("Profile updated",{
+                                icon: '😀',
+                            })
+                            navigate(`/profile/${user.username}`)
+                        }
+                        else{
+                            setServerMsg(`Invalid user!`)
+                            toast.error("Invalid user!")
+                            navigate('/signup')
                         }
                     })
-                    setLoading(false)
                 }
-                console.log(data)
             })
-            .catch(e => console.log(e))
+            .catch(e => console.error(e))
         }
+        else{
+            const form = e.target
+                    const name = form.name.value
+                    const bio = form.bio.value
+                    const github = form.github.value
+                    const portfolio = form.portfolio.value
+                    const hackerRank = form.hackerRank.value
+                    const codeForce = form.codeForce.value
+                    const dribble = form.dribble.value
+                    const linkedin = form.linkedin.value
+                    const facebook = form.facebook.value
+                    const instagram = form.instagram.value
+                    const twitter = form.twitter.value
+                    
+                    const userdetails = {
+                        username: user.username,
+                        name: name,
+                        bio: bio,
+                        profile_pic: profile_pic != null ? profile_pic : null,
+                        github_link: github != null ? github : github_link,
+                        portfolio_link: portfolio != null ? portfolio : portfolio_link,
+                        hackerRank_link: hackerRank != null ? hackerRank : hackerRank_link,
+                        codeForce_link: codeForce != null ? codeForce : codeForce_link,
+                        dribble_link: dribble != null ? dribble : dribble_link,
+                        linkedin_link: linkedin != null ? linkedin : linkedin_link,
+                        facebook_link: facebook != null ? facebook : facebook_link,
+                        instagram_link: instagram != null ? instagram : instagram_link,
+                        twitter_link: twitter != null ? twitter : twitter_link
+                    }
+                    
+                    fetch(`http://localhost:5000/saveprofile`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type' : 'Application/json'
+                        },
+                        body: JSON.stringify(userdetails) 
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        setCallServer(true)
+                        setSaveLoading(false)
+                        if(data.acknowledged)
+                        {
+                            setServerMsg(`Hey ${user.username}! Your profile is now updated `)
+                            setEditMode(!editMode)
+                            toast.success("Profile updated",{
+                                icon: '😀',
+                            })
+                            navigate(`/profile/${user.username}`)
+                        }
+                        else{
+                            setServerMsg(`Invalid user!`)
+                            toast.error("Invalid user!")
+                            navigate('/signup')
+                        }
+                        fethingData()
+                    })
+        }
+        fethingData()
+        setSaveLoading(true)
+
+        
     }
 
     const navigate = useNavigate()
-    
     const buttonBg = 'bg-zinc-900 border-2 border-slate-500 border-dashed '
     
     return (
@@ -226,13 +257,8 @@ const EditProfile = () => {
                             {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
                         <input onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
-                        {
-                            loading ?
-                            <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md animate-pulse`}>Uploading...</button>
-                            :
-                            <button className={`btn-bg w-full py-2 ${buttonBg} mt-2 rounded-md`} onClick={handleImageChange}>Upload</button>
-                        }
-                        <p className="ml-1 md:w-[250px]">after uploading the image tap the save button for update your profile image...</p>
+                        
+                        <p className="ml-1 ">Tap on the image or plus icon to change the photo</p>
                     </div>
 
 
