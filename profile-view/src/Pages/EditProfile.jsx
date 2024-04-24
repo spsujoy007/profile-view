@@ -16,18 +16,23 @@ const EditProfile = () => {
     const [imgFile, setimgFile] = useState(undefined)
     const [callServer, setCallServer] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
-    const user = JSON.parse(localStorage.getItem('userinfo'))
+
+    const user = JSON.parse(localStorage.getItem('userinfo')) // user
+
     const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
 
     const [uploadPhoto, setUploadPhoto] = useState(false)
+    const [selectedPhoto, setSelectedPhoto] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [saveLoading, setSaveLoading] = useState(false)
 
     const [userProfile, setUserProfile] = useState([])
     
     const handleGetPhoto = (e) => {
         const file = e.target.files[0]
         if(file){
+            setSelectedPhoto(true)
             const img = URL.createObjectURL(file)
             setUploadPhoto(true)
             setimgFile(file)
@@ -35,11 +40,11 @@ const EditProfile = () => {
         }
     }
     useEffect(() => {
-        refetch()
+        fethingData()
     }, [user?.username])
 
-    const refetch = () => {
-        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
+    const fethingData = () => {
+        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -73,11 +78,12 @@ const EditProfile = () => {
     
     const handleSaveProfile = (e) => {
         e.preventDefault()
-        refetch()
         if(uploadPhoto){
             toast.error("Please upload your new photo!")
             return
         }
+        fethingData()
+        setSaveLoading(true)
 
         const form = e.target
         const name = form.name.value
@@ -110,7 +116,7 @@ const EditProfile = () => {
         }
         console.log(userdetails)
         
-        fetch(`https://profile-view-be.vercel.app/saveprofile`, {
+        fetch(`http://localhost:5000/saveprofile`, {
             method: 'POST',
             headers: {
                 'Content-Type' : 'Application/json'
@@ -120,6 +126,7 @@ const EditProfile = () => {
         .then(res => res.json())
         .then(data => {
             setCallServer(true)
+            setSaveLoading(false)
             if(data.acknowledged)
             {
                 setServerMsg(`Hey ${user.username}! Your profile is now updated `)
@@ -134,41 +141,47 @@ const EditProfile = () => {
                 toast.error("Invalid user!")
                 navigate('/signup')
             }
-            refetch()
+            fethingData()
             // console.log(data)
         })
     }
     
     
     const handleImageChange = () =>{
-        setLoading(true)
-        const data = new FormData()
-        data.append('file', imgFile)
-        data.append('upload_preset', 'profile-view')
-        data.append('cloud_name', 'cloudinarybysp')
-        // fetch('https://api.cloudinary.com/v1_1/cloudinarybysp/image/upload/w_300,h_300,c_scale', {
-        fetch('https://api.cloudinary.com/v1_1/cloudinarybysp/image/upload', {
-            method: 'POST',
-            body: data
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.url){
-                setImgLink(data.url)
-                setUploadPhoto(false)
-                toast.success('Image uploaded', {
-                    icon: '👌',
-                    style: {
-                        borderRadius: '50px',
-                        backgroundColor: '#fff',
-                        color: '#000'
-                    }
-                })
-                setLoading(false)
-            }
-            console.log(data)
-        })
-        .catch(e => console.log(e))
+        if(!selectedPhoto)
+        {
+            toast.error('Please select a photo first')
+        }
+        else{
+            setLoading(true)
+            const data = new FormData()
+            data.append('file', imgFile)
+            data.append('upload_preset', 'profile-view')
+            data.append('cloud_name', 'cloudinarybysp')
+            // fetch('https://api.cloudinary.com/v1_1/cloudinarybysp/image/upload/w_300,h_300,c_scale', {
+            fetch('https://api.cloudinary.com/v1_1/cloudinarybysp/image/upload', {
+                method: 'POST',
+                body: data
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.url){
+                    setImgLink(data.url)
+                    setUploadPhoto(false)
+                    toast.success('Image uploaded', {
+                        icon: '👌',
+                        style: {
+                            borderRadius: '50px',
+                            backgroundColor: '#fff',
+                            color: '#000'
+                        }
+                    })
+                    setLoading(false)
+                }
+                console.log(data)
+            })
+            .catch(e => console.log(e))
+        }
     }
 
     const navigate = useNavigate()
@@ -272,7 +285,7 @@ const EditProfile = () => {
                                         <input defaultValue={twitter_link}  className='py-2 text-md bg-[#212121] outline-none pl-4 w-full' placeholder='your twitter id' id='twitter' name='twitter' type="url" />
                                     </div>
 
-                                    <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button>
+                                    <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">{saveLoading ? 'Please wait to save...' : 'Click to save'}</button>
                                 </div>
                         </div>
                         </form>

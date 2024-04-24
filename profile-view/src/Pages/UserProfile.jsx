@@ -44,6 +44,7 @@ const UserProfile = () => {
     const {
         bio, 
         name, 
+        profile_link,
         github_link,
         twitter_link,
         portfolio_link,
@@ -56,21 +57,7 @@ const UserProfile = () => {
         instagram_link,
     } = useLoaderData()
     const navigate = useNavigate()
-    console.log(bio, 
-        name, 
-        github_link,
-        twitter_link,
-        portfolio_link,
-        hackerRank_link,
-        profile_pic, 
-        dribble_link,
-        linkedin_link,
-        facebook_link,
-        codeForce_link,
-        instagram_link,)
 
-        const profile_link = `${user?.profile_link}`
-        console.log(profile_link)
     return (
         <div className='min-h-screen pt-20'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
