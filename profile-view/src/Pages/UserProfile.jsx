@@ -83,7 +83,7 @@ const UserProfile = () => {
                 <>
                     {
                         !checkValid ?
-                        <div className='min-h-screen flex items-center justify-center bg-[#000000c0]'>
+                        <div className='min-h-screen flex items-center justify-center bg-[#000000d0]'>
                             <div>
                                 <p className=' text-xl'>Profile-view says: This is a invalid URL. No user founded in our database with this username: <span className='font-bold text-yellow-600'>{pathname}</span></p>
                                 <span className='text-white font-bold'>Check again and back to profile-view</span>
@@ -95,7 +95,15 @@ const UserProfile = () => {
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
                 <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:text-white cursor-pointer duration-200'>back to home page<IoReturnDownBack /></p>
             </div>
-            <div className='profile_card md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px]'>
+            <div style={{
+                backgroundImage: `linear-gradient(150deg, #000000c6, #000000fd), url(${profile_pic})`,
+                width: '100%',
+                height: '100%',  // or any other dimensions
+                backgroundSize: 'cover',
+                backgroundPosition: 'top',
+                imageRendering: 'pixelated'
+            }}
+            className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px]'>
                 <div className='flex items-center gap-4 '>
                     <img className='userImage w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
@@ -104,7 +112,7 @@ const UserProfile = () => {
                     </div>
                 </div>
 
-                <div className='border-[1px] border-[#2e2e2e] mt-10 p-2 rounded-xl bg-[#151515c1]'>
+                <div className='border-[1px] border-[#2e2e2e] mt-10 p-2 rounded-xl bg-[#151515b1]'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
                         <div>

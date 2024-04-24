@@ -1,5 +1,5 @@
 .profile_card{
-    background-image: linear-gradient(150deg, rgba(0, 0, 0, 0.949), rgba(0, 0, 0, 0.875)), url('../Assets/building.jpg');
+    background-image: linear-gradient(150deg, #000000c6, #000000fd), url('../Assets/building.jpg');
     background-size: auto;
     background-repeat: no-repeat;
     background-position: bottom;
