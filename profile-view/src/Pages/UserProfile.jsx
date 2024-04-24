@@ -7,30 +7,15 @@ import { FaDatabase, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram
 import { SiCodeforces } from "react-icons/si";
 import { IoReturnDownBack } from "react-icons/io5";
 import {
-    EmailShareButton,
     FacebookIcon,
     FacebookShareButton,
-    GabShareButton,
-    HatenaShareButton,
-    InstapaperShareButton,
-    LineShareButton,
     LinkedinIcon,
     LinkedinShareButton,
-    LivejournalShareButton,
-    MailruShareButton,
-    OKShareButton,
-    PinterestShareButton,
-    PocketShareButton,
-    RedditShareButton,
-    TelegramShareButton,
-    TumblrShareButton,
     TwitterIcon,
     TwitterShareButton,
-    ViberShareButton,
-    VKShareButton,
-    WhatsappShareButton,
-    WorkplaceShareButton,
   } from "react-share";
+import LoadingPage from './LoadingPage';
+  
 
 const UserProfile = () => {
     const [user, setUser] = useState({})
@@ -41,6 +26,8 @@ const UserProfile = () => {
         }
     }, [])
 
+    const [loading, setLoading] = useState(true)
+    
     const {
         bio, 
         name, 
@@ -58,8 +45,19 @@ const UserProfile = () => {
     } = useLoaderData()
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if(useLoaderData){
+            setLoading(false)
+        }
+    }, [user])
+    
     return (
-        <div className='min-h-screen pt-20'>
+        <>
+            {
+                loading ?
+                <LoadingPage></LoadingPage>
+                :
+                <div className='min-h-screen pt-20'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
                 <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:text-white cursor-pointer duration-200'>back to home page<IoReturnDownBack /></p>
             </div>
@@ -218,6 +216,8 @@ const UserProfile = () => {
                     <p>Share your profiles and connect each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
         </div>
+            }
+        </>
     );
 };
 

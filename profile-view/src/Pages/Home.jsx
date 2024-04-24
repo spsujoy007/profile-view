@@ -13,13 +13,13 @@ import LoadingPage from './LoadingPage';
 
 
 const Home = () => {
-    const [loading, setLoading] = useState(true)
     const glitch = useGlitch()
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('userinfo'))
-
+    
     const {username} = useProfileData()
-
+    
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
         if(user.username === username){
             setLoading(false)

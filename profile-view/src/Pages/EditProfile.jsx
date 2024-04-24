@@ -324,8 +324,8 @@ const EditProfile = () => {
                         <div className='flex justify-end'>
                                 <div className="form-control">
                                     <label className="label cursor-pointer">
-                                        <span className="label-text mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
-                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle"  />
+                                        <span className="text-md mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
+                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle toggle-success"  />
                                     </label>
                                 </div>
                             </div>
