@@ -1,6 +1,7 @@
 body{
-  background-image: url('../src/pics/noicebg.png');
+  background-image: url('https://res.cloudinary.com/cloudinarybysp/image/upload/v1713971867/noicebg.png');
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+  image-rendering: optimizeSpeed;
 }
