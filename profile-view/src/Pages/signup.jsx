@@ -9,6 +9,7 @@ const Signup = ({signup}) => {
     const [error, setError] = useState(false)
     const [getSpace, setGetSpace] = useState(false)
     const [message, setMessage] = useState(null)
+    const [spaceMsg, setSpaceMsg] = useState(null)
     const [suggestion_name, setSuggestion_name] = useState(undefined)
     const [password_issue, setPasswordIssue] = useState(false)
     const [pass, setPass] = useState('')
@@ -38,7 +39,7 @@ const Signup = ({signup}) => {
         if(name.includes(" ")){
             // alert('Remove space')
             setGetSpace(true)
-            setMessage("Please remove space from username")
+            setSpaceMsg("Please remove space from username")
             return
         }
 
@@ -73,6 +74,7 @@ const Signup = ({signup}) => {
                     toast.error('username already exists')
                     setError(true)
                     setMessage(false)
+                    setGetSpace(false)
                     setMessage(data.error)
                     setSuggestion_name(name + Math.floor(Math.random() * (100 - 10 + 1))+1)
                 }
@@ -111,7 +113,7 @@ const Signup = ({signup}) => {
                                      type="text" /> 
                                     
                                     <span className='text-red-500 block'> {error && `${message} Try ${suggestion_name} or other`}</span>
-                                    <span className='text-red-500 block'> {getSpace && `${message}`}</span>
+                                    <span className='text-red-500 block'> {getSpace && `${spaceMsg}`}</span>
 
                                     {/* <label htmlFor="password" className='text-white  mt-5'>create a strong password</label> <br /> */}
                                     <input

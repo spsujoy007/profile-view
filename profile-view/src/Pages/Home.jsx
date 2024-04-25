@@ -76,7 +76,7 @@ const Home = () => {
                                 {
                                     !user.username &&
                                         <div className='flex gap-2'>
-                                            <div className="tooltip tooltip-open tooltip-bottom tooltip-info cursor-pointer " data-tip="click on it">
+                                            <div className="tooltip tooltip-open tooltip-bottom tooltip-warning cursor-pointer " data-tip="click on it">
                                                 <p className='text-white text-xl underline' onClick={() => navigate('/signup')}>tap to create a profile </p> 
                                             </div>
                                             <p className='text-white text-xl' title="hello world">and show your social id's</p>

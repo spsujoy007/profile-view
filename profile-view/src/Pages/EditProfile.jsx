@@ -99,6 +99,31 @@ const EditProfile = () => {
             .then(res => res.json())
             .then(data => {
                 if(data.url){
+
+                    // deleting previous photo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    // if (profile_pic) {
+                    //     const apikey = process.env.REACT_APP_CLOUDINARY_API_KEY
+                    //     const secretkey = process.env.REACT_APP_CLOUDINARY_API_SECRET
+                    //     const deletePhoto = async() => {
+                    //         const publicId = profile_pic.split('/').pop().split('.')[0];
+                    //         try {
+                    //             const response = await fetch(`https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/destroy?public_id=${publicId}&api_key=${apikey}&api_secret=${secretkey}`, {
+                    //             method: 'DELETE'
+                    //             });
+
+                    //             if (!response.ok) {
+                    //             const data = await response.json();
+                    //             console.error('Failed to delete image:', data);
+                    //             } else {
+                    //             const data = await response.json();
+                    //             console.log('Image deleted successfully:', data);
+                    //             }
+                    //         } catch (error) {
+                    //             console.error('Fetch Error:', error);
+                    //         }
+                    //     }
+                    //     deletePhoto()
+                    //   }
                     const photoURL = data.url
                     const form = e.target
                     const name = form.name.value
@@ -147,6 +172,7 @@ const EditProfile = () => {
                             toast.success("Profile updated",{
                                 icon: '😀',
                             })
+                            fethingData()
                             navigate(`/profile/${user.username}`)
                         }
                         else{
@@ -208,6 +234,7 @@ const EditProfile = () => {
                                 icon: '😀',
                             })
                             navigate(`/profile/${user.username}`)
+                            fethingData()
                         }
                         else{
                             setServerMsg(`Invalid user!`)
@@ -265,16 +292,16 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
                             <div className='flex justify-end'>
-                            <div className="form-control">
+                            <div className="form-control tooltip tooltip-open tooltip-left tooltip-primary" data-tip="Tap to view mode">
                                     <label className="label cursor-pointer">
-                                        <span className="label-text mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
-                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle" checked />
+                                        {/* <span className="label-text mr-2">{!editMode ? "tap to edit" :"tap to view"}</span>  */}
+                                        <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle" defaultChecked />
                                     </label>
                                 </div>
                             </div>
 
-                            <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
-                            <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
+                            <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent p-2 text-4xl outline-none border-[1px] border-[#373737]' defaultValue={name && name} /> <br />
+                            <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent p-2 mt-2 text-2xl w-full mb-3 outline-none border-[1px] border-[#373737]' defaultValue={bio} />
                             <hr />
 
                                 <div className='mt-5 md:w-[100%]'>
@@ -360,15 +387,15 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
                         <div className='flex justify-end'>
-                                <div className="form-control">
+                                <div className="form-control tooltip tooltip-open tooltip-left tooltip-warning" data-tip="Tap to edit profile">
                                     <label className="label cursor-pointer">
-                                        <span className="text-md mr-2">{!editMode ? "tap to edit" :"tap to view"}</span> 
+                                        {/* <span className="text-md mr-2">{!editMode ? <span>tap to edit</span> :"tap to view"}</span>  */}
                                         <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle toggle-success"  />
                                     </label>
                                 </div>
                             </div>
 
-                            <input disabled name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl uppercase' defaultValue={name && name} /> <br />
+                            <input disabled name='name' placeholder='your name...' type="text" className='py-2 bg-transparent outline-none text-4xl ' defaultValue={name && name} /> <br />
                             <input disabled name='bio' placeholder='short biodata...' type="text" className='bg-transparent outline-none text-2xl w-full mb-3' defaultValue={bio} />
                             <hr />
 

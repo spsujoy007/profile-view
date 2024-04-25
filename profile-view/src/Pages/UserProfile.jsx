@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import null_avatar from '../Assets/null_avatar.jpg'
@@ -23,8 +23,8 @@ import toast from 'react-hot-toast';
   
 
 const UserProfile = () => {
+    const findUser = JSON.parse(localStorage.getItem('userinfo'))
     const [user, setUser] = useState({})
-
     useEffect(() => {
         if(localStorage.getItem('userinfo')){
             setUser(JSON.parse(localStorage.getItem('userinfo')))
@@ -38,6 +38,7 @@ const UserProfile = () => {
         bio, 
         name, 
         username,
+        profile_view,
         profile_link,
         github_link,
         twitter_link,
@@ -51,6 +52,57 @@ const UserProfile = () => {
         instagram_link,
     } = useLoaderData()
     const navigate = useNavigate()
+
+    // count visits ---------=========-------------------------------
+    const isFirstRun = useRef(true);
+    useEffect(() => {
+    if (isFirstRun.current) {
+        isFirstRun.current = false;
+
+        if(findUser.username !== username)
+        {
+            viewedProfile()
+            visitedProfileUSER()
+        }
+        return;
+    }
+    
+}, [findUser, username]);
+//-----------------------=========--------------------------------
+
+    function viewedProfile(){
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.modifiedCount === 1){
+                console.log("profile visited")
+            }
+        })
+    }
+
+    function visitedProfileUSER(){
+        fetch(`http://localhost:5000/visited_profile`, {
+            method: "POST",
+            headers:{
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                username: findUser.username,
+                visitedProfiles:[
+                    {
+                        username,
+                        profile_link
+                    }
+                ]
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
 
     useEffect(() => {
         if(username){
@@ -118,12 +170,13 @@ const UserProfile = () => {
                 <div className='flex items-center gap-4 '>
                     <img className='userImage w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
-                        <h3 className='text-[26px] uppercase py-0 font-bold text-white'>{name}</h3>
+                        <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name}</h3>
                         <p className='text-lg text-white'>{bio}</p>
                     </div>
                 </div>
 
-                <div className='border-[1px] border-[#2e2e2e] mt-10 p-2 rounded-xl bg-[#151515bb]'>
+                <p className='text-right mt-6'>Profile views: {profile_view}</p>
+                <div className='border-[1px] border-[#2e2e2e]  p-2 rounded-xl bg-[#151515bb]'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
                         <div>
@@ -267,7 +320,7 @@ const UserProfile = () => {
                                 </LinkedinShareButton>
 
                                 <p className='bg-sky-700 hover:bg-sky-900 duration-200 flex items-center gap-2 cursor-pointer px-2   rounded-full text-white text-sm' onClick={TapToCopy}
-                                ><FaCopy></FaCopy><p>Tap to copy</p></p>
+                                ><FaCopy></FaCopy><span>Tap to copy</span></p>
                             </div>
                         </div>
                     </div>
