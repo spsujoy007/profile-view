@@ -60,7 +60,7 @@ const Signup = ({signup}) => {
             }
             // console.log(userinfo)
 
-            fetch('http://localhost:5000/signup', {
+            fetch('https://profile-view-be.vercel.app/signup', {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'

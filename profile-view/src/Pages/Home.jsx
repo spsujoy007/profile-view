@@ -10,13 +10,14 @@ import toast from 'react-hot-toast';
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { MdAdminPanelSettings } from "react-icons/md";
 import LoadingPage from './LoadingPage';
+import { useTitle } from '../Hooks/useTitle';
 
 
 const Home = () => {
     const glitch = useGlitch()
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('userinfo'))
-    
+    useTitle("Home")
     const {username} = useProfileData()
     
     const [loading, setLoading] = useState(true)

@@ -20,6 +20,7 @@ import {
 import LoadingPage from './LoadingPage';
 import { FaCopy } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import { useTitle } from '../Hooks/useTitle';
   
 
 const UserProfile = () => {
@@ -30,6 +31,7 @@ const UserProfile = () => {
             setUser(JSON.parse(localStorage.getItem('userinfo')))
         }
     }, [])
+    useTitle(`Profile: ${user.username}`)
 
     const [loading, setLoading] = useState(true)
     const [checkValid, setCheckValid] = useState(true)
@@ -71,7 +73,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
+        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -83,7 +85,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileUSER(){
-        fetch(`http://localhost:5000/visited_profile`, {
+        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"

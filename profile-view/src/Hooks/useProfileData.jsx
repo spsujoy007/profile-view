@@ -7,7 +7,7 @@ const useProfileData = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/userdata?username=${user?.username}`);
+                const response = await fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`);
                 if (!response.ok) {
                     throw new Error(`Network response was not ok: ${response.status}`);
                 }

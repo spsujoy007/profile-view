@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoReturnDownBack } from 'react-icons/io5';
 import { FaPlus } from 'react-icons/fa6';
 import LoadingPage from './LoadingPage';
+import { useTitle } from '../Hooks/useTitle';
 
 const EditProfile = () => {
     const [viewImg, setViewImg] = useState(undefined)
@@ -16,6 +17,7 @@ const EditProfile = () => {
     const [callServer, setCallServer] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
 
+    useTitle("My profile")
     
     // const [imglink, setImgLink] = useState(null)
     const [editMode, setEditMode] = useState(false)
@@ -51,7 +53,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const fethingData = () => {
-        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
+        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -154,7 +156,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -215,7 +217,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
