@@ -168,15 +168,16 @@ const UserProfile = () => {
             }}
             className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
                 <div className='flex items-center gap-4 '>
-                    <img className='userImage w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                    <img onClick={()=> {
+                        profile_pic !== null && window.open(profile_pic, '_blank')
+                    }} className='userImage hover:animate-pulse cursor-pointer w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                     <div>
                         <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name}</h3>
                         <p className='text-lg text-white'>{bio}</p>
                     </div>
                 </div>
 
-                <p className='text-right mt-6'>Profile views: {profile_view}</p>
-                <div className='border-[1px] border-[#2e2e2e]  p-2 rounded-xl bg-[#151515bb]'>
+                <div className='border-[1px] border-[#2e2e2e]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
                         <div>
@@ -186,6 +187,12 @@ const UserProfile = () => {
                     {
                     (github_link !=null || hackerRank_link !=null || codeForce_link !=null) &&
                 <div className=''>
+
+                    {/* count profile views  */}
+                    <div className='flex justify-end'>
+                        <p className='text-right bg-[#333333c2] text-[#ffffff] rounded-lg  border-[1px] border-[#454545] px-2 inline-block text-sm'>Profile views: {profile_view >= 1000 ? `${String(profile_view)[1]}k`: profile_view}</p>
+                    </div>
+
                     <p className=''>coding related</p>
                         <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
@@ -326,7 +333,7 @@ const UserProfile = () => {
                     </div>
                 }
             </div>
-                <div className='flex justify-center mt-20'>
+                <div className='flex justify-center py-20'>
                     <p>Share your profiles and connect with each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
                         </div>
