@@ -26,6 +26,7 @@ async function run(){
     try{
       const usersCollection = client.db('profile-view').collection("usersinfo");
       const userProfileCollection = client.db('profile-view').collection("userprofile");
+      const visitedProfilesCollect =  client.db('profile-view').collection("visited_profile");
 
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
@@ -37,7 +38,7 @@ async function run(){
             try {
                 const result = await usersCollection.insertOne(userinfo);
                 const updateData = {
-                  name: null,
+                  name: userinfo.username.split("@")[1],
                   profile_link: userinfo.profile_link,
                   username: userinfo.username,
                   bio: null,
@@ -70,12 +71,76 @@ async function run(){
         if(admin === "sujoy"){
           return res.json({total_user})
         }
-        else{
+        if(admin === "409"){
           return res.send(users)
         }
     })
     
-      
+    app.get('/count_view', async(req, res) =>{
+        const loginuserdata = req.query.loginUSERNAME;
+        const datas = req.query;
+        console.log("username: ",datas)
+        const query = req.query.username
+        const filter = {username: query}
+        const option = {upsert: true}
+
+        const userprofile = await userProfileCollection.findOne(filter)
+        const old_views = userprofile.profile_view
+
+        const updatedDoc = {
+          $set: {
+              profile_view: old_views + 1
+          }
+        }
+
+          if(req.query.loginUSERNAME === 'undefined'){
+            const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
+            return res.send(saveInfo)
+          }
+          else{
+            const visitedCollec = await visitedProfilesCollect.findOne({username: loginuserdata})
+            if(visitedCollec.visitedProfiles.find(p => p.username === query)){
+               return res.status(404).json({message: "Already added this user in user collection"})
+            }
+            else{
+              const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
+              return res.send(saveInfo)
+              
+            }
+          }
+    })
+
+
+    app.post('/visited_profile', async(req, res) => {
+        const profile_data = req.body;
+        const visitedCollec = await visitedProfilesCollect.findOne({username: profile_data.username})
+        if(!visitedCollec){
+          const result = await visitedProfilesCollect.insertOne(profile_data)
+          console.log(result)
+          return res.send(result)
+        }
+        else{
+          const newData = {
+            username: profile_data.visitedProfiles[0].username,
+            profile_link: profile_data.visitedProfiles[0].profile_link
+          }
+          const filter = {username: profile_data.username}
+          const option = {upsert: true}
+          const updatedDoc = {
+            $set: {
+              visitedProfiles: [...visitedCollec.visitedProfiles, newData]
+            }
+          }
+          if(visitedCollec.visitedProfiles.find(p => p.username === newData.username)){
+              return res.status(404).json({message: "Already added this user in user collection"})
+          }
+          else{
+            const result = await visitedProfilesCollect.updateOne(filter, updatedDoc, option)
+            return res.send(result)
+          }
+        }
+        // res.status(401).json({message: "Already visited this profile"})
+    })
       
       app.post('/saveprofile', async(req, res) => {
         const userdata = req.body
@@ -129,6 +194,11 @@ async function run(){
         else{
           return res.send({message: 'This user is not registered!', code: 22})
         }
+      })
+
+      app.get('/alluserdata', async(req, res) => {
+        const result = await userProfileCollection.find({}).toArray()
+        res.send(result)
       })
 
       app.get('/login', async(req, res) => {
