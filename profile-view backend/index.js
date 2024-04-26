@@ -79,14 +79,12 @@ async function run(){
     
     app.get('/count_view', async(req, res) =>{
         const loginuserdata = req.query.loginUSERNAME;
-        const datas = req.query;
         const query = req.query.username
         const filter = {username: query}
         const option = {upsert: true}
-
         const userprofile = await userProfileCollection.findOne(filter)
         const old_views = userprofile.profile_view
-
+        
         const updatedDoc = {
           $set: {
               profile_view: old_views + 1
@@ -99,13 +97,12 @@ async function run(){
           }
           else{
             const visitedCollec = await visitedProfilesCollect.findOne({username: loginuserdata})
-            if(visitedCollec.visitedProfiles.find(p => p.username === query)){
+            if(visitedCollec?.visitedProfiles?.find(p => p.username === query)){
                return res.status(404).json({message: "Already added this user in user collection"})
             }
             else{
               const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
               return res.send(saveInfo)
-              
             }
           }
     })
@@ -116,7 +113,6 @@ async function run(){
         const visitedCollec = await visitedProfilesCollect.findOne({username: profile_data.username})
         if(!visitedCollec){
           const result = await visitedProfilesCollect.insertOne(profile_data)
-          console.log(result)
           return res.send(result)
         }
         else{
@@ -166,26 +162,39 @@ async function run(){
               }
             }
             const result = await likedProfileCollect.updateOne(filter, updatedDoc, option)
-            console.log("modfied: ", result)
-            return res.send(result)
+            return res.send({result})
           }
         } 
         else {
             const result = await likedProfileCollect.insertOne(likedata)
-            console.log("insertnew: ", result)
-            return res.send(result)
+
+            //
+            // for count like on profile data
+            const likedprofile_username = likedata.likedProfiles[0].username
+            const getUSERdata = await userProfileCollection.findOne({username: likedprofile_username})
+            const old_likes = getUSERdata.profile_likes
+            const filter2 = {username: likedprofile_username}
+            const option2 = {upsert: true}
+            const updatedDoc2 = {
+              $set: {
+                profile_likes: old_likes ? old_likes + 1 : 1
+              }
+            }
+            const result2 = await userProfileCollection.updateOne(filter2, updatedDoc2, option2)
+            console.log("result2", result2)
+            //
+
+            return res.send([result, result2])
         }
     })
 
       app.get('/profilelike_history', async(req, res) => {
           const query = {username: req.query.username}
           const visiteProfile = req.query.visitprofile
-          console.log(query)
           const existLikedPROFILE = await likedProfileCollect.findOne(query)
           if(existLikedPROFILE){
             const alreadyLiked = existLikedPROFILE.likedProfiles.find(p => p.username === visiteProfile)
             if(alreadyLiked){
-              console.log('ache', alreadyLiked)
               return res.send(JSON.stringify({liked: true}))
             }
             else{
@@ -195,6 +204,18 @@ async function run(){
           else {
             return res.send(JSON.stringify({liked: false}));
         }
+      })
+
+      app.get('/likedcount', async(req, res) => {
+          const query = req.query.username
+          const result = await userProfileCollection.find({ "likedProfiles.username": query }).toArray();
+          res.send(result)
+      })
+
+      // ranking by likedcount of profile
+      app.get('/profile_ranking', async(req, res) => {
+          const result = await userProfileCollection.find({}).sort({profile_likes: -1, profile_view: -1}).limit(10).toArray();
+          res.send(result)
       })
       
       app.post('/saveprofile', async(req, res) => {
@@ -217,6 +238,7 @@ async function run(){
                 codeForce_link: userdata.codeForce_link ? userdata.codeForce_link : null,
                 dribble_link: userdata.dribble_link ? userdata.dribble_link : null,
                 linkedin_link: userdata.linkedin_link ? userdata.linkedin_link : null,
+                discord_link: userdata.discord_link ? userdata.discord_link : null,
                 facebook_link: userdata.facebook_link ? userdata.facebook_link : null,
                 instagram_link: userdata.instagram_link ? userdata.instagram_link : null,
                 twitter_link: userdata.twitter_link ? userdata.twitter_link : null
