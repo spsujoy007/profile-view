@@ -2,12 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import null_avatar from '../Assets/null_avatar.jpg'
-
 import bgProfile from '../Assets/profilebg.jpg'
-
-import './UserProfile.css'
+// icons
 import { FaDatabase, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter } from "react-icons/fa6";
 import { SiCodeforces } from "react-icons/si";
+import { BiLike } from "react-icons/bi";
+import { GoProjectSymlink } from "react-icons/go";
+
+import './UserProfile.css'
+
 import { IoReturnDownBack } from "react-icons/io5";
 import {
     FacebookIcon,
@@ -75,7 +78,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -87,7 +90,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
+        fetch(`http://localhost:5000/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -136,6 +139,32 @@ const UserProfile = () => {
     //======================================================
 
 
+    const handleLikeProfile = () => {
+        const likedata ={
+            username: findUser.username,   
+            likedProfiles: [
+                {
+                    username,
+                    liked_date: new Date()
+                }
+            ]
+        }
+
+        const url = `http://localhost:5000/likeprofile`
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-type" : "application/json"
+            },
+            body: JSON.stringify(likedata)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data)
+        })
+    }
+
+
     const TapToCopy = () => {
         navigator.clipboard.writeText(profile_link) 
         toast.success("Profile url copied!")
@@ -171,17 +200,27 @@ const UserProfile = () => {
                 imageRendering: 'pixelated'
             }}
             className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
-                <div className='flex items-center gap-4 '>
-                    <img onClick={()=> {
-                        profile_pic !== null && window.open(profile_pic, '_blank')
-                    }} className='userImage hover:animate-pulse cursor-pointer w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
-                    <div>
-                        <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name}</h3>
-                        <p className='text-lg text-white'>{bio}</p>
+                <div className='flex items-center justify-between'>
+                    <div className='flex items-center gap-4 '>
+                        <img onClick={()=> {
+                            profile_pic !== null && window.open(profile_pic, '_blank')
+                        }} className='userImage hover:animate-pulse cursor-pointer w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                        <div>
+                            <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name}</h3>
+                            <p className='text-lg text-white'>{bio}</p>
+                        </div>
+                    </div>
+                    <div className='md:mr-5'>
+                        {/* like system */}
+                        <button onClick={() => {
+                                if(findUser.username !== username){handleLikeProfile()
+                            }}}>
+                            <BiLike  className='text-3xl'/>
+                        </button>
                     </div>
                 </div>
 
-                <div className='border-[1px] border-[#2e2e2e]  p-2 rounded-xl bg-[#151515bb] mt-6'>
+                <div className='border-[1px] border-[#2e2e2e] md:min-h-[400px]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
                         <div>
@@ -242,7 +281,7 @@ const UserProfile = () => {
                             </a>
                         }
                         {
-                            portfolio_link &&<a href={portfolio_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#29a05d] duration-300 rounded-lg bg-[#222222] text-white px-3 py-1'><FaPager className='text-5xl' /> 
+                            portfolio_link &&<a href={portfolio_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#29a05d] duration-300 rounded-lg bg-[#222222] text-white px-3 py-1'><GoProjectSymlink className='text-5xl' /> 
                                 <div>
                                     <p className='font-bold'>Portfolio</p>
                                     <p className='text-sm'>my personal website</p>

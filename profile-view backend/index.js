@@ -27,6 +27,7 @@ async function run(){
       const usersCollection = client.db('profile-view').collection("usersinfo");
       const userProfileCollection = client.db('profile-view').collection("userprofile");
       const visitedProfilesCollect =  client.db('profile-view').collection("visited_profile");
+      const likedProfileCollect =  client.db('profile-view').collection("liked_profiles");
 
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
@@ -79,7 +80,6 @@ async function run(){
     app.get('/count_view', async(req, res) =>{
         const loginuserdata = req.query.loginUSERNAME;
         const datas = req.query;
-        console.log("username: ",datas)
         const query = req.query.username
         const filter = {username: query}
         const option = {upsert: true}
@@ -141,6 +141,61 @@ async function run(){
         }
         // res.status(401).json({message: "Already visited this profile"})
     })
+
+
+    // liked profile collection
+    app.post('/likeprofile', async(req, res) => {
+        const likedata = req.body;
+        const existLikedPROFILE = await likedProfileCollect.findOne({username: likedata.username})
+        if(existLikedPROFILE)
+        {
+          const alreadyLiked = existLikedPROFILE.likedProfiles.find(p => p.username === likedata.likedProfiles[0].username)
+          if(alreadyLiked){
+            return res.send(JSON.stringify({message: "Already liked"}))
+          }
+          else{
+            const newData = {
+              username: likedata.likedProfiles[0].username,
+              liked_date: likedata.likedProfiles[0].liked_date
+            }
+            const filter = {username: likedata.username}
+            const option = {upsert: true}
+            const updatedDoc = {
+              $set:{
+                  likedProfiles: [...existLikedPROFILE.likedProfiles, newData]
+              }
+            }
+            const result = await likedProfileCollect.updateOne(filter, updatedDoc, option)
+            console.log("modfied: ", result)
+            return res.send(result)
+          }
+        } 
+        else {
+            const result = await likedProfileCollect.insertOne(likedata)
+            console.log("insertnew: ", result)
+            return res.send(result)
+        }
+    })
+
+      app.get('/profilelike_history', async(req, res) => {
+          const query = {username: req.query.username}
+          const visiteProfile = req.query.visitprofile
+          console.log(query)
+          const existLikedPROFILE = await likedProfileCollect.findOne(query)
+          if(existLikedPROFILE){
+            const alreadyLiked = existLikedPROFILE.likedProfiles.find(p => p.username === visiteProfile)
+            if(alreadyLiked){
+              console.log('ache', alreadyLiked)
+              return res.send(JSON.stringify({liked: true}))
+            }
+            else{
+              return res.send(JSON.stringify({liked: false}))
+            }
+          }
+          else {
+            return res.send(JSON.stringify({liked: false}));
+        }
+      })
       
       app.post('/saveprofile', async(req, res) => {
         const userdata = req.body
@@ -237,5 +292,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`social-lab server listening on port ${port}`)
+  console.log(`profile-view server listening on port ${port}`)
 })
