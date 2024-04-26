@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Signup from './signup';
 import Login from './Login';
 import { useGlitch } from 'react-powerglitch'
@@ -18,7 +18,8 @@ const Home = () => {
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('userinfo'))
     useTitle("Home")
-    const {username} = useProfileData()
+    const {username, name} = useProfileData()
+
     
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -51,7 +52,8 @@ const Home = () => {
                 {
                     user?.username ?
                     <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col'>
-                        <h1 className='md:text-[6rem] text-[3rem] text-center text-slate-200 uppercase ' ref={glitch.ref} >Hello {user.username.split("@")[1]}</h1>
+                        {/* <h1 className={`${user.username.length >= 10 ? "md:text-[5rem]" : "md:text-[6rem]"} text-[3rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {user.username.split("@")[1]}</h1> */}
+                        <h1 className={`${name.length >= 10 ? "md:text-[5rem]" : "md:text-[6rem]"} text-[3rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {name}</h1>
                         {/* <span className='text-[#ddcf37]'>{user?.username}</span> */}
                         <p className='text-lg text-center '>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 

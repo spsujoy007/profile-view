@@ -64,12 +64,14 @@ const UserProfile = () => {
         if(findUser.username !== username)
         {
             viewedProfile()
-            visitedProfileUSER()
+        }
+        else if(!findUser){
+            visitedProfileHistory()
         }
         return;
     }
     
-}, [findUser, username]);
+    }, [findUser, username]);
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
@@ -84,7 +86,7 @@ const UserProfile = () => {
         })
     }
 
-    function visitedProfileUSER(){
+    function visitedProfileHistory(){
         fetch(`https://profile-view-be.vercel.app/visited_profile`, {
             method: "POST",
             headers:{
