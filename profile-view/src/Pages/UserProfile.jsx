@@ -4,9 +4,9 @@ import useProfileData from '../Hooks/useProfileData';
 import null_avatar from '../Assets/null_avatar.jpg'
 import bgProfile from '../Assets/profilebg.jpg'
 // icons
-import { FaDatabase, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter } from "react-icons/fa6";
+import { FaDatabase, FaDiscord, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter } from "react-icons/fa6";
 import { SiCodeforces } from "react-icons/si";
-import { BiLike } from "react-icons/bi";
+import { BiLike, BiSolidLike } from "react-icons/bi";
 import { GoProjectSymlink } from "react-icons/go";
 
 import './UserProfile.css'
@@ -52,6 +52,7 @@ const UserProfile = () => {
         profile_pic, 
         dribble_link,
         linkedin_link,
+        discord_link,
         facebook_link,
         codeForce_link,
         instagram_link,
@@ -67,18 +68,16 @@ const UserProfile = () => {
         if(findUser.username !== username)
         {
             viewedProfile()
-        }
-        else if(!findUser){
             visitedProfileHistory()
         }
         return;
     }
     
-    }, [findUser, username]);
+    }, [findUser.username, username]);
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser ? findUser.username : null}`, {
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -86,6 +85,7 @@ const UserProfile = () => {
             if(data.modifiedCount === 1){
                 console.log("profile visited")
             }
+            console.log(data)
         })
     }
 
@@ -161,6 +161,7 @@ const UserProfile = () => {
         .then(res => res.json())
         .then(data => {
             console.log(data)
+            window.location.reload()
         })
     }
 
@@ -169,6 +170,35 @@ const UserProfile = () => {
         navigator.clipboard.writeText(profile_link) 
         toast.success("Profile url copied!")
     }
+
+    const [ifliked, setIfLiked] = useState(false)
+    // view liked or not
+    useEffect(() => {
+        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+            method: "GET"
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.liked === true){
+                console.log(data)
+                setIfLiked(true)
+            }
+            else{
+                setIfLiked(false)
+            }
+        })
+    }, [findUser.username, username])
+
+    const [profileliked, setProfileLiked] = useState(null)
+    useEffect(() => {
+        fetch(`http://localhost:5000/likedcount?username=${username}`, {
+            method: "GET"
+        })
+        .then(res => res.json())
+        .then(data => {
+            setProfileLiked(data.length)
+        })
+    },[username])
 
     return (
         <>
@@ -212,11 +242,22 @@ const UserProfile = () => {
                     </div>
                     <div className='md:mr-5'>
                         {/* like system */}
-                        <button onClick={() => {
-                                if(findUser.username !== username){handleLikeProfile()
-                            }}}>
-                            <BiLike  className='text-3xl'/>
-                        </button>
+                        {
+                            findUser.username && findUser.username !== username && <>
+                                    {
+                                ifliked ?
+                                <button className='tooltip' data-tip="You cannot dislike it dear! 🥹">
+                                    <BiSolidLike className='text-3xl'/>
+                                </button>
+                                :
+                                <button className='tooltip tooltip-warning' data-tip="Once you like a profile, you cannot dislike it." onClick={() => {
+                                        if(findUser.username !== username){handleLikeProfile()
+                                    }}}>
+                                    <BiLike  className='text-3xl'/>
+                                </button>
+                            }
+                            </>
+                        }
                     </div>
                 </div>
 
@@ -233,7 +274,11 @@ const UserProfile = () => {
 
                     {/* count profile views  */}
                     <div className='flex justify-end'>
-                        <p className='text-right bg-[#333333c2] text-[#ffffff] rounded-lg  border-[1px] border-[#454545] px-2 inline-block text-sm'>Profile views: {profile_view >= 1000 ? `${String(profile_view)[1]}k`: profile_view}</p>
+                        <div className='bg-[#333333c2] rounded-l-full border-[#454545] text-[#ffffff] border-[1px] px-2 py-1 flex gap-x-2 items-center  text-sm'>
+                            <p className='text-right   '>Profile views: {profile_view >= 1000 ? `${String(profile_view)[1]}k`: profile_view}</p>
+                            <p>|</p>
+                            <p>Liked: {profileliked}</p>
+                        </div>
                     </div>
 
                     <p className=''>coding related</p>
@@ -268,7 +313,7 @@ const UserProfile = () => {
 
                 {/* professional profiles */}
                 {
-                    (linkedin_link !=null || portfolio_link !=null || dribble_link !=null) &&
+                    (linkedin_link !=null || portfolio_link !=null || dribble_link !=null || discord_link !=null) &&
                 <div className='mt-10'>
                     <p className=''>professional profiles and portfolio</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
@@ -281,7 +326,7 @@ const UserProfile = () => {
                             </a>
                         }
                         {
-                            portfolio_link &&<a href={portfolio_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#29a05d] duration-300 rounded-lg bg-[#222222] text-white px-3 py-1'><GoProjectSymlink className='text-5xl' /> 
+                            portfolio_link &&<a href={portfolio_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#29a05d] duration-300 rounded-lg bg-[#222222] text-white px-3 p-2'><GoProjectSymlink className='text-5xl' /> 
                                 <div>
                                     <p className='font-bold'>Portfolio</p>
                                     <p className='text-sm'>my personal website</p>
@@ -289,10 +334,18 @@ const UserProfile = () => {
                             </a>
                         }
                         {
-                            dribble_link &&<a href={`https://dribbble.com/${dribble_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#EB528D] duration-300 rounded-lg bg-[#222222] text-white px-3 py-1'><FaDribbble className='text-5xl' /> 
+                            dribble_link &&<a href={`https://dribbble.com/${dribble_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#EB528D] duration-300 rounded-lg bg-[#222222] text-white px-3 p-2'><FaDribbble className='text-5xl' /> 
                                 <div>
                                     <p className='font-bold'>Dribble</p>
                                     <p className='text-sm'>my design skills</p>
+                                </div>
+                            </a>
+                        }
+                        {
+                            discord_link &&<a href={`https://discordapp.com/users/${discord_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#5D6AF2] duration-300 rounded-lg bg-[#222222] text-white px-3 p-2'><FaDiscord className='text-5xl' /> 
+                                <div>
+                                    <p className='font-bold'>Discord</p>
+                                    <p className='text-sm'>let's talk about code</p>
                                 </div>
                             </a>
                         }
@@ -303,7 +356,7 @@ const UserProfile = () => {
                 {/* social links */}
                 {
                     (facebook_link !=null || twitter_link !=null || instagram_link !=null) &&
-                <div className='mt-10'>
+                <div className='mt-6'>
                     <p className=''>social media profiles</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {

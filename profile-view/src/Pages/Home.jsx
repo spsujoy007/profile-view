@@ -18,7 +18,7 @@ const Home = () => {
     const navigate = useNavigate()
     let user = JSON.parse(localStorage.getItem('userinfo'))
     useTitle("Home")
-    const {username, name} = useProfileData()
+    const {username, name, profile_link} = useProfileData()
 
     
     const [loading, setLoading] = useState(true)
@@ -57,7 +57,7 @@ const Home = () => {
                         {/* <span className='text-[#ddcf37]'>{user?.username}</span> */}
                         <p className='text-lg text-center '>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
-                        <span className='mt-1 text-slate-300 text-sm uppercase'><span className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</span> Click on arrange profile button to edit profile </span>
+                        <span className='mt-1 text-slate-300 text-sm uppercase'><a href={profile_link} target='_blank' rel='noreferrer' className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</a> Click on arrange profile button to edit profile </span>
                         <div className=' mt-10 mx-auto w-full md:w-fit'>
                         <div className='flex md:flex-row gap-3 flex-col items-center  '>
                             <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-md border-[1px] border-[#242424] uppercase '>Arrange Profile</button>
