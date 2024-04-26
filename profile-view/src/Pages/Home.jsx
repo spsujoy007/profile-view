@@ -70,6 +70,10 @@ const Home = () => {
                                 <button onClick={() => handleLogout()} className='px-5 py-2 btn-bg rounded-md border-[1px] border-[#242424] md:w-[200px] w-full flex justify-center items-center gap-2'><CiLogout className='text-lg mt-1' /> Log out</button>
                             }
                         </div>
+
+                        <div className='mt-10 text-center'>
+                            <button onClick={() => navigate('/ranks')} className='underline text-slate-300 uppercase'>click to check ranked profiles</button>
+                        </div>
                         </div>
                     </div>
                     :

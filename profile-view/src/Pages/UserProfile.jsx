@@ -44,6 +44,7 @@ const UserProfile = () => {
         name, 
         username,
         profile_view,
+        profile_likes,
         profile_link,
         github_link,
         twitter_link,
@@ -189,16 +190,16 @@ const UserProfile = () => {
         })
     }, [findUser.username, username])
 
-    const [profileliked, setProfileLiked] = useState(null)
-    useEffect(() => {
-        fetch(`http://localhost:5000/likedcount?username=${username}`, {
-            method: "GET"
-        })
-        .then(res => res.json())
-        .then(data => {
-            setProfileLiked(data.length)
-        })
-    },[username])
+    // const [profileliked, setProfileLiked] = useState(null)
+    // useEffect(() => {
+    //     fetch(`http://localhost:5000/likedcount?username=${username}`, {
+    //         method: "GET"
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => {
+    //         setProfileLiked(data.length)
+    //     })
+    // },[username])
 
     return (
         <>
@@ -277,7 +278,7 @@ const UserProfile = () => {
                         <div className='bg-[#333333c2] rounded-l-full border-[#454545] text-[#ffffff] border-[1px] px-2 py-1 flex gap-x-2 items-center  text-sm'>
                             <p className='text-right   '>Profile views: {profile_view >= 1000 ? `${String(profile_view)[1]}k`: profile_view}</p>
                             <p>|</p>
-                            <p>Liked: {profileliked}</p>
+                            <p>Liked: {profile_likes ? profile_likes : 0}</p>
                         </div>
                     </div>
 
@@ -314,7 +315,7 @@ const UserProfile = () => {
                 {/* professional profiles */}
                 {
                     (linkedin_link !=null || portfolio_link !=null || dribble_link !=null || discord_link !=null) &&
-                <div className='mt-10'>
+                <div className='mt-5'>
                     <p className=''>professional profiles and portfolio</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {

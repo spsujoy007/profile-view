@@ -7,6 +7,7 @@ import UserProfile from "./Pages/UserProfile"
 import Signup from "./Pages/signup"
 import Login from "./Pages/Login"
 import ProtectedRoute from "./ProtectedRoute"
+import RankingProfiles from "./Pages/RankingProfiles"
 
 export const routes = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const routes = createBrowserRouter([
     {
         path: '/login',
         element: <Login></Login>
+    },
+    {
+        path: '/ranks',
+        element: <RankingProfiles></RankingProfiles>
     },
     {
         path: '/profile/:username',
