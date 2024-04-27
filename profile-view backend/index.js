@@ -162,7 +162,21 @@ async function run(){
               }
             }
             const result = await likedProfileCollect.updateOne(filter, updatedDoc, option)
-            return res.send({result})
+
+            // for count like on profile data
+            const likedprofile_username = likedata.likedProfiles[0].username
+            const getUSERdata = await userProfileCollection.findOne({username: likedprofile_username})
+            const old_likes = getUSERdata.profile_likes
+            const filter2 = {username: likedprofile_username}
+            const option2 = {upsert: true}
+            const updatedDoc2 = {
+              $set: {
+                profile_likes: old_likes ? old_likes + 1 : 1
+              }
+            }
+            const result2 = await userProfileCollection.updateOne(filter2, updatedDoc2, option2)
+
+            return res.send([result,result2])
           }
         } 
         else {
@@ -181,7 +195,6 @@ async function run(){
               }
             }
             const result2 = await userProfileCollection.updateOne(filter2, updatedDoc2, option2)
-            console.log("result2", result2)
             //
 
             return res.send([result, result2])
@@ -209,6 +222,12 @@ async function run(){
       app.get('/likedcount', async(req, res) => {
           const query = req.query.username
           const result = await userProfileCollection.find({ "likedProfiles.username": query }).toArray();
+          res.send(result)
+      })
+
+      app.get('/mylikedProfiles', async(req, res) => {
+          const query = req.query.username
+          const result = await likedProfileCollect.findOne({username: query})
           res.send(result)
       })
 
