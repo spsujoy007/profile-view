@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//http://localhost:5000/
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -87,7 +87,7 @@ async function run(){
         
         const updatedDoc = {
           $set: {
-              profile_view: old_views + 1
+              profile_view: old_views ? old_views + 1 : 1
           }
         }
 
