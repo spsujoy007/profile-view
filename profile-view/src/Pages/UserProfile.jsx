@@ -265,8 +265,16 @@ const UserProfile = () => {
                 <div className='border-[1px] border-[#2e2e2e] md:min-h-[400px]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
-                        <div>
-                            <p>Nothing to show</p>
+                        <div className='h-full'>
+                            {/* count profile views  */}
+                            <div className='flex justify-end'>
+                                <div className='bg-[#333333c2] rounded-l-full border-[#454545] text-[#ffffff] border-[1px] px-2 py-1 flex gap-x-2 items-center  text-sm'>
+                                    <p className='text-right   '>Profile views: {profile_view >= 1000 ? `${String(profile_view)[0]}k+`: profile_view}</p>
+                                    <p>|</p>
+                                    <p>Liked: {profile_likes ? profile_likes : 0}</p>
+                                </div>
+                            </div>
+                            <p className='mt-10 text-center'>{username} has not shared any of his information with us</p>
                         </div>
                     }
                     {
@@ -342,13 +350,17 @@ const UserProfile = () => {
                                 </div>
                             </a>
                         }
+                        {/* newly added */}
                         {
-                            discord_link &&<a href={`https://discordapp.com/users/${discord_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#5D6AF2] duration-300 rounded-lg bg-[#222222] text-white px-3 p-2'><FaDiscord className='text-5xl' /> 
+                            discord_link &&<p onClick={() => {
+                                    navigator.clipboard.writeText(discord_link) 
+                                    toast.success("username copied")
+                                }} className='flex items-center tooltip tooltip-warning cursor-pointer gap-2 hover:bg-[#5D6AF2] duration-300 rounded-lg bg-[#222222] text-white px-3 p-2' data-tip="Click to copy"><FaDiscord className='text-5xl' /> 
                                 <div>
-                                    <p className='font-bold'>Discord</p>
-                                    <p className='text-sm'>let's talk about code</p>
+                                    <p className='font-bold text-left'>Discord</p>
+                                    <p className='text-sm text-left'>let's talk about code</p>
                                 </div>
-                            </a>
+                            </p>
                         }
                     </div>
                 </div>
