@@ -8,6 +8,7 @@ import Signup from "./Pages/signup"
 import Login from "./Pages/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import RankingProfiles from "./Pages/RankingProfiles"
+import LikedProfiles from "./Pages/LikedProfiles.jsx"
 
 export const routes = createBrowserRouter([
     {
@@ -31,8 +32,12 @@ export const routes = createBrowserRouter([
         element: <RankingProfiles></RankingProfiles>
     },
     {
+        path: '/likedprofiles',
+        element: <LikedProfiles></LikedProfiles>
+    },
+    {
         path: '/profile/:username',
-        loader: async ({params}) =>  await fetch(`http://localhost:5000/profile/${params.username}`),
+        loader: async ({params}) =>  await fetch(`https://profile-view-be.vercel.app/profile/${params.username}`),
         element: <UserProfile></UserProfile>
     }
 ])

@@ -53,7 +53,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const fethingData = () => {
-        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
+        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -159,7 +159,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -222,7 +222,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -306,7 +306,8 @@ const EditProfile = () => {
                                     </label>
                                 </div>
                             </div>
-
+                            <div>
+                                </div> 
                             <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent p-2 text-4xl outline-none border-[1px] border-[#373737]' defaultValue={name && name} /> <br />
                             <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent p-2 mt-2 text-2xl w-full mb-3 outline-none border-[1px] border-[#373737]' defaultValue={bio} />
                             <hr />
@@ -463,7 +464,7 @@ const EditProfile = () => {
                                     {/* last update */}
                                     <div className='flex items-center border-[#cbcbcb] mt-4'>
                                         <label htmlFor="discord" className='text-2xl py-2 text-black bg-[#cbcbcb] px-8'><FaDiscord /></label>
-                                        <input disabled defaultValue={discord_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type discord profile username only' id='discord' name='discord' type="text" />
+                                        <input disabled defaultValue={discord_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='discord' name='discord' type="text" />
                                     </div>
                                     {/* <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button> */}
                                 </div>

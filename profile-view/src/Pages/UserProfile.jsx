@@ -78,7 +78,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -91,7 +91,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`http://localhost:5000/visited_profile`, {
+        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -151,7 +151,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `http://localhost:5000/likeprofile`
+        const url = `https://profile-view-be.vercel.app/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -175,7 +175,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -189,17 +189,6 @@ const UserProfile = () => {
             }
         })
     }, [findUser.username, username])
-
-    // const [profileliked, setProfileLiked] = useState(null)
-    // useEffect(() => {
-    //     fetch(`http://localhost:5000/likedcount?username=${username}`, {
-    //         method: "GET"
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => {
-    //         setProfileLiked(data.length)
-    //     })
-    // },[username])
 
     return (
         <>
@@ -237,7 +226,7 @@ const UserProfile = () => {
                             profile_pic !== null && window.open(profile_pic, '_blank')
                         }} className='userImage hover:animate-pulse cursor-pointer w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
                         <div>
-                            <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name}</h3>
+                            <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
                             <p className='text-lg text-white'>{bio}</p>
                         </div>
                     </div>
@@ -286,7 +275,7 @@ const UserProfile = () => {
                         <div className='bg-[#333333c2] rounded-l-full border-[#454545] text-[#ffffff] border-[1px] px-2 py-1 flex gap-x-2 items-center  text-sm'>
                             <p className='text-right   '>Profile views: {profile_view >= 1000 ? `${String(profile_view)[1]}k`: profile_view}</p>
                             <p>|</p>
-                            <p>Liked: {profile_likes ? profile_likes : 0}</p>
+                            <p>Likes: {profile_likes ? profile_likes : 0}</p>
                         </div>
                     </div>
 
