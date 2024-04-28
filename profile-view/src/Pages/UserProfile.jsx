@@ -8,7 +8,6 @@ import { FaDatabase, FaDiscord, FaDribbble, FaFacebook, FaGithub, FaHackerrank, 
 import { SiCodeforces } from "react-icons/si";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { GoProjectSymlink } from "react-icons/go";
-
 import './UserProfile.css'
 
 import { IoReturnDownBack } from "react-icons/io5";
@@ -19,12 +18,13 @@ import {
     LinkedinShareButton,
     TwitterIcon,
     TwitterShareButton,
-  } from "react-share";
+} from "react-share";
 import LoadingPage from './LoadingPage';
 import { FaCopy } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { useTitle } from '../Hooks/useTitle';
-  
+import { useTitle } from '../Hooks/useTitle'
+;
+
 
 const UserProfile = () => {
     const findUser = JSON.parse(localStorage.getItem('userinfo'))
@@ -66,7 +66,7 @@ const UserProfile = () => {
     if (isFirstRun.current) {
         isFirstRun.current = false;
 
-        if(findUser.username !== username)
+        if(findUser.username && findUser.username !== username)
         {
             viewedProfile()
             visitedProfileHistory()
@@ -78,7 +78,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -91,7 +91,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
+        fetch(`http://localhost:5000/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -151,7 +151,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `https://profile-view-be.vercel.app/likeprofile`
+        const url = `http://localhost:5000/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -175,7 +175,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -222,9 +222,11 @@ const UserProfile = () => {
             className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-4 '>
-                        <img onClick={()=> {
-                            profile_pic !== null && window.open(profile_pic, '_blank')
-                        }} className='userImage hover:animate-pulse cursor-pointer w-[80px] h-[80px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                        <div>
+                            <img onClick={()=> {
+                                profile_pic !== null && window.open(profile_pic, '_blank')
+                            }} className='userImage hover:animate-pulse cursor-pointer w-[100px] h-[100px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                        </div>
                         <div>
                             <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
                             <p className='text-lg text-white'>{bio}</p>
@@ -279,7 +281,7 @@ const UserProfile = () => {
                         </div>
                     </div>
 
-                    <p className=''>coding related</p>
+                    <p className='text-white'>coding related</p>
                         <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             github_link &&<a href={`https://github.com/${github_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 bg-[#222222] hover:bg-[#ededed] rounded-lg border-[1px] border-black hover:border-[#3d3d3d] duration-300 text-white hover:text-black p-2'><FaGithub className='text-5xl' /> 
@@ -313,7 +315,7 @@ const UserProfile = () => {
                 {
                     (linkedin_link !=null || portfolio_link !=null || dribble_link !=null || discord_link !=null) &&
                 <div className='mt-5'>
-                    <p className=''>professional profiles and portfolio</p>
+                    <p className='text-white'>professional profiles and portfolio</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             linkedin_link &&<a href={`https://www.linkedin.com/in/${linkedin_link}`} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#0073AF] bg-[#222222] duration-300 rounded-lg text-white p-2'><FaLinkedin className='text-5xl' /> 
@@ -359,7 +361,7 @@ const UserProfile = () => {
                 {
                     (facebook_link !=null || twitter_link !=null || instagram_link !=null) &&
                 <div className='mt-6'>
-                    <p className=''>social media profiles</p>
+                    <p className='text-white'>social media profiles</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
                         {
                             facebook_link &&<a href={`https://www.facebook.com/${facebook_link}`} target='_blank' rel="noreferrer" className='flex flex-col items-center gap-2 bg-[#1F7BF2] rounded-lg overflow-hidden text-white pt-5 hover:bg-[#222222] duration-500'>
@@ -398,7 +400,7 @@ const UserProfile = () => {
                 {
                     (github_link !== null || hackerRank_link !==null || codeForce_link !==null || linkedin_link !==null || portfolio_link !==null || dribble_link !==null || facebook_link !==null || twitter_link !==null || instagram_link !==null) &&
                     <div className=''>
-                        <p className='mt-3 ml-1'>share with</p>
+                        <p className='mt-3 ml-1 text-white'>share with</p>
                         <div className='flex justify-center bg-[#1c1c1caa] h-full p-2 rounded-lg'>
                             <div className=' flex gap-10'>
                                 {/* <FacebookShareButton url={`https://profileview-v01.web.app/profile/${user?.username}`} /> */}

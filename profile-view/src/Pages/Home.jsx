@@ -78,11 +78,11 @@ const Home = () => {
                                 {
                                     username &&
                                     <li>
-                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-1 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase '>My Profile</button>
+                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase '>My Profile</button>
                                     </li>
                                 }
                                 <li>
-                                    <details className=' md:mx-1 btn-bg  rounded-lg border-[1px] border-[#242424] uppercase' >
+                                    <details className=' md:ml-2 btn-bg  rounded-lg border-[1px] border-[#242424] uppercase' >
                                     <summary>
                                         More Options
                                     </summary>
@@ -99,15 +99,6 @@ const Home = () => {
                                                 <button onClick={() => handleLogout()} className='btn-bg rounded-lg border-[1px] border-[#242424] md:min-w-[150px] uppercase flex justify-center items-center gap-2'><CiLogout/> Log out</button>
                                             </li>
                                         }
-                                        {/* <li>
-                                        <details >
-                                            <summary>Parent</summary>
-                                            <ul>
-                                            <li><a>item 1</a></li>
-                                            <li><a>item 2</a></li>
-                                            </ul>
-                                        </details>
-                                        </li> */}
                                     </ul>
                                     </details>
                                 </li>

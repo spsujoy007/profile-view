@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//https://profile-view-be.vercel.app/
+//http://localhost:5000/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -64,18 +64,6 @@ async function run(){
             }
         }
     });
-
-    app.get('/allusers', async(req, res) => {
-        const admin = req.query.admin
-        const users = await usersCollection.find({}).toArray()
-        const total_user = users.length
-        if(admin === "sujoy"){
-          return res.json({total_user})
-        }
-        if(admin === "409"){
-          return res.send(users)
-        }
-    })
     
     app.get('/count_view', async(req, res) =>{
         const loginuserdata = req.query.loginUSERNAME;
@@ -292,20 +280,44 @@ async function run(){
         }
       })
 
+      // admin access ///////////////////////////////////////////////////////////
       app.get('/alluserdata', async(req, res) => {
         const result = await userProfileCollection.find({}).toArray()
         res.send(result)
       })
+
+      app.get('/allusers', async(req, res) => {
+        const admin = req.query.admin
+        const users = await usersCollection.find({}).toArray()
+        const total_user = users.length
+        if(admin === "sujoy"){
+          return res.json({total_user})
+        }
+        if(admin === "409"){
+          return res.send(users)
+        }
+    })
+
+    app.get("/searchprofile", async(req, res) => {
+        const data = req.query.username
+    })
+
+    ////////////////////////////////////////////////////////////////////
 
       app.get('/login', async(req, res) => {
         const query = {
             username: req.query.username,
             password: req.query.pass
         }
+
         const userAccountInfo = await usersCollection.findOne(query)
-        // console.log(userAccountInfo)
         if(userAccountInfo && userAccountInfo?.password === query.password){
-          return res.send(userAccountInfo)
+          const userToken = {
+              username: userAccountInfo.username,
+              user_token: `${userAccountInfo._id}%${userAccountInfo.username.split("@")[1]}`,
+              join_date: userAccountInfo.join_date,
+          }
+          return res.send(userToken)
         }
         else{
           return res.json({message: 'Invalid user', code: 21})
