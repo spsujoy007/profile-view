@@ -4,7 +4,7 @@ import useProfileData from '../Hooks/useProfileData';
 import null_avatar from '../Assets/null_avatar.jpg'
 import bgProfile from '../Assets/profilebg.jpg'
 // icons
-import { FaDatabase, FaDiscord, FaDribbble, FaFacebook, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter } from "react-icons/fa6";
+import { FaDatabase, FaDiscord, FaDribbble, FaFacebook, FaFilePdf, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter, FaUserGraduate } from "react-icons/fa6";
 import { SiCodeforces } from "react-icons/si";
 import { BiLike, BiSolidLike } from "react-icons/bi";
 import { GoProjectSymlink } from "react-icons/go";
@@ -53,6 +53,7 @@ const UserProfile = () => {
         profile_pic, 
         dribble_link,
         linkedin_link,
+        resume_link,
         discord_link,
         facebook_link,
         codeForce_link,
@@ -78,7 +79,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -91,7 +92,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`http://localhost:5000/visited_profile`, {
+        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -151,7 +152,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `http://localhost:5000/likeprofile`
+        const url = `https://profile-view-be.vercel.app/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -175,7 +176,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -216,16 +217,19 @@ const UserProfile = () => {
                 width: '100%',
                 height: '100%',  // or any other dimensions
                 backgroundSize: 'cover',
-                backgroundPosition: 'top',
-                imageRendering: 'pixelated'
+                backgroundPosition: 'center',
+                imageRendering: 'optimizeQuality'
             }}
             className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-4 '>
-                        <div>
-                            <img onClick={()=> {
-                                profile_pic !== null && window.open(profile_pic, '_blank')
-                            }} className='userImage hover:animate-pulse cursor-pointer w-[100px] h-[100px] rounded-xl border-[1px] border-[#2e2e2e] p-1' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                        {/* profile image  */}
+                        <div className='rounded-xl border-[1px] border-[#2e2e2e] p-[3px]'>
+                            <div className='hover:animate-pulse cursor-pointer w-[90px] h-[90px] rounded-md overflow-hidden'>
+                                <img onClick={()=> {
+                                    profile_pic !== null && window.open(profile_pic, '_blank')
+                                }} className='' src={profile_pic != null ? profile_pic : null_avatar} alt="" />
+                            </div>
                         </div>
                         <div>
                             <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
@@ -313,7 +317,7 @@ const UserProfile = () => {
 
                 {/* professional profiles */}
                 {
-                    (linkedin_link !=null || portfolio_link !=null || dribble_link !=null || discord_link !=null) &&
+                    (linkedin_link !=null || portfolio_link !=null || dribble_link !=null || discord_link !=null || resume_link !=null) &&
                 <div className='mt-5'>
                     <p className='text-white'>professional profiles and portfolio</p>
                     <div className='mt-2 grid md:grid-cols-3 grid-cols-1 gap-2'>
@@ -322,6 +326,14 @@ const UserProfile = () => {
                                 <div>
                                     <p className='font-bold'>Linkedin</p>
                                     <p className='text-sm'>checkout my activities</p>
+                                </div>
+                            </a>
+                        }
+                        {
+                            resume_link &&<a href={resume_link} target='_blank' rel="noreferrer" className='flex items-center gap-2 hover:bg-[#4ab17f] bg-[#222222] duration-300 rounded-lg text-white p-2'><FaFilePdf className='text-5xl' /> 
+                                <div>
+                                    <p className='font-bold'>Resume</p>
+                                    <p className='text-sm'>more about me in details</p>
                                 </div>
                             </a>
                         }

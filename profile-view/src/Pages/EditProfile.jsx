@@ -7,7 +7,7 @@ import './global.css'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { IoReturnDownBack } from 'react-icons/io5';
-import { FaDiscord, FaPlus } from 'react-icons/fa6';
+import { FaDiscord, FaPlus, FaFilePdf } from 'react-icons/fa6';
 import LoadingPage from './LoadingPage';
 import { useTitle } from '../Hooks/useTitle';
 
@@ -53,7 +53,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const fethingData = () => {
-        fetch(`http://localhost:5000/userdata?username=${user?.username}`, {
+        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -78,6 +78,7 @@ const EditProfile = () => {
         portfolio_link,
         hackerRank_link,
         profile_pic, 
+        resume_link,
         dribble_link,
         linkedin_link,
         discord_link,
@@ -141,6 +142,7 @@ const EditProfile = () => {
                     const codeForce = form.codeForce.value
                     const dribble = form.dribble.value
                     const linkedin = form.linkedin.value
+                    const resume = form.resume.value
                     const discord = form.discord.value //change
                     const facebook = form.facebook.value
                     const instagram = form.instagram.value
@@ -157,13 +159,14 @@ const EditProfile = () => {
                         codeForce_link: codeForce != null ? codeForce : codeForce_link,
                         dribble_link: dribble != null ? dribble : dribble_link,
                         linkedin_link: linkedin != null ? linkedin : linkedin_link,
+                        resume_link: resume != null ? resume : resume_link,
                         discord_link: discord != null ? discord : discord_link, //change
                         facebook_link: facebook != null ? facebook : facebook_link,
                         instagram_link: instagram != null ? instagram : instagram_link,
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -204,6 +207,7 @@ const EditProfile = () => {
                     const codeForce = form.codeForce.value
                     const dribble = form.dribble.value
                     const linkedin = form.linkedin.value
+                    const resume = form.resume.value
                     const discord = form.discord.value
                     const facebook = form.facebook.value
                     const instagram = form.instagram.value
@@ -220,13 +224,14 @@ const EditProfile = () => {
                         codeForce_link: codeForce != null ? codeForce : codeForce_link,
                         dribble_link: dribble != null ? dribble : dribble_link,
                         linkedin_link: linkedin != null ? linkedin : linkedin_link,
+                        resume_link: resume != null ? resume : resume_link,
                         discord_link: discord != null ? discord : discord_link,
                         facebook_link: facebook != null ? facebook : facebook_link,
                         instagram_link: instagram != null ? instagram : instagram_link,
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`http://localhost:5000/saveprofile`, {
+                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -275,14 +280,14 @@ const EditProfile = () => {
                 editMode ?
                 <div className='max-w-[1240px] mx-auto md:px-2 '>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white sticky top-0`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
                 <div className='flex lg:flex-row flex-col gap-5 md:mt-10 p-5 md:p-0'>
                     <div>
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
-                            <div className={`md:w-[300px] md:h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-center justify-center`}>
+                            <div className={`md:w-[300px] md:h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-start justify-center`}>
                                 {
                                     viewImg ?
                                     <img src={viewImg ? viewImg : profile_pic} alt="" />
@@ -314,59 +319,72 @@ const EditProfile = () => {
                                 </div> 
                             <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent p-2 md:text-2xl text-xl w-full outline-none border-[1px] text-white border-[#373737]' defaultValue={name && name} /> <br />
                             <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent p-2 mt-2  text-md w-full mb-3 outline-none border-[1px] text-white border-[#373737]' defaultValue={bio} />
-                            <hr />
+                            {/* <hr /> */}
+                                <p className='mt-5 text-sm text-slate-200'>Just type your usernames of your profiles. <span className='text-yellow-500'>Example: johnsmith123</span> - <span className='text-red-500'>Warning: Do not paste your full profile link in social media and coding related profile fields!</span></p>
+                                <div className='mt-2 md:w-[100%]'>
+                                    <div className=''>
+                                        <p className='text-md text-slate-300 ml-2 mb-1'>coding related</p>
+                                        <div className='flex items-center border-black'>
+                                            <label htmlFor="github" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaGithub /></label>
+                                            <input defaultValue={github_link} className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='github username' id='github' name='github' type="text" />
+                                        </div>
 
-                                <div className='mt-5 md:w-[100%]'>
-                                    <div className='flex items-center border-black'>
-                                        <label htmlFor="github" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaGithub /></label>
-                                        <input defaultValue={github_link} className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type github profile username only' id='github' name='github' type="text" />
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="hackerRank" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaHackerrank /></label>
+                                            <input defaultValue={hackerRank_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='hackerRank username' id='hackerRank' name='hackerRank' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-[#cbcbcb]'>
+                                            <label htmlFor="codeForce" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><SiCodeforces /></label>
+                                            <input defaultValue={codeForce_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='codeForce username' id='codeForce' name='codeForce' type="text" />
+                                        </div>
                                     </div>
 
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="portfolio" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><CgWebsite /></label>
-                                        <input defaultValue={portfolio_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type portfolio link' id='portfolio' name='portfolio' type="text" />
+                                    {/* professional profiles  */}
+                                    <div className='mt-5'> 
+                                    <p className='text-md text-slate-300 ml-2 mb-1'>professional usernames</p>
+                                        <div className='flex items-center border-[#cbcbcb]'>
+                                            <label htmlFor="linkedin" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaLinkedinIn /></label>
+                                            <input defaultValue={linkedin_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='linkedin username' id='linkedin' name='linkedin' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="discord" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDiscord /></label>
+                                            <input defaultValue={discord_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='discord username' id='discord' name='discord' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center'>
+                                            <label htmlFor="portfolio" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><CgWebsite /></label>
+                                            <input defaultValue={portfolio_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type portfolio link' id='portfolio' name='portfolio' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDribbble /></label>
+                                            <input defaultValue={dribble_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='dribble username' id='dribble' name='dribble' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="resume" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaFilePdf /></label>
+                                            <input defaultValue={resume_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='drive link of your resume. Ex: https://drive.google.com/myresume' id='resume' name='resume' type="text" />
+                                        </div>
                                     </div>
 
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="hackerRank" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaHackerrank /></label>
-                                        <input defaultValue={hackerRank_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type hackerRank profile username only' id='hackerRank' name='hackerRank' type="text" />
-                                    </div>
+                                    <div className='mt-5'>
+                                        <p className='text-md text-slate-300 ml-2 mb-1'>social medias</p>
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="facebook" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaFacebook /></label>
+                                            <input defaultValue={facebook_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='facebook username' id='facebook' name='facebook' type="text" />
+                                        </div>
 
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="codeForce" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><SiCodeforces /></label>
-                                        <input defaultValue={codeForce_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type codeForce profile username only' id='codeForce' name='codeForce' type="text" />
-                                    </div>
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="instagram" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaInstagram /></label>
+                                            <input defaultValue={instagram_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='instagram username' id='instagram' name='instagram' type="text" />
+                                        </div>
 
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaDribbble /></label>
-                                        <input defaultValue={dribble_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type dribble profile username only' id='dribble' name='dribble' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="linkedin" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaLinkedinIn /></label>
-                                        <input defaultValue={linkedin_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type linkedin profile username only' id='linkedin' name='linkedin' type="text" />
-                                    </div>
-
-
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="facebook" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaFacebook /></label>
-                                        <input defaultValue={facebook_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type facebook profile username only' id='facebook' name='facebook' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="instagram" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaInstagram /></label>
-                                        <input defaultValue={instagram_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type instagram profile username only' id='instagram' name='instagram' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="twitter" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaTwitter /></label>
-                                        <input defaultValue={twitter_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type twitter profile username only' id='twitter' name='twitter' type="text" />
-                                    </div>
-                                    
-                                    {/* last update */}
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="discord" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3 rounded-l-md'><FaDiscord /></label>
-                                        <input defaultValue={discord_link}  className='py-2 placeholder:text-slate-500 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='type discord profile username only' id='discord' name='discord' type="text" />
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="twitter" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaTwitter /></label>
+                                            <input defaultValue={twitter_link}  className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' placeholder='twitter username' id='twitter' name='twitter' type="text" />
+                                        </div>
                                     </div>
 
                                     <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">{saveLoading ? 'Please wait to save...' : 'Click to save'}</button>
@@ -393,7 +411,7 @@ const EditProfile = () => {
                         <p className='py-2 ml-2'>Image section</p>
                         <label htmlFor="profile_pic" >
                             <div className={`md:w-[300px] md:h-[300px] overflow-hidden #${!profile_pic && buttonBg} rounded-lg`}>
-                                <img src={viewImg ? viewImg : profile_pic} alt="" />
+                                <img src={profile_pic && profile_pic} alt="" />
                             </div>
                         </label>
                         <input disabled onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
@@ -419,56 +437,69 @@ const EditProfile = () => {
                             <hr />
 
                                 <div className='mt-5 md:w-[100%]'>
-                                    <div className='flex items-center border-black'>
-                                        <label htmlFor="github" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaGithub /></label>
-                                        <input disabled defaultValue={github_link} className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='github' name='github' type="text" />
+                                <div className=''>
+                                        <p className='text-md text-slate-300 ml-2 mb-1'>coding related</p>
+                                        <div className='flex items-center border-black'>
+                                            <label htmlFor="github" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaGithub /></label>
+                                            <input defaultValue={github_link}disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='github' name='github' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="hackerRank" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaHackerrank /></label>
+                                            <input defaultValue={hackerRank_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='hackerRank' name='hackerRank' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-[#cbcbcb]'>
+                                            <label htmlFor="codeForce" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><SiCodeforces /></label>
+                                            <input defaultValue={codeForce_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='codeForce' name='codeForce' type="text" />
+                                        </div>
                                     </div>
 
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="portfolio" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><CgWebsite /></label>
-                                        <input disabled defaultValue={portfolio_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='portfolio' name='portfolio' type="text" />
+                                    {/* professional profiles  */}
+                                    <div className='mt-5'> 
+                                    <p className='text-md text-slate-300 ml-2 mb-1'>professional usernames</p>
+                                        <div className='flex items-center border-[#cbcbcb]'>
+                                            <label htmlFor="linkedin" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaLinkedinIn /></label>
+                                            <input defaultValue={linkedin_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='linkedin' name='linkedin' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="discord" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDiscord /></label>
+                                            <input defaultValue={discord_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='discord' name='discord' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center'>
+                                            <label htmlFor="portfolio" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><CgWebsite /></label>
+                                            <input defaultValue={portfolio_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='portfolio' name='portfolio' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="dribble" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDribbble /></label>
+                                            <input defaultValue={dribble_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='dribble' name='dribble' type="text" />
+                                        </div>
+
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="resume" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaFilePdf /></label>
+                                            <input defaultValue={resume_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='resume' name='resume' type="text" />
+                                        </div>
                                     </div>
 
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="hackerRank" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaHackerrank /></label>
-                                        <input disabled defaultValue={hackerRank_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='hackerRank' name='hackerRank' type="text" />
-                                    </div>
+                                    <div className='mt-5'>
+                                        <p className='text-md text-slate-300 ml-2 mb-1'>social medias</p>
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="facebook" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaFacebook /></label>
+                                            <input defaultValue={facebook_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='facebook' name='facebook' type="text" />
+                                        </div>
 
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="codeForce" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><SiCodeforces /></label>
-                                        <input disabled defaultValue={codeForce_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='codeForce' name='codeForce' type="text" />
-                                    </div>
+                                        <div className='flex items-center border-gray-600 border-y-[1px]'>
+                                            <label htmlFor="instagram" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaInstagram /></label>
+                                            <input defaultValue={instagram_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='instagram' name='instagram' type="text" />
+                                        </div>
 
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="dribble" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDribbble /></label>
-                                        <input disabled defaultValue={dribble_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='dribble' name='dribble' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="linkedin" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaLinkedinIn /></label>
-                                        <input disabled defaultValue={linkedin_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='linkedin' name='linkedin' type="text" />
-                                    </div>
-
-
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="facebook" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaFacebook /></label>
-                                        <input disabled defaultValue={facebook_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='facebook' name='facebook' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="instagram" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaInstagram /></label>
-                                        <input disabled defaultValue={instagram_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='instagram' name='instagram' type="text" />
-                                    </div>
-
-                                    <div className='flex items-center border-[#000] mt-4'>
-                                        <label htmlFor="twitter" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaTwitter /></label>
-                                        <input disabled defaultValue={twitter_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='twitter' name='twitter' type="text" />
-                                    </div>
-
-                                    {/* last update */}
-                                    <div className='flex items-center border-[#cbcbcb] mt-4'>
-                                        <label htmlFor="discord" className='text-2xl py-2 text-white rounded-l-md bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaDiscord /></label>
-                                        <input disabled defaultValue={discord_link}  className='py-2 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='discord' name='discord' type="text" />
+                                        <div className='flex items-center border-[#000]'>
+                                            <label htmlFor="twitter" className='text-2xl py-2 text-white bg-[#212121] border-r-[1px] border-gray-600 px-3'><FaTwitter /></label>
+                                            <input defaultValue={twitter_link} disabled className='py-2 placeholder:text-gray-600 text-white text-md bg-[#212121] outline-none pl-4 w-full' id='twitter' name='twitter' type="text" />
+                                        </div>
                                     </div>
                                     {/* <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">Save</button> */}
                                 </div>

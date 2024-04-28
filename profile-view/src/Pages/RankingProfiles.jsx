@@ -10,7 +10,7 @@ const RankingProfiles = () => {
     const[rankedProfiles, setRankedProfiles] = useState([])
     useEffect(() => {
         setLoading(true)
-        fetch("http://localhost:5000/profile_ranking", {
+        fetch("https://profile-view-be.vercel.app/profile_ranking", {
             method: "GET"
         })
         .then(res => res.json())
