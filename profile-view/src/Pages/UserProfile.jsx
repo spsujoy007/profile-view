@@ -142,6 +142,7 @@ const UserProfile = () => {
 
 
     const handleLikeProfile = () => {
+        setLoading(true)
         const likedata ={
             username: findUser.username,   
             likedProfiles: [
@@ -162,6 +163,7 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then(data => {
+            setLoading(false)
             console.log(data)
             window.location.reload()
         })
@@ -208,7 +210,7 @@ const UserProfile = () => {
                             </div>
                         </div>
                         :
-                        <div className='min-h-screen pt-20'>
+                        <div className='min-h-screen pt-5'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
                 <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:text-white cursor-pointer duration-200'>back to home page<IoReturnDownBack /></p>
             </div>
@@ -225,7 +227,7 @@ const UserProfile = () => {
                     <div className='flex items-center gap-4 '>
                         {/* profile image  */}
                         <div className='rounded-xl border-[1px] border-[#2e2e2e] p-[3px]'>
-                            <div className='hover:animate-pulse cursor-pointer w-[90px] h-[90px] rounded-md overflow-hidden'>
+                            <div className='hover:animate-pulse cursor-pointer w-[90px] h-[90px] rounded-md overflow-hidden flex items-center bg-white'>
                                 <img onClick={()=> {
                                     profile_pic !== null && window.open(profile_pic, '_blank')
                                 }} className='' src={profile_pic != null ? profile_pic : null_avatar} alt="" />

@@ -400,11 +400,11 @@ const EditProfile = () => {
             // view mode 
             <div className='max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky top-0 py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
                         <div className=' flex justify-end'>
-                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 underline'>back to home page<IoReturnDownBack /></p>
+                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 hover:underline'>back to home page<IoReturnDownBack /></p>
             </div>
                 <div className='flex md:flex-row flex-col gap-5 mt-10 p-5 md:p-0'>
                     <div>
@@ -434,7 +434,7 @@ const EditProfile = () => {
 
                             <input disabled name='name' type="text" className='py-2 bg-transparent outline-none md:text-2xl text-xl text-white' defaultValue={name && name} /> <br />
                             <input disabled name='bio' type="text" className='bg-transparent outline-none text-md w-full mb-3 text-white' defaultValue={bio} />
-                            <hr />
+                            {/* <hr /> */}
 
                                 <div className='mt-5 md:w-[100%]'>
                                 <div className=''>
