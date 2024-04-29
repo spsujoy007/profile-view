@@ -17,10 +17,10 @@ const RankingProfileCard = ({profileData, rankedProfiles}) => {
                         </div>
 
 
-                        <div className='flex items-center justify-between gap-x-2 uppercase h-full md:p-0 p-2'>
-                            <p>views: {profile_view > 999 ? `${String(profile_view)[0]}k+` : profile_view}</p>
-                            <p>|</p>
-                            <p>likes: {profile_likes ? profile_likes : 0}</p>
+                        <div className='flex items-center justify-between gap-x-1 h-full md:p-0 p-2 text-slate-200 text-sm'>
+                            <p>Views: {profile_view > 999 ? `${String(profile_view)[0]}k+` : profile_view}</p>
+                            <p>-</p>
+                            <p>Likes: {profile_likes ? profile_likes : 0}</p>
                             <p onClick={() => navigate(`/profile/${username}`)} className={`ml-5 cursor-pointer h-full md:w-fit text-center  py-3 px-2 w-[40%] ${ifTOP ? "bg-[#771f3f]" : "bg-black"} text-white text-sm`} >view profile</p>
                         </div>
                     </div>

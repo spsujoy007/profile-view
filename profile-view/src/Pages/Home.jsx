@@ -53,34 +53,25 @@ const Home = () => {
                     user?.username ?
                     <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
                         <h1 className={`${name.length >= 10 ? `${name.length >= 18 ? 'md:text-[4rem]' : 'md:text-[5rem]'}` : "md:text-[6rem]"} text-[2rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {name}</h1>
-                        <p className='text-lg text-center '>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
+                        <p className='text-lg text-center text-slate-200'>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
                         <span className='mt-1 text-slate-300 text-sm uppercase'><a href={profile_link} target='_blank' rel='noreferrer' className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</a> Click on arrange profile button to edit profile </span>
                         <div className=' mt-10 mx-auto w-full md:w-fit'>
-                        {/* <div className='flex md:flex-row gap-3 flex-col items-center  '>
-                            <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-md border-[1px] border-[#242424] uppercase '>Arrange Profile</button>
-                            {
-                                username &&
-                            <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-md border-[1px] border-[#242424] uppercase '>My Profile</button>
-                            }
-                            
-                        </div> */}
 
                         {/* newly added item  */}
                         <div className='mt-0 text-center'>
-                            {/* <button onClick={() => navigate('/ranks')} className='pt-2 border-t-[1px] hover:underline border-[#fff] text-slate-300 capitalize px-3'>click to see ranked profiles</button> */}
                             <ul className="menu uppercase lg:menu-horizontal btn-bg border-[1px] border-[#242424] rounded-box">
                                 <li>
-                                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-lg border-[1px] border-[#242424] uppercase '>Arrange Profile</button>
+                                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Arrange Profile</button>
                                 </li>
                                 {
                                     username &&
                                     <li>
-                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase '>My Profile</button>
+                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>My Profile</button>
                                     </li>
                                 }
                                 <li>
-                                    <details className=' md:ml-2 btn-bg  rounded-lg border-[1px] border-[#242424] uppercase' >
+                                    <details className=' md:ml-2 btn-bg text-slate-200 rounded-lg border-[1px] border-[#242424] uppercase' >
                                     <summary>
                                         More Options
                                     </summary>
@@ -111,8 +102,8 @@ const Home = () => {
                                 {
                                     !user.username &&
                                         <div className="mt-5 cursor-pointer ">
-                                            {/* <p className='text-white text-xl underline' onClick={() => navigate('/signup')}>tap to create a profile </p>  */}
-                                            <button onClick={() => navigate('/signup')} className='px-5 py-2 md:w-[300px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase '>Create a profile</button>
+                                            <button onClick={() => navigate('/signup')} className='px-5 py-2 md:w-[300px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Create a account</button>
+                                            <button onClick={() => navigate('/login')} className='px-5 py-2 md:w-[300px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Login</button>
                                         </div>
                                 }
                                 <div className='mt-20 text-center'>

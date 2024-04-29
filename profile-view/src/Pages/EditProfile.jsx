@@ -285,7 +285,7 @@ const EditProfile = () => {
                         </div>
                 <div className='flex lg:flex-row flex-col gap-5 md:mt-10 p-5 md:p-0'>
                     <div>
-                        <p className='py-2 ml-2'>Image section</p>
+                        <p className='py-2 ml-2 text-slate-200'>Image section</p>
                         <label htmlFor="profile_pic" >
                             <div className={`md:w-[300px] md:h-[300px] overflow-hidden ${buttonBg} rounded-lg flex items-start justify-center`}>
                                 {
@@ -295,16 +295,15 @@ const EditProfile = () => {
                                     <FaPlus className='text-[100px]' />
                                 }
                             </div>
-                            {/* <button className={`uppercase w-full py-2 btn-bg ${buttonBg} mt-1 rounded-b-lg`}> add picture</button> */}
                         </label>
                         <input onChange={handleGetPhoto} id='profile_pic' className='hidden' type="file" />
                         
-                        <p className="ml-1 ">Tap on the image or plus icon to change the photo</p>
+                        <p className="ml-1 text-slate-200">Tap on the image or plus icon to change the photo</p>
                     </div>
 
 
                     <div className='w-full '>
-                        <p className='py-2 ml-2'>Information section</p>
+                        <p className='py-2 ml-2 text-slate-200'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
                             <div className='flex justify-end mb-5'>
@@ -387,7 +386,7 @@ const EditProfile = () => {
                                         </div>
                                     </div>
 
-                                    <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full' type="submit ">{saveLoading ? 'Please wait to save...' : 'Click to save'}</button>
+                                    <button className='bg-black hover:bg-gray-950 duration-200 py-2 mt-5 w-full text-slate-200' type="submit ">{saveLoading ? 'Please wait to save...' : 'Click to save'}</button>
                                 </div>
                         </div>
                         </form>
@@ -408,7 +407,7 @@ const EditProfile = () => {
             </div>
                 <div className='flex md:flex-row flex-col gap-5 mt-10 p-5 md:p-0'>
                     <div>
-                        <p className='py-2 ml-2'>Image section</p>
+                        <p className='py-2 ml-2 text-slate-200'>Image section</p>
                         <label htmlFor="profile_pic" >
                             <div className={`md:w-[300px] md:h-[300px] overflow-hidden #${!profile_pic && buttonBg} rounded-lg`}>
                                 <img src={profile_pic && profile_pic} alt="" />
@@ -420,7 +419,7 @@ const EditProfile = () => {
 
 
                     <div className='w-full '>
-                        <p className='py-2 ml-2'>Information section</p>
+                        <p className='py-2 ml-2 text-slate-200'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
                         <div className='flex justify-end'>

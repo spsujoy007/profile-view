@@ -204,15 +204,15 @@ const UserProfile = () => {
                         !checkValid ?
                         <div className='min-h-screen flex items-center justify-center bg-[#000000d0]'>
                             <div>
-                                <p className=' text-xl'>Profile-view says: This is a invalid URL. No user founded in our database with this username: <span className='font-bold text-yellow-600'>{pathname}</span></p>
+                                <p className=' text-xl text-slate-200'>Profile-view says: This is a invalid URL. No user founded in our database with this username: <span className='font-bold text-yellow-600'>{pathname}</span></p>
                                 <span className='text-white font-bold'>Check again and back to profile-view</span>
-                                <p className='mt-5'>Back to home in <span className='text-red-700 font-bold'>({timer}) seconds</span></p>
+                                <p className='mt-5 text-slate-200'>Back to home in <span className='text-red-700 font-bold'>({timer}) seconds</span></p>
                             </div>
                         </div>
                         :
                         <div className='min-h-screen pt-5'>
             <div className='md:max-w-[800px] mx-auto flex justify-end'>
-                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:text-white cursor-pointer duration-200'>back to home page<IoReturnDownBack /></p>
+                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200'>back to home page<IoReturnDownBack /></p>
             </div>
             <div style={{
                 backgroundImage: `linear-gradient(150deg, #000000c6, #000000fd), url(${profile_pic ? profile_pic : bgProfile})`,
@@ -222,7 +222,7 @@ const UserProfile = () => {
                 backgroundPosition: 'center',
                 imageRendering: 'optimizeQuality'
             }}
-            className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] rounded-xl p-5 min-h-[500px] '>
+            className=' md:max-w-[800px] mx-auto border-[1px] border-[#2e2e2e] bg-[#181818] md:rounded-xl p-5 min-h-[500px] '>
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-4 '>
                         {/* profile image  */}
@@ -235,7 +235,7 @@ const UserProfile = () => {
                         </div>
                         <div>
                             <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
-                            <p className='text-lg text-white'>{bio}</p>
+                            <p className='text-lg hidden md:flex text-white'>{bio}</p>
                         </div>
                     </div>
                     <div className='md:mr-5'>
@@ -243,15 +243,15 @@ const UserProfile = () => {
                         {
                             findUser.username && findUser.username !== username && <>
                                     {
-                                ifliked ?
-                                <button className='tooltip' data-tip="You cannot dislike it dear! 🥹">
-                                    <BiSolidLike className='text-3xl'/>
+                                        ifliked ?
+                                        <button className='tooltip' data-tip="You cannot dislike it dear! 🥹">
+                                        <BiSolidLike className='text-3xl text-white'/>
                                 </button>
                                 :
                                 <button className='tooltip tooltip-warning' data-tip="Once you like a profile, you cannot dislike it." onClick={() => {
-                                        if(findUser.username !== username){handleLikeProfile()
+                                    if(findUser.username !== username){handleLikeProfile()
                                     }}}>
-                                    <BiLike  className='text-3xl'/>
+                                    <BiLike className='text-3xl text-white'/>
                                 </button>
                             }
                             </>
@@ -259,6 +259,7 @@ const UserProfile = () => {
                     </div>
                 </div>
 
+                <p className='mt-3 text-md md:hidden flex text-white'>{bio}</p>
                 <div className='border-[1px] border-[#2e2e2e] md:min-h-[400px]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
                         (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&

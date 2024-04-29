@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import boyimg from '../pics/signupboy.jpg'
+import boyimg from '../pics/singupimage.jpg'
 import './signup.css'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from 'react-icons/fa6';
 
 const Signup = ({signup}) => {
 
@@ -13,6 +15,8 @@ const Signup = ({signup}) => {
     const [suggestion_name, setSuggestion_name] = useState(undefined)
     const [password_issue, setPasswordIssue] = useState(false)
     const [pass, setPass] = useState('')
+    const [viewPass, setViewPass] = useState(false)
+
     // console.log(password_issue)
 
     const navigate = useNavigate()
@@ -95,11 +99,11 @@ const Signup = ({signup}) => {
     }
 
     return (
-        <div className='h-screen w-[90%] mx-auto'>
+        <div className='h-screen w-[70%] mx-auto'>
                 <div className='flex items-center justify-center h-screen md:p-0 p-2'>
                     <div className=' border-[1px] border-[#262626] flex items-center md:flex-row flex-col'>
                         <img className='md:w-[30%]' src={boyimg} alt="" />
-                            <form onSubmit={handleSubmitForm} className='w-full px-10 pb-5 md:pb-0'>
+                            <form onSubmit={handleSubmitForm} className='w-full md:px-10 p-5 pb-5 md:pb-0'>
                             <div className='w-full'>
                                     <h1 className='text-[50px] font-bold text-slate-100'>SIGN UP</h1>
                                     <p className='text-white'>create a unique username and password</p> <br />
@@ -116,19 +120,22 @@ const Signup = ({signup}) => {
                                     <span className='text-red-500 block'> {getSpace && `${spaceMsg}`}</span>
 
                                     {/* <label htmlFor="password" className='text-white  mt-5'>create a strong password</label> <br /> */}
-                                    <input
-                                     required 
-                                     autoComplete="new-password" 
-                                     name='password' 
-                                     className='mt-5 pl-2 text-white text-md outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
-                                     placeholder='type your password here...' 
-                                     id='password' 
-                                     onChange={(e) => setPass(e.target.value)}
-                                     type="password" />
+                                    <div className='flex items-center'>
+                                        <input
+                                        required 
+                                        autoComplete="new-password" 
+                                        name='password' 
+                                        className='mt-5 pl-2 text-white text-md outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
+                                        placeholder='type your password here...' 
+                                        id='password' 
+                                        onChange={(e) => setPass(e.target.value)}
+                                        type={viewPass ? "text" : "password"} />
+                                        <button onClick={() => setViewPass(!viewPass)} title={viewPass ? 'hide password':'view password'} type='button' className='-ml-5 text-white text-xl'>{viewPass ? <FaEye></FaEye> : <FaEyeSlash />}</button>
+                                    </div>
                                     <span className='text-red-500 block'> {password_issue && `Password must be 8+ characters.`}</span>
                                      <br />
-                                    <button type="submit" className='bg-[#101317] border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
-                                    <p className='mt-2'>Do you have an account? <span onClick={() => navigate('/login')} className='text-white underline font-bold cursor-pointer'>click to log in</span></p>
+                                    <button type="submit" className='bg-[#101317] text-slate-200 border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
+                                    <p className='mt-2 text-slate-200'>Do you have an account? <span onClick={() => navigate('/login')} className=' underline font-semibold cursor-pointer text-yellow-500'>click to log in</span></p>
                             </div>
                             </form>
                     </div>
