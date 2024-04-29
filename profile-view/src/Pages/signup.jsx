@@ -99,10 +99,10 @@ const Signup = ({signup}) => {
     }
 
     return (
-        <div className='h-screen w-[70%] mx-auto'>
+        <div className='h-screen md:w-[70%] mx-auto'>
                 <div className='flex items-center justify-center h-screen md:p-0 p-2'>
                     <div className=' border-[1px] border-[#262626] flex items-center md:flex-row flex-col'>
-                        <img className='md:w-[30%]' src={boyimg} alt="" />
+                        <img className='md:w-[30%]' src={boyimg} style={{imageRendering: 'optimizeSpeed'}} alt="" />
                             <form onSubmit={handleSubmitForm} className='w-full md:px-10 p-5 pb-5 md:pb-0'>
                             <div className='w-full'>
                                     <h1 className='text-[50px] font-bold text-slate-100'>SIGN UP</h1>

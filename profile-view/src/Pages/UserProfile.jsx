@@ -272,7 +272,7 @@ const UserProfile = () => {
                                     <p>Liked: {profile_likes ? profile_likes : 0}</p>
                                 </div>
                             </div>
-                            <p className='mt-10 text-center'>{username} has not shared any of his information with us</p>
+                            <p className='mt-10 text-center text-white'>{username} has not shared any of his information with us</p>
                         </div>
                     }
                     {
@@ -449,7 +449,7 @@ const UserProfile = () => {
                 }
             </div>
                 <div className='flex justify-center py-20'>
-                    <p>Share your profiles and connect with each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
+                    <p className='text-white'>Share your profiles and connect with each other. {!user?.username && <span className='underline cursor-pointer text-white' onClick={() => navigate('/signup')}>click to signup</span>} 😀</p>
                 </div>
                         </div>
                     }

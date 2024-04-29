@@ -11,6 +11,7 @@ import { HiOutlineInformationCircle, HiQuestionMarkCircle } from "react-icons/hi
 import { MdAdminPanelSettings } from "react-icons/md";
 import LoadingPage from './LoadingPage';
 import { useTitle } from '../Hooks/useTitle';
+import MainHome from './MainHome';
 
 
 const Home = () => {
@@ -97,7 +98,7 @@ const Home = () => {
                     </div>
                     :
                     <>
-                            <div className='h-screen flex items-center justify-center flex-col w-[80%] mx-auto overflow-hidden'>
+                            {/* <div className='h-screen flex items-center justify-center flex-col w-[80%] mx-auto overflow-hidden'>
                                 <h1 className='md:text-[5rem] text-[3rem] text-center text-slate-200 uppercase'><span ref={glitch.ref} className='text-[#e4bf39] font-bold'>Hey dev!</span> <br /><span className='md:text-[5rem] text-xl'>Welcome to the "profile-view"</span></h1>
                                 {
                                     !user.username &&
@@ -109,7 +110,8 @@ const Home = () => {
                                 <div className='mt-20 text-center'>
                                     <button onClick={() => navigate('/ranks')} className='pt-2 underline text-slate-300 capitalize px-3'>see ranked profiles</button>
                                 </div>
-                            </div>
+                            </div> */}
+                            <MainHome></MainHome>
                     </>
                 }
                                     {/* <a href="" className='text-lg flex items-center gap-2 underline'><FaGithubAlt /> Github</a> */}
@@ -121,7 +123,7 @@ const Home = () => {
                     <a target='_blank' rel='noreferrer' href='https://profileview-v01.web.app/profile/@spsujoy' className='flex items-center gap-1 text-white hover:underline'><MdAdminPanelSettings  className='text-xl mt-1' /> creator profile</a>
                 </div>
 
-                <div className='ml-3 pb-5 rounded-full md:hidden  text-center'>
+                <div className='ml-3 pb-5 md:hidden  text-center'>
                     <a target='_blank' rel='noreferrer' href='https://www.linkedin.com/posts/spsujoy_webdevelopment-coding-software-activity-7190239137977847809-YuxJ?utm_source=share&utm_medium=member_desktop' className='flex items-center gap-1 text-white hover:underline'><HiQuestionMarkCircle className='text-xl mt-1' /> How to use profile-view</a>
                     <a target='_blank' rel='noreferrer' href='https://github.com/spsujoy007/' className='flex items-center gap-1 text-white hover:underline'><HiOutlineInformationCircle className='text-xl mt-1' /> creator information</a>
                     <a target='_blank' rel='noreferrer' href='https://profileview-v01.web.app/profile/@spsujoy' className='flex items-center gap-1 text-white hover:underline'><MdAdminPanelSettings  className='text-xl mt-1' /> creator profile</a>

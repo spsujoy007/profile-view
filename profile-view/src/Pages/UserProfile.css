@@ -3,9 +3,9 @@
     background-size: auto;
     background-repeat: no-repeat;
     background-position: bottom;
-    /* image-rendering: pixelated;
-    filter: brightness(0%); */
-    /* rotate: 90deg; */
+    image-rendering: optimizeSpeed;
+    color: #00000018;
+    filter: brightness(0%);
 }
 
 /* .userImage {
