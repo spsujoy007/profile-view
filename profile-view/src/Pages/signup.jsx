@@ -28,7 +28,7 @@ const Signup = ({signup}) => {
     }
 
     useEffect(() => {
-        if (pass.length >= 8) {
+        if (pass.length >= 6) {
             setPasswordIssue(false);
         }
     }, [pass]);
@@ -36,8 +36,12 @@ const Signup = ({signup}) => {
     const handleSubmitForm = (e) => {
         e.preventDefault()
         const form = e.target
-        const name = form.username.value;
+        let name = form.username.value;
         const password = form.password.value;
+        const strUsername = String(name)[0]
+        if(strUsername !== "@"){
+            name = `@${name}`
+        }
         const profile_link = `https://profileview-v01.web.app/profile/${name}`
 
         if(name.includes(" ")){
@@ -47,7 +51,7 @@ const Signup = ({signup}) => {
             return
         }
 
-        if(password.length < 8)
+        if(password.length < 6)
         {
             setPasswordIssue(true)
             return
@@ -112,7 +116,7 @@ const Signup = ({signup}) => {
                                      autoComplete="false" 
                                      name='username' 
                                      className='text-md pl-2 text-white outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
-                                     placeholder='type a username. ex: @johnsmith' 
+                                     placeholder='create a username...' 
                                      id='username' 
                                      type="text" /> 
                                     
@@ -126,13 +130,13 @@ const Signup = ({signup}) => {
                                         autoComplete="new-password" 
                                         name='password' 
                                         className='mt-5 pl-2 text-white text-md outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
-                                        placeholder='type your password here...' 
+                                        placeholder='create a password...' 
                                         id='password' 
                                         onChange={(e) => setPass(e.target.value)}
                                         type={viewPass ? "text" : "password"} />
                                         <button onClick={() => setViewPass(!viewPass)} title={viewPass ? 'hide password':'view password'} type='button' className='-ml-5 text-white text-xl'>{viewPass ? <FaEye></FaEye> : <FaEyeSlash />}</button>
                                     </div>
-                                    <span className='text-red-500 block'> {password_issue && `Password must be 8+ characters.`}</span>
+                                    <span className='text-red-500 block'> {password_issue && `Password must be 6+ characters.`}</span>
                                      <br />
                                     <button type="submit" className='bg-[#101317] text-slate-200 border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
                                     <p className='mt-2 text-slate-200'>Do you have an account? <span onClick={() => navigate('/login')} className=' underline font-semibold cursor-pointer text-yellow-500'>click to log in</span></p>

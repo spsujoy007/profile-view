@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import { CiLogout } from "react-icons/ci";
 import toast from 'react-hot-toast';
+import null_avatar from '../Assets/null_avatar.jpg'
+
 import { HiOutlineInformationCircle, HiQuestionMarkCircle } from "react-icons/hi2";
 import { MdAdminPanelSettings } from "react-icons/md";
 import LoadingPage from './LoadingPage';
@@ -20,7 +22,6 @@ const Home = () => {
     let user = JSON.parse(localStorage.getItem('userinfo'))
     useTitle("Home")
     const {username, name, profile_link} = useProfileData()
-
     
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -28,7 +29,7 @@ const Home = () => {
             setLoading(false)
         }
     }, [user, username])
-
+    
     const handleLogout = () => {
         const permission = window.confirm("Are sure want to logout?")
         if(permission){
@@ -39,17 +40,39 @@ const Home = () => {
             }, 1000);
         }
         else{
-            window.location.reload()
+            // window.location.reload()
         }
     }
-
+    
+    
+    const [searchProfile, setSearchProfile] = useState('')
+    const [searchedData, setSearchedData] = useState([])
+    const [focusedMode, setFocusedMode] = useState(false)
+    const handleSearchProfile = (e) => {
+        if(searchProfile.length < 1){
+            setFocusedMode(false)
+        }
+        else{
+            setFocusedMode(true)
+        }
+            fetch(`https://profile-view-be.vercel.app/searchprofile?username=${e}`, {
+                method: "GET"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.length ===0){
+                    setSearchedData(undefined)
+                }
+                setSearchedData(data)
+            })
+    }
     return (
         <>
             {
                 loading ?
                 <LoadingPage></LoadingPage>
                 :
-                <div className='min-h-screen relative'>
+                <div className='min-h-[100vh] relative'>
                 {
                     user?.username ?
                     <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
@@ -94,27 +117,49 @@ const Home = () => {
                                 </li>
                             </ul>
                         </div>
+
+                        {/* search profile data  */}
+                        {/* <div className='mt-5'>
+                            <div className=''>
+                            <input
+                                onChange={(e) =>{ 
+                                    setSearchProfile(e.target.value)
+                                    if(e.target.value.length  === 0){
+                                        setSearchProfile([])
+                                    }
+                                    handleSearchProfile(searchProfile)
+                                }
+                                }
+                                type="text" 
+                                placeholder="search profile..." 
+                                className=" w-full px-3 py-2 rounded-lg btn-bg border-[1px] border-[#242424] outline-none placeholder:text-gray-400" 
+                            />
+                            </div>
+                            {
+                                focusedMode &&
+                                <div className={`${searchedData.length > 0 && 'dropdown-open'} dropdown w-full`}>
+                            <ul tabIndex={0} className="dropdown-content z-[1] menu shadow btn-bg border-[1px] border-[#242424] rounded-box w-full">
+                                {
+                                    searchedData.slice(0,5).map(u => 
+                                        <li key={u.username} className='flex items-center w-full bg-[#121212] rounded-lg'>
+                                            <a className='w-full' href={`/profile/${u.username}`}>
+                                            <img className='w-[30px] h-[30px] rounded-full' src={u.profile_pic ? u.profile_pic : null_avatar} alt="" />
+                                                {u.name ? u.name : u.username}</a>
+                                        </li>
+                                    )
+                                }
+                            </ul>
+                            </div>
+                            }
+                        </div> */}
                         </div>
                     </div>
                     :
                     <>
-                            {/* <div className='h-screen flex items-center justify-center flex-col w-[80%] mx-auto overflow-hidden'>
-                                <h1 className='md:text-[5rem] text-[3rem] text-center text-slate-200 uppercase'><span ref={glitch.ref} className='text-[#e4bf39] font-bold'>Hey dev!</span> <br /><span className='md:text-[5rem] text-xl'>Welcome to the "profile-view"</span></h1>
-                                {
-                                    !user.username &&
-                                        <div className="mt-5 cursor-pointer ">
-                                            <button onClick={() => navigate('/signup')} className='px-5 py-2 md:w-[300px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Create a account</button>
-                                            <button onClick={() => navigate('/login')} className='px-5 py-2 md:w-[300px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Login</button>
-                                        </div>
-                                }
-                                <div className='mt-20 text-center'>
-                                    <button onClick={() => navigate('/ranks')} className='pt-2 underline text-slate-300 capitalize px-3'>see ranked profiles</button>
-                                </div>
-                            </div> */}
                             <MainHome></MainHome>
                     </>
                 }
-                                    {/* <a href="" className='text-lg flex items-center gap-2 underline'><FaGithubAlt /> Github</a> */}
+                 
                 <div className='absolute md:bottom-5 right-10  bottom-5 rounded-full md:flex md:flex-row flex-col gap-2 hidden'>
                     <a target='_blank' rel='noreferrer' href='https://github.com/spsujoy007/' className='flex items-center gap-1 text-white hover:underline'><HiQuestionMarkCircle className='text-xl mt-1' /> How to use profile-view</a>
                     <p>|</p>

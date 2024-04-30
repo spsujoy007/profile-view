@@ -299,9 +299,25 @@ async function run(){
         }
     })
 
-    app.get("/searchprofile", async(req, res) => {
-        const data = req.query.username
-    })
+    app.get("/searchprofile", async (req, res) => {
+      const username = req.query.username;
+      console.log('username ',username.length)
+      const filteredProfiles = await userProfileCollection.find({}).toArray();
+      let filteredData;
+
+      if (username.length < 1) {
+          filteredData = [];
+      } else {
+          filteredData = filteredProfiles.filter(u =>
+              u.username.toLowerCase().includes(`${username.toLowerCase()}`)
+          );
+      }
+      // const filteredData = filteredProfiles.filter(u =>
+      //     u.username.toLowerCase().includes(`${username.toLowerCase()}`)
+      // );
+      res.send(JSON.stringify(filteredData));
+  });
+  
 
     ////////////////////////////////////////////////////////////////////
 

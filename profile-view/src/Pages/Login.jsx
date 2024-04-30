@@ -20,8 +20,12 @@ const Login = () => {
     const handleSubmitForm = (e) => {
         e.preventDefault()
         const form = e.target
-        const username = form.username.value;
+        let username = form.username.value;
         const password = form.password.value;
+        const strUsername = String(username)[0]
+        if(strUsername !== "@"){
+            username = `@${username}`
+        }
         // console.log(name, password)
         fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
             method: 'GET'
