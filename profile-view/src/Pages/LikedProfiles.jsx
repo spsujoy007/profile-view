@@ -33,7 +33,7 @@ const LikedProfiles = () => {
                 <div className='flex justify-end'>
                     <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 '>tap to back<IoReturnDownBack /></p>
                 </div>
-                <h3 className='text-xl mb-2 uppercase text-white'>Your liked profiles: {likedProfiles.length}</h3>
+                <h3 className='text-md mb-2 text-white'>Liked Profiles: {likedProfiles.length}</h3>
                 <hr />
                 {
                     loading ?

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlitch } from 'react-powerglitch'
-import bgimage from '../Assets/profileviewbg.jpg'
+// import bgimage from '../Assets/profileviewbg.jpg'
 
 const MainHome = () => {
     const navigate = useNavigate()
@@ -9,7 +9,7 @@ const MainHome = () => {
 
     return (
         <div style={{
-            backgroundImage: `linear-gradient(120deg, #00000018, #000000c3), url(${bgimage})`,
+            backgroundImage: `linear-gradient(120deg, #00000018, #000000c3), url('https://res.cloudinary.com/cloudinarybysp/image/upload/v1714408846/profile-view/profileviewhome.jpg')`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -25,9 +25,9 @@ const MainHome = () => {
                     <p className='text-white mt-2'>Also, you can share your profile with HR or any recruiters.</p>
                     <p className='text-[#E4BF39] mt-5'>with a single link you can show all of your social media, professional and coding related profile links. It's very easy to share profiles. Just type your profile usernames and boom! 💥</p>
                     <div className="mt-10 cursor-pointer flex items-center gap-2">
-                        <button onClick={() => navigate('/signup')} className='px-5 py-2   md:my-0 my-2 rounded-lg border-[1px] border-[#1a1a1a]  hover:text-slate-200 font-semibold hover:bg-[#0D0D0D] bg-white text-black duration-200 '>Create a account</button>
+                        <button onClick={() => navigate('/signup')} className='px-5 py-2   md:my-0 my-2 rounded-lg border-[1px] border-[#1a1a1a]  hover:text-slate-200 font-semibold hover:bg-[#0D0D0D] bg-white text-black duration-200 '>Create an account</button>
                         <p>|</p>
-                        <button onClick={() => navigate('/login')} className='px-5 py-2    md:my-0 my-2 rounded-lg border-[1px] border-[#1a1a1a]  text-slate-200 font-semibold bg-[#0D0D0D] hover:bg-[#000000] duration-200 uppercase'>Login</button>
+                        <button onClick={() => navigate('/login')} className='px-5 py-2  md:my-0 my-2 rounded-lg border-[1px] border-[#1a1a1a]  text-slate-200 font-semibold bg-[#0D0D0D] hover:bg-[#000000] duration-200 uppercase'>Login</button>
                     </div>
                 </div>
                 

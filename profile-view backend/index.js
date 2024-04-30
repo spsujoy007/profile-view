@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//http://localhost:5000/
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -246,6 +246,7 @@ async function run(){
                 dribble_link: userdata.dribble_link ? userdata.dribble_link : null,
                 linkedin_link: userdata.linkedin_link ? userdata.linkedin_link : null,
                 discord_link: userdata.discord_link ? userdata.discord_link : null,
+                resume_link: userdata.resume_link ? userdata.resume_link : null,
                 facebook_link: userdata.facebook_link ? userdata.facebook_link : null,
                 instagram_link: userdata.instagram_link ? userdata.instagram_link : null,
                 twitter_link: userdata.twitter_link ? userdata.twitter_link : null
