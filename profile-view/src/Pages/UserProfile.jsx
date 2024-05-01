@@ -262,7 +262,7 @@ const UserProfile = () => {
                 <p className='mt-3 text-md md:hidden flex text-white'>{bio}</p>
                 <div className='border-[1px] border-[#2e2e2e] md:min-h-[400px]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
-                        (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null) &&
+                        (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null && discord_link ===null && portfolio_link ===null) &&
                         <div className='h-full'>
                             {/* count profile views  */}
                             <div className='flex justify-end'>

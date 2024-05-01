@@ -399,7 +399,7 @@ const EditProfile = () => {
             // view mode 
             <div className='max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky top-0 py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center  ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky top-0 py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
                         <div className=' flex justify-end'>
@@ -423,7 +423,7 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
                         <div className='flex justify-end'>
-                                <div className="form-control tooltip tooltip-open tooltip-left tooltip-warning" data-tip="Tap to edit profile">
+                                <div className="form-control tooltip tooltip-open animate-pulse duration-150 tooltip-left tooltip-warning" data-tip="Tap to edit profile">
                                     <label className="label cursor-pointer">
                                         {/* <span className="text-md mr-2">{!editMode ? <span>tap to edit</span> :"tap to view"}</span>  */}
                                         <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle toggle-success"  />

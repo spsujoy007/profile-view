@@ -6,6 +6,7 @@ import './global.css'
 import { useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import { CiLogout } from "react-icons/ci";
+import { RiSearch2Line } from "react-icons/ri";
 import toast from 'react-hot-toast';
 import null_avatar from '../Assets/null_avatar.jpg'
 
@@ -79,23 +80,23 @@ const Home = () => {
                         <h1 className={`${name.length >= 10 ? `${name.length >= 18 ? 'md:text-[4rem]' : 'md:text-[5rem]'}` : "md:text-[6rem]"} text-[2rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {name}</h1>
                         <p className='text-lg text-center text-slate-200'>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
-                        <span className='mt-1 text-slate-300 text-sm uppercase'><a href={profile_link} target='_blank' rel='noreferrer' className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</a> Click on arrange profile button to edit profile </span>
+                        <span className='mt-1 text-slate-300 text-sm uppercase'><a href={profile_link} target='_blank' rel='noreferrer' className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{user?.username}</a> Click on <span className='text-white font-semibold'>edit profile & Links</span> button to Edit Profile & Links</span>
                         <div className=' mt-10 mx-auto w-full md:w-fit'>
 
                         {/* newly added item  */}
                         <div className='mt-0 text-center'>
                             <ul className="menu uppercase lg:menu-horizontal btn-bg border-[1px] border-[#242424] rounded-box">
                                 <li>
-                                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full btn-bg rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Arrange Profile</button>
+                                    <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full bg-white hover:btn-bg text-black rounded-lg border-[1px] border-[#242424]  hover:text-slate-200 font-semibold'>Edit Profile & Links</button>
                                 </li>
                                 {
                                     username &&
                                     <li>
-                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>My Profile</button>
+                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] font-semibold border-[#242424] uppercase text-slate-200'>My Profile</button>
                                     </li>
                                 }
                                 <li>
-                                    <details className=' md:ml-2 btn-bg text-slate-200 rounded-lg border-[1px] border-[#242424] uppercase' >
+                                    <details className=' md:ml-2 btn-bg text-slate-200 font-semibold rounded-lg border-[1px] border-[#242424] uppercase' >
                                     <summary>
                                         More Options
                                     </summary>
@@ -119,28 +120,33 @@ const Home = () => {
                         </div>
 
                         {/* search profile data  */}
-                        {/* <div className='mt-5'>
-                            <div className=''>
-                            <input
-                                onChange={(e) =>{ 
-                                    setSearchProfile(e.target.value)
-                                    if(e.target.value.length  === 0){
-                                        setSearchProfile([])
+                        <div className='mt-5 absolute top-0 md:right-6 md:w-fit w-[89vw]'>
+                            <div className='md:w-[300px]'>
+                            <div className='flex items-center'>
+                                <input
+                                    onChange={(e) =>{ 
+                                        setSearchProfile(e.target.value)
+                                        if(e.target.value.length  === 0){
+                                            setSearchProfile([])
+                                        }
+                                        handleSearchProfile(searchProfile)
                                     }
-                                    handleSearchProfile(searchProfile)
-                                }
-                                }
-                                type="text" 
-                                placeholder="search profile..." 
-                                className=" w-full px-3 py-2 rounded-lg btn-bg border-[1px] border-[#242424] outline-none placeholder:text-gray-400" 
-                            />
+                                    }
+                                    type="text" 
+                                    placeholder="Search Profile..." 
+                                    className=" w-full px-3 py-2 rounded-lg btn-bg border-[1px] border-[#242424] outline-none placeholder:text-gray-400" 
+                                />
+                                <RiSearch2Line className='-ml-8 text-white' />
+                            </div>
                             </div>
                             {
                                 focusedMode &&
                                 <div className={`${searchedData.length > 0 && 'dropdown-open'} dropdown w-full`}>
-                            <ul tabIndex={0} className="dropdown-content z-[1] menu shadow btn-bg border-[1px] border-[#242424] rounded-box w-full">
+                            {
+                                searchProfile.length > 0 &&
+                                <ul tabIndex={0} className="dropdown-content z-[1] menu shadow btn-bg border-[1px] border-[#242424] rounded-box w-full">
                                 {
-                                    searchedData.slice(0,5).map(u => 
+                                    searchedData.slice(0,`${searchProfile.length > 0 ? 5 : 0}`).map(u => 
                                         <li key={u.username} className='flex items-center w-full bg-[#121212] rounded-lg'>
                                             <a className='w-full' href={`/profile/${u.username}`}>
                                             <img className='w-[30px] h-[30px] rounded-full' src={u.profile_pic ? u.profile_pic : null_avatar} alt="" />
@@ -149,9 +155,10 @@ const Home = () => {
                                     )
                                 }
                             </ul>
+                            }
                             </div>
                             }
-                        </div> */}
+                        </div>
                         </div>
                     </div>
                     :

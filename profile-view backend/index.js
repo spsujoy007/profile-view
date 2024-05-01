@@ -301,7 +301,6 @@ async function run(){
 
     app.get("/searchprofile", async (req, res) => {
       const username = req.query.username;
-      console.log('username ',username.length)
       const filteredProfiles = await userProfileCollection.find({}).toArray();
       let filteredData;
 
@@ -309,7 +308,7 @@ async function run(){
           filteredData = [];
       } else {
           filteredData = filteredProfiles.filter(u =>
-              u.username.toLowerCase().includes(`${username.toLowerCase()}`)
+              u?.name !== null ? u.name.toLowerCase().includes(`${username.toLowerCase()}`) : u?.username.toLowerCase().includes(`${username.toLowerCase()}`)
           );
       }
       // const filteredData = filteredProfiles.filter(u =>
