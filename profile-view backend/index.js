@@ -28,6 +28,7 @@ async function run(){
       const userProfileCollection = client.db('profile-view').collection("userprofile");
       const visitedProfilesCollect =  client.db('profile-view').collection("visited_profile");
       const likedProfileCollect =  client.db('profile-view').collection("liked_profiles");
+      const feedbackCollect =  client.db('profile-view').collection("feedbacks");
 
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
@@ -265,7 +266,25 @@ async function run(){
         else {
           return res.status(400).json({error: 'Invalid user', code: 21})
         }
-        
+      })
+
+      app.post('/feedback', async(req, res) => {
+          const username = req.query.username
+          const postdata = req.body
+          console.log(username, postdata)
+          const existUser = await usersCollection.findOne({username: username})
+          if(existUser){
+              const result = await feedbackCollect.insertOne(postdata)
+              return res.send(result)
+          }
+          else{
+              res.status(404).json({message: `${req.query.username} is aiIvalid user!`})
+          }
+      })
+
+      app.get('/getfeedbacks', async(req, res) => {
+          const result = await feedbackCollect.find({}).sort({_id: -1}).toArray()
+          res.send(result)
       })
       
       app.get('/userdata', async(req, res) => {
@@ -311,14 +330,10 @@ async function run(){
               u?.name !== null ? u.name.toLowerCase().includes(`${username.toLowerCase()}`) : u?.username.toLowerCase().includes(`${username.toLowerCase()}`)
           );
       }
-      // const filteredData = filteredProfiles.filter(u =>
-      //     u.username.toLowerCase().includes(`${username.toLowerCase()}`)
-      // );
       res.send(JSON.stringify(filteredData));
   });
-  
 
-    ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 
       app.get('/login', async(req, res) => {
         const query = {
