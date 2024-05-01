@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import useProfileData from '../Hooks/useProfileData';
 import { CiLogout } from "react-icons/ci";
 import { RiSearch2Line } from "react-icons/ri";
+import { VscFeedback } from "react-icons/vsc";
 import toast from 'react-hot-toast';
 import null_avatar from '../Assets/null_avatar.jpg'
 
@@ -120,9 +121,10 @@ const Home = () => {
                         </div>
 
                         {/* search profile data  */}
-                        <div className='mt-5 absolute top-0 md:right-6 md:w-fit w-[89vw]'>
-                            <div className='md:w-[300px]'>
+                        <div className='mt-5 absolute top-0 md:right-10 md:w-fit w-[89vw]'>
+                            <div className='md:w-[400px]'>
                             <div className='flex items-center'>
+                                <button onClick={() => navigate('/feedback')} className='mr-2 btn-bg border-[1px] border-[#242424] px-2 py-1 rounded-md flex items-center text-white gap-2'><VscFeedback /> Feedback</button>
                                 <input
                                     onChange={(e) =>{ 
                                         setSearchProfile(e.target.value)
@@ -134,9 +136,9 @@ const Home = () => {
                                     }
                                     type="text" 
                                     placeholder="Search Profile..." 
-                                    className=" w-full px-3 py-2 rounded-lg btn-bg border-[1px] border-[#242424] outline-none placeholder:text-gray-400" 
+                                    className=" w-full pl-5 py-1 rounded-lg btn-bg border-[1px] border-[#242424] outline-none placeholder:text-gray-400" 
                                 />
-                                <RiSearch2Line className='-ml-8 text-white' />
+                                <RiSearch2Line className='-ml-8 text-white text-2xl' />
                             </div>
                             </div>
                             {

@@ -9,6 +9,7 @@ import Login from "./Pages/Login"
 import ProtectedRoute from "./ProtectedRoute"
 import RankingProfiles from "./Pages/RankingProfiles"
 import LikedProfiles from "./Pages/LikedProfiles.jsx"
+import FeedbackField from "./Pages/FeedbackField.jsx"
 
 export const routes = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const routes = createBrowserRouter([
     {
         path: '/ranks',
         element: <RankingProfiles></RankingProfiles>
+    },
+    {
+        path: '/feedback',
+        element: <FeedbackField></FeedbackField>
     },
     {
         path: '/likedprofiles',

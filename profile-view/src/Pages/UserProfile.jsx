@@ -7,6 +7,7 @@ import bgProfile from '../Assets/profilebg.jpg'
 import { FaDatabase, FaDiscord, FaDribbble, FaFacebook, FaFilePdf, FaGithub, FaHackerrank, FaInstagram, FaLinkedin, FaPager, FaTwitter, FaUserGraduate } from "react-icons/fa6";
 import { SiCodeforces } from "react-icons/si";
 import { BiLike, BiSolidLike } from "react-icons/bi";
+import { MdVerifiedUser } from "react-icons/md";
 import { GoProjectSymlink } from "react-icons/go";
 import './UserProfile.css'
 
@@ -234,7 +235,10 @@ const UserProfile = () => {
                             </div>
                         </div>
                         <div>
-                            <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
+                            <div className='flex items-center gap-2'>
+                                <h3 className='text-[26px] capitalize py-0 font-bold text-white'>{name ? name : username}</h3>
+                                {/* <MdVerifiedUser className='text-xl text-[#48cd4c]' /> */}
+                            </div>
                             <p className='text-lg hidden md:flex text-white'>{bio}</p>
                         </div>
                     </div>
@@ -262,7 +266,7 @@ const UserProfile = () => {
                 <p className='mt-3 text-md md:hidden flex text-white'>{bio}</p>
                 <div className='border-[1px] border-[#2e2e2e] md:min-h-[400px]  p-2 rounded-xl bg-[#151515bb] mt-6'>
                     {
-                        (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null && discord_link ===null && portfolio_link ===null) &&
+                        (github_link === null && hackerRank_link ===null && codeForce_link ===null && linkedin_link ===null && portfolio_link ===null && dribble_link ===null && facebook_link ===null && twitter_link ===null && instagram_link ===null && discord_link === undefined && portfolio_link !== undefined) &&
                         <div className='h-full'>
                             {/* count profile views  */}
                             <div className='flex justify-end'>

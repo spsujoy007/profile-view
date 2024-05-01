@@ -305,7 +305,7 @@ const EditProfile = () => {
                     <div className='w-full '>
                         <p className='py-2 ml-2 text-slate-200'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
-                        <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full px-8 p-8'>
+                        <div className='bg-zinc-900 border-2 border-slate-500 border-dashed rounded-md w-full md:px-8 md:p-8'>
                             <div className='flex justify-end mb-5'>
                             <div className="form-control tooltip tooltip-open tooltip-left tooltip-primary" data-tip="Tap to view mode">
                                     <label className="label cursor-pointer">
@@ -316,10 +316,12 @@ const EditProfile = () => {
                             </div>
                             <div>
                                 </div> 
-                            <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent p-2 md:text-2xl text-xl w-full outline-none border-[1px] text-white border-[#373737]' defaultValue={name && name} /> <br />
-                            <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent p-2 mt-2  text-md w-full mb-3 outline-none border-[1px] text-white border-[#373737]' defaultValue={bio} />
+                            <div className='px-5 md:px-0'>
+                                <input required name='name' placeholder='your name...' type="text" className='py-2 bg-transparent p-2 md:text-2xl text-xl w-full outline-none border-[1px] text-white border-[#373737]' defaultValue={name && name} /> <br />
+                                <input name='bio' placeholder='something about your self...' type="text" className='bg-transparent p-2 mt-2  text-md w-full mb-3 outline-none border-[1px] text-white border-[#373737]' defaultValue={bio} />
+                            </div>
                             {/* <hr /> */}
-                                <p className='mt-5 text-sm text-slate-200'>Just type your usernames of your profiles. <span className='text-yellow-500'>Example: johnsmith123</span> - <span className='text-red-500'>Warning: Do not paste your full profile link in social media and coding related profile fields!</span></p>
+                                <p className='mt-5 text-sm text-slate-200 md:px-0 px-5'>Just type your usernames of your profiles. <span className='text-yellow-500 '>Example: johnsmith123</span> - <span className='text-red-500'>Warning: Do not paste your full profile link in social media and coding related profile fields!</span></p>
                                 <div className='mt-2 md:w-[100%]'>
                                     <div className=''>
                                         <p className='text-md text-slate-300 ml-2 mb-1'>coding related</p>
@@ -397,7 +399,7 @@ const EditProfile = () => {
             :
 
             // view mode 
-            <div className='max-w-[1240px] mx-auto'>
+            <div className='md:max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
                         <div className={`text-center  ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky top-0 py-1 rounded-b-md  text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
@@ -421,7 +423,7 @@ const EditProfile = () => {
                     <div className='w-full '>
                         <p className='py-2 ml-2 text-slate-200'>Information section</p>
                         <form onSubmit={handleSaveProfile}>
-                        <div className='bg-zinc-900 rounded-md w-full px-8 p-8'>
+                        <div className='bg-zinc-900 rounded-md w-full md:px-8 md:p-8'>
                         <div className='flex justify-end'>
                                 <div className="form-control tooltip tooltip-open animate-pulse duration-150 tooltip-left tooltip-warning" data-tip="Tap to edit profile">
                                     <label className="label cursor-pointer">
@@ -431,8 +433,10 @@ const EditProfile = () => {
                                 </div>
                             </div>
 
-                            <input disabled name='name' type="text" className='py-2 bg-transparent outline-none md:text-2xl text-xl text-white' defaultValue={name && name} /> <br />
-                            <input disabled name='bio' type="text" className='bg-transparent outline-none text-md w-full mb-3 text-white' defaultValue={bio} />
+                            <div className='px-5 md:px-0'>
+                                <input disabled name='name' type="text" className='py-2 bg-transparent outline-none md:text-2xl text-xl text-white' defaultValue={name && name} /> <br />
+                                <input disabled name='bio' type="text" className='bg-transparent outline-none text-md w-full mb-3 text-white' defaultValue={bio} />
+                            </div>
                             {/* <hr /> */}
 
                                 <div className='mt-5 md:w-[100%]'>
