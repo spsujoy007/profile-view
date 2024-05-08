@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//https://profile-view-be.vercel.app/
+//http://localhost:5000/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -189,7 +189,6 @@ async function run(){
             return res.send([result, result2])
         }
     })
-
       app.get('/profilelike_history', async(req, res) => {
           const query = {username: req.query.username}
           const visiteProfile = req.query.visitprofile
@@ -217,7 +216,8 @@ async function run(){
       app.get('/mylikedProfiles', async(req, res) => {
           const query = req.query.username
           const result = await likedProfileCollect.findOne({username: query})
-          res.send(result)
+          
+          res.send(result.likedProfiles)
       })
 
       // ranking by likedcount of profile
@@ -287,7 +287,7 @@ async function run(){
           res.send(result)
       })
       
-      app.get('/userdata', async(req, res) => {
+      app.get('/userprofile', async(req, res) => {
         const query = {username: req.query.username}
         const userdata = await userProfileCollection.findOne(query)
         const userAthenticate  = await usersCollection.findOne(query)
@@ -300,6 +300,25 @@ async function run(){
         }
       })
 
+      app.get('/userdata', async(req, res) => {
+          try{
+              const finduser = await usersCollection.findOne({username: req.query.username, _id: new ObjectId(req.query.token_id)});
+            if(finduser){
+              const tokendata = {
+                  username: finduser.username,
+                  token: finduser._id
+              }
+              return res.json(tokendata)
+            }
+            else{
+              return res.json({message: "Invalid user", code: 22})
+            }
+          }
+          catch(e) {
+              return res.json({message: "Invalid user", code: 22})
+          }
+      })
+
       // admin access ///////////////////////////////////////////////////////////
       app.get('/alluserdata', async(req, res) => {
         const result = await userProfileCollection.find({}).toArray()
@@ -309,12 +328,18 @@ async function run(){
       app.get('/allusers', async(req, res) => {
         const admin = req.query.admin
         const users = await usersCollection.find({}).toArray()
-        const total_user = users.length
+        const total_user = await usersCollection.countDocuments({})
         if(admin === "sujoy"){
           return res.json({total_user})
         }
-        if(admin === "409"){
+        else if(admin === process.env.DB_AUTH){
           return res.send(users)
+        }
+        else{
+          return res.json({
+            message: "Hey who are you? 😡",
+            warning: "Don't try to use this API again! Just leave. 😡😡😡"
+          })
         }
     })
 

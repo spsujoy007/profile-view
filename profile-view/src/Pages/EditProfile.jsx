@@ -53,7 +53,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const fethingData = () => {
-        fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}`, {
+        fetch(`http://localhost:5000/userprofile?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -166,7 +166,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
+                    fetch(`http://localhost:5000/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -231,7 +231,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
+                    fetch(`http://localhost:5000/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'

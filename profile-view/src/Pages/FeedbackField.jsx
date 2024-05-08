@@ -65,12 +65,13 @@ const FeedbackField = () => {
     }
 
     return (
-        <div className='min-h-[100vh] max-w-[100vw] relative'>
-            <div className='mx-auto md:w-[1040px] '>
-                <div className='flex justify-end w-[800px] mx-auto'>
-                    <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200 fixed z-10 bg-black px-5'>back to home page<IoReturnDownBack /></p>
+        <div className='min-h-full bg-black'>
+            <div className='pt-20'>
+                <div className='flex justify-end w-full mx-auto bg-[#2e2e2e] top-0 fixed z-10 px-5' >
+                    <p onClick={() => navigate('/')} className='py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200 text-right'>back to home page<IoReturnDownBack /></p>
                 </div>
-                <div className='flex justify-center mt-14'>
+            <div className='mx-auto md:w-[1040px] '>
+                <div className='flex justify-center '>
                     <input onFocus={() => setTyping(true)} placeholder='Type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500' />
                 </div>
             </div>
@@ -85,7 +86,7 @@ const FeedbackField = () => {
                         <p className='text-gray-300'>There are no feedback to show!</p>
                     </div>
                 }
-                <div className='space-y-3'>
+                <div className='space-y-5'>
                     {
                         feedbackDatas.map(feedback => <FeedbackCard
                             key={feedback.username}
@@ -98,9 +99,9 @@ const FeedbackField = () => {
             {/* textarea button post  */}
             {
                 typing &&
-                <div className={`absolute textBox top-0 w-full h-full bg-[#131313cb] p-5`}>
-                <div className='flex justify-center items-center h-full '>
-                    <div className='min-w-[500px] max-w-[500px] min-h-[290px] shadow-2xl shadow-[#464646b6] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
+                <div className=' top-0 fixed textBox bg-[#0a0a0aca] w-full h-full'>
+                     <div className='flex justify-center items-center h-full '>
+                    <div className='min-w-[500px] max-w-[500px] min-h-[290px] shadow-2xl shadow-[#1bc55f1a] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
                         
                         <textarea 
                             name="feedbacktext" 
@@ -118,10 +119,11 @@ const FeedbackField = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+                </div>
             }
 
             
+        </div>
         </div>
     );
 };

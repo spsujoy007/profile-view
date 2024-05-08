@@ -9,6 +9,7 @@ const Login = () => {
     const [error, setError] = useState(false)
     const [success, setSuccess] = useState(false)
     const [serverMsg, setServerMsg] = useState(null)
+
     const [viewPass, setViewPass] = useState(false)
 
     const navigate = useNavigate()
@@ -27,7 +28,7 @@ const Login = () => {
             username = `@${username}`
         }
         // console.log(name, password)
-        fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
+        fetch(`http://localhost:5000/login?username=${username}&pass=${password}`, {
             method: 'GET'
         })
         .then(res => res.json())

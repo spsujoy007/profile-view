@@ -11,7 +11,7 @@ const FeedbackCard = ({feedbackData}) => {
 
     useEffect(() => {
         setLoading(true)
-            fetch(`https://profile-view-be.vercel.app/profile/${username}`, {
+            fetch(`http://localhost:5000/profile/${username}`, {
             method: "GET"
         })
         .then(res => res.json()) // Convert response to text
@@ -22,13 +22,18 @@ const FeedbackCard = ({feedbackData}) => {
         .catch(e => setLoading(false))
     }, [username])
 
-    const postedDate = moment(postdate).startOf('minute').fromNow();             
-    console.log(postedDate)
+    const postedDate = moment(postdate).startOf('minute').fromNow();    
+
+
+    // for inner div link: 
+    // const urlRegex = /(https?:\/\/[^\s]+)/g;
+    // const formattedText = feedback.replace( urlRegex,  '<ahref="$1" target="_blank">$1</a>');
 
     return (
-        <div className='btn-bg p-5 rounded-xl border-[#262626] border-[1px]'>
+        <div className='bg-[#090909] p-5 rounded-xl border-[#1d1d1d] border-[1px]'>
             <div className='p-2  rounded-xl'>
                 <code><h1><span className='text-green-500'>{`${username} ->`}</span> {feedback}</h1></code>
+                {/* <div dangerouslySetInnerHTML={{ __html: formattedText }} ></div> */}
             </div>
             {
                 loading ?
