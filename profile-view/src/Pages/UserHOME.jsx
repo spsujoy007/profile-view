@@ -5,6 +5,7 @@ import { useTitle } from '../Hooks/useTitle';
 import useProfileData from '../Hooks/useProfileData';
 import toast from 'react-hot-toast';
 import { CiLogout } from 'react-icons/ci';
+import LoadingPage from './LoadingPage';
 
 
 const UserHOME = ({username: name}) => {
@@ -16,12 +17,7 @@ const UserHOME = ({username: name}) => {
     const {username, profile_link} = useProfileData()
 
     
-    // const [loading, setLoading] = useState(true)
-    // useEffect(() => {
-    //     if(user.username === username){
-    //         setLoading(false)
-    //     }
-    // }, [user, username])
+    const [loading, setLoading] = useState(true)
 
     const handleLogout = () => {
         const permission = window.confirm("Are sure want to logout?")
@@ -42,12 +38,17 @@ const UserHOME = ({username: name}) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
+                const response = await fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
                 const data = await response.json();
                 console.log("Protect: ", data)
                 if(data.code === 22){
                     localStorage.removeItem("userinfo")
                     navigate('/login')
+                    setLoading(false)
+                    return
+                }
+                else{
+                    setLoading(false)
                 }
                 setUserProfile(data);
             } catch (error) {
@@ -58,7 +59,12 @@ const UserHOME = ({username: name}) => {
     }, [])
 
     return (
-        <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
+        <>
+            {
+            loading ?
+            <LoadingPage></LoadingPage>
+            :
+            <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
                         <h1 className={`${name?.length >= 10 ? `${name?.length >= 18 ? 'md:text-[4rem]' : 'md:text-[5rem]'}` : "md:text-[6rem]"} text-[2rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {name}</h1>
                         <p className='text-lg text-center text-slate-200'>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
@@ -71,12 +77,9 @@ const UserHOME = ({username: name}) => {
                                 <li>
                                     <button onClick={() => navigate('/editprofile')} className='px-5 py-2 md:w-[200px] w-full  hover:btn-bg rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>Edit Profile</button>
                                 </li>
-                                {
-                                    username &&
-                                    <li>
-                                        <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>My Profile</button>
-                                    </li>
-                                }
+                                <li>
+                                    <button onClick={() => navigate(`/profile/${user.username}`)} className='px-5 py-2 md:w-[200px] w-full btn-bg md:ml-2 md:my-0 my-2 rounded-lg border-[1px] border-[#242424] uppercase text-slate-200'>My Profile</button>
+                                </li>
                                 <li>
                                     <details className=' md:ml-2 btn-bg text-slate-200 rounded-lg border-[1px] border-[#242424] uppercase' >
                                     <summary>
@@ -89,12 +92,9 @@ const UserHOME = ({username: name}) => {
                                         <li className='mb-2'>
                                             <button onClick={() => navigate('/likedprofiles')} className='btn-bg rounded-lg border-[1px] border-[#242424] md:min-w-[150px]'>Liked profiles</button>
                                         </li>
-                                        {
-                                            username &&
-                                            <li>
-                                                <button onClick={() => handleLogout()} className='btn-bg rounded-lg border-[1px] border-[#242424] md:min-w-[150px] uppercase flex justify-center items-center gap-2'><CiLogout/> Log out</button>
-                                            </li>
-                                        }
+                                        <li>
+                                            <button onClick={() => handleLogout()} className='btn-bg rounded-lg border-[1px] border-[#242424] md:min-w-[150px] uppercase flex justify-center items-center gap-2'><CiLogout/> Log out</button>
+                                        </li>
                                     </ul>
                                     </details>
                                 </li>
@@ -102,6 +102,8 @@ const UserHOME = ({username: name}) => {
                         </div>
                         </div>
                     </div>
+        }
+        </>
     );
 };
 

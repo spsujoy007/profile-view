@@ -23,7 +23,7 @@ const FeedbackField = () => {
         }
         if(feedbackText.length > 1){
 
-            fetch(`http://localhost:5000/feedback?username=${findUser.username}`, {
+            fetch(`https://profile-view-be.vercel.app/feedback?username=${findUser.username}`, {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -55,7 +55,7 @@ const FeedbackField = () => {
     }, [])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/getfeedbacks`, {
+        fetch(`https://profile-view-be.vercel.app/getfeedbacks`, {
             method: "GET"
         })
         .then(res => res.json())
