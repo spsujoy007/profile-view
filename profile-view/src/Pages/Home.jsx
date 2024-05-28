@@ -53,7 +53,7 @@ const Home = () => {
                 loading ?
                 <LoadingPage></LoadingPage>
                 :
-                <div className='min-h-[100vh] relative'>
+                <div className='min-h-[100vh]'>
                 {
                     user?.username ?
                     <UserHOME username={name}></UserHOME>

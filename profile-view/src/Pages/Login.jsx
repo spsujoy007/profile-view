@@ -28,7 +28,7 @@ const Login = () => {
             username = `@${username}`
         }
         // console.log(name, password)
-        fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
+        fetch(`http://localhost:5000/login?username=${username}&pass=${password}`, {
             method: 'GET'
         })
         .then(res => res.json())
@@ -44,7 +44,7 @@ const Login = () => {
                     navigate("/")
                 }, 1500);
             }
-            else if(data?.code === 21)
+            else if(data?.code === 74)
             {
                 toast.error(data.message)
                 setError(true)

@@ -38,13 +38,13 @@ const UserHOME = ({username: name}) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
+                const response = await fetch(`http://localhost:5000/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
                 const data = await response.json();
                 console.log("Protect: ", data)
                 if(data.code === 22){
+                    setLoading(false)
                     localStorage.removeItem("userinfo")
                     navigate('/login')
-                    setLoading(false)
                     return
                 }
                 else{
@@ -64,14 +64,14 @@ const UserHOME = ({username: name}) => {
             loading ?
             <LoadingPage></LoadingPage>
             :
-            <div className='h-screen px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
+            <div className='h-[100vh] px-5 md:px-0 flex items-center justify-center flex-col min:h-screen'>
                         <h1 className={`${name?.length >= 10 ? `${name?.length >= 18 ? 'md:text-[4rem]' : 'md:text-[5rem]'}` : "md:text-[6rem]"} text-[2rem] text-center text-slate-200 uppercase `} ref={glitch.ref} >Hello {name}</h1>
                         <p className='text-lg text-center text-slate-200'>Your account was created successfully and you are also logged in. Let's share the social links with <span className='font-bold text-[#e4bf39]'>PROFILE-VIEW</span></p>
 
                         <span className='mt-1 text-slate-300 text-sm uppercase'><a href={profile_link} target='_blank' rel='noreferrer' className='bg-[#340b1d] text-[#a42a5f] px-2 font-bold'>{name}</a> Click on edit profile button to edit profile </span>
                         <div className=' mt-10 mx-auto w-full md:w-fit'>
 
-                        {/* newly added item  */}
+
                         <div className='mt-0 text-center'>
                             <ul className="menu uppercase lg:menu-horizontal btn-bg border-[1px] border-[#242424] rounded-box">
                                 <li>

@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//https://profile-view-be.vercel.app/
+//http://localhost:5000/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -33,9 +33,9 @@ async function run(){
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
         const existUser = await usersCollection.findOne({ username: userinfo.username });
-    
+        console.log(userinfo);
         if (existUser?.username === userinfo.username) {
-            return res.status(400).json({ error: 'Username already exists.', code: 20 });
+            return res.status(400).json({ error: 'Username already exists.', code: 22 });
         } else {
             try {
                 const result = await usersCollection.insertOne(userinfo);
@@ -56,12 +56,17 @@ async function run(){
                   twitter_link: null
                 }
                 const result2 = await userProfileCollection.insertOne(updateData)
-    
+                
+                const userToken = {
+                  username: userinfo.username,
+                  user_token: `${userinfo._id}%${userinfo.username.split("@")[1]}`,
+                  join_date: userinfo.join_date,
+                }
                 // Send both results as an array
-                return res.send([result, userinfo, result2]);
+                return res.send([result, userToken, result2]);
             } catch (error) {
                 console.error('Error inserting data into userProfileCollection:', error);
-                return res.status(500).json({ error: 'Error inserting data into userProfileCollection.', code: 21 });
+                return res.status(500).json({ error: 'Error inserting data into userProfileCollection.', code: 74 });
             }
         }
     });
@@ -264,21 +269,20 @@ async function run(){
           
         }
         else {
-          return res.status(400).json({error: 'Invalid user', code: 21})
+          return res.status(400).json({error: 'Invalid user', code: 74})
         }
       })
 
       app.post('/feedback', async(req, res) => {
           const username = req.query.username
           const postdata = req.body
-          console.log(username, postdata)
           const existUser = await usersCollection.findOne({username: username})
           if(existUser){
               const result = await feedbackCollect.insertOne(postdata)
               return res.send(result)
           }
           else{
-              res.status(404).json({message: `${req.query.username} is aiIvalid user!`})
+              res.status(404).json({message: `${username !== 'undefined' ? `${username} is a invalid user!` : "Invalid user!"} `, code: 74})
           }
       })
 
@@ -376,7 +380,7 @@ async function run(){
           return res.send(userToken)
         }
         else{
-          return res.json({message: 'Invalid user', code: 21})
+          return res.json({message: 'Invalid user', code: 74})
         }
       })
       

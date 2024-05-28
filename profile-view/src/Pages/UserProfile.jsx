@@ -23,8 +23,8 @@ import {
 import LoadingPage from './LoadingPage';
 import { FaCopy } from 'react-icons/fa';
 import toast from 'react-hot-toast';
-import { useTitle } from '../Hooks/useTitle'
-;
+import { useTitle } from '../Hooks/useTitle';
+// import webbg from '../../src/Assets/noicebg.png'
 
 
 const UserProfile = () => {
@@ -35,8 +35,7 @@ const UserProfile = () => {
             setUser(JSON.parse(localStorage.getItem('userinfo')))
         }
     }, [])
-    useTitle(`Profile: ${user.username}`)
-
+    
     const [loading, setLoading] = useState(true)
     const [checkValid, setCheckValid] = useState(true)
     
@@ -62,6 +61,8 @@ const UserProfile = () => {
     } = useLoaderData()
     const navigate = useNavigate()
 
+    useTitle(`${username}`)
+
     // count visits ---------=========-------------------------------
     const isFirstRun = useRef(true);
     useEffect(() => {
@@ -80,7 +81,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -93,7 +94,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
+        fetch(`http://localhost:5000/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -154,7 +155,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `https://profile-view-be.vercel.app/likeprofile`
+        const url = `http://localhost:5000/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -179,7 +180,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -195,7 +196,7 @@ const UserProfile = () => {
     }, [findUser.username, username])
 
     return (
-        <>
+        <div className='pt-14'>
             {
                 loading ?
                 <LoadingPage></LoadingPage>
@@ -212,11 +213,11 @@ const UserProfile = () => {
                         </div>
                         :
                         <div className='min-h-screen pt-5'>
-            <div className='md:max-w-[800px] mx-auto flex justify-end'>
+            {/* <div className='md:max-w-[800px] mx-auto flex justify-end'>
                 <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200'>back to home page<IoReturnDownBack /></p>
-            </div>
+            </div> */}
             <div style={{
-                backgroundImage: `linear-gradient(150deg, #000000c6, #000000fd), url(${profile_pic ? profile_pic : bgProfile})`,
+                backgroundImage: `linear-gradient(150deg, #000000c6, #000000fd), url(${profile_pic ? profile_pic : null_avatar})`,
                 width: '100%',
                 height: '100%',  // or any other dimensions
                 backgroundSize: 'cover',
@@ -459,7 +460,7 @@ const UserProfile = () => {
                     }
                 </>
             }
-        </>
+        </div>
     );
 };
 

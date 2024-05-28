@@ -4,11 +4,13 @@ import EditProfile from './Pages/EditProfile';
 import Home from './Pages/Home';
 import { Toaster } from 'react-hot-toast';
 import { routes } from './Routes';
+import Navbar from './Pages/Navbar';
 
 function App() {
   if(!localStorage.getItem('userinfo')) localStorage.setItem('userinfo', JSON.stringify([{}]))
   return (
     <div className="App">
+      <Navbar></Navbar>
       <RouterProvider router={routes}></RouterProvider>
        <Toaster
        position="top-center"

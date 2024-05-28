@@ -53,7 +53,7 @@ const EditProfile = () => {
     }, [user?.username])
 
     const fethingData = () => {
-        fetch(`https://profile-view-be.vercel.app/userprofile?username=${user?.username}`, {
+        fetch(`http://localhost:5000/userprofile?username=${user?.username}`, {
         method: "GET"
     })
     .then(res => res.text()) // Convert response to text
@@ -166,7 +166,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
+                    fetch(`http://localhost:5000/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -231,7 +231,7 @@ const EditProfile = () => {
                         twitter_link: twitter != null ? twitter : twitter_link
                     }
                     
-                    fetch(`https://profile-view-be.vercel.app/saveprofile`, {
+                    fetch(`http://localhost:5000/saveprofile`, {
                         method: 'POST',
                         headers: {
                             'Content-Type' : 'Application/json'
@@ -280,10 +280,10 @@ const EditProfile = () => {
                 editMode ?
                 <div className='max-w-[1240px] mx-auto md:px-2 '>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white sticky top-0`}>
+                        <div className={`text-center ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white sticky top-[60px]`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
-                <div className='flex lg:flex-row flex-col gap-5 md:mt-10 p-5 md:p-0'>
+                <div className='flex lg:flex-row flex-col gap-5 md:mt-16 p-5 md:p-0'>
                     <div>
                         <p className='py-2 ml-2 text-slate-200'>Image section</p>
                         <label htmlFor="profile_pic" >
@@ -401,13 +401,13 @@ const EditProfile = () => {
             // view mode 
             <div className='md:max-w-[1240px] mx-auto'>
                         {/* <div className={`text-center sticky top-0 ${callServer ? 'bg-green-700': 'bg-red-700'} ${editMode ? 'bg-red-700' : ' bg-green-700'} py-1 rounded-b-md  text-white`}> */}
-                        <div className={`text-center  ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky top-0 py-1 rounded-b-md  text-white`}>
+                        <div className={`text-center  ${editMode ? 'bg-red-700' : ' bg-green-700'} sticky py-1 rounded-b-md z-[100] top-[60px] text-white`}>
                             <p className='text-sm'>{callServer ? `${serverMsg}` : `${editMode ? 'Edit mode enabled' : 'View mode enabled'}`}</p>
                         </div>
                         <div className=' flex justify-end'>
-                <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 hover:underline'>back to home page<IoReturnDownBack /></p>
+                {/* <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 hover:underline'>back to home page<IoReturnDownBack /></p> */}
             </div>
-                <div className='flex md:flex-row flex-col gap-5 mt-10 p-5 md:p-0'>
+                <div className='flex md:flex-row flex-col gap-5 mt-16 p-5 md:p-0'>
                     <div>
                         <p className='py-2 ml-2 text-slate-200'>Image section</p>
                         <label htmlFor="profile_pic" >
@@ -425,8 +425,8 @@ const EditProfile = () => {
                         <form onSubmit={handleSaveProfile}>
                         <div className='bg-zinc-900 rounded-md w-full md:px-8 md:p-8'>
                         <div className='flex justify-end'>
-                                <div className="form-control tooltip tooltip-open animate-pulse duration-150 tooltip-left tooltip-warning" data-tip="Tap to edit profile">
-                                    <label className="label cursor-pointer">
+                                <div className="form-control  tooltip tooltip-open animate-pulse duration-150 tooltip-left tooltip-warning" data-tip="Tap to edit profile">
+                                    <label className="label cursor-pointer z-10">
                                         {/* <span className="text-md mr-2">{!editMode ? <span>tap to edit</span> :"tap to view"}</span>  */}
                                         <input type="checkbox" onClick={() => setEditMode(!editMode)} className="toggle toggle-success"  />
                                     </label>

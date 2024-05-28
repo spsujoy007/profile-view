@@ -23,7 +23,7 @@ const FeedbackField = () => {
         }
         if(feedbackText.length > 1){
 
-            fetch(`https://profile-view-be.vercel.app/feedback?username=${findUser.username}`, {
+            fetch(`http://localhost:5000/feedback?username=${findUser.username}`, {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -55,7 +55,7 @@ const FeedbackField = () => {
     }, [])
 
     const refetch = () => {
-        fetch(`https://profile-view-be.vercel.app/getfeedbacks`, {
+        fetch(`http://localhost:5000/getfeedbacks`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -65,20 +65,20 @@ const FeedbackField = () => {
     }
 
     return (
-        <div className='min-h-full bg-black'>
-            <div className='pt-20'>
-                <div className='flex justify-end w-full mx-auto bg-[#2e2e2e] top-0 fixed z-10 px-5' >
+        <div className='min-h-full bg-black pt-[100px]'>
+            <div className=''>
+                {/* <div className='flex justify-end w-full mx-auto bg-[#2e2e2e] top-0 fixed z-10 px-5' >
                     <p onClick={() => navigate('/')} className='py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200 text-right'>back to home page<IoReturnDownBack /></p>
-                </div>
+                </div> */}
             <div className='mx-auto md:w-[1040px] '>
                 <div className='flex justify-center '>
-                    <input onFocus={() => setTyping(true)} placeholder='Type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500' />
+                    <input onFocus={() => setTyping(true)} placeholder='type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500' />
                 </div>
             </div>
 
-            <div className='mx-auto md:w-[800px] mt-20 pb-10'>
+            <div className='mx-auto md:w-[800px] mt-20 pb-10 min-h-screen'>
                 {
-                    feedbackDatas.length > 0 && <p className='ml-2 pb-1 text-gray-300'>Public feedbacks</p>
+                    feedbackDatas.length > 0 && <p className='ml-2 pb-1 text-gray-300'>Public feedbacks & comments</p>
                 }
                 {
                     feedbackDatas.length < 1 &&
@@ -101,21 +101,21 @@ const FeedbackField = () => {
                 typing &&
                 <div className=' top-0 fixed textBox bg-[#0a0a0aca] w-full h-full'>
                      <div className='flex justify-center items-center h-full '>
-                    <div className='min-w-[500px] max-w-[500px] min-h-[290px] shadow-2xl shadow-[#1bc55f1a] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
+                    <div className='min-w-[500px] max-w-[500px] min-h-[290px] shadow-2xl shadow-[#a6a6a61a] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
                         
                         <textarea 
                             name="feedbacktext" 
                             id="feedbacktext" 
-                            placeholder='Type your feedback...' 
+                            placeholder='type your feedback...' 
                             autoFocus
                             onChange={(e) => setFeedbackText(e.target.value)}
                             className='w-full min-h-[200px] max-h-[200px] rounded-xl btn-bg border-[1px] border-[#242424] placeholder:text-gray-500 outline-none p-2 font-mono text-lg'>
                         </textarea>
 
                         <div className='flex items-center mt-3'>
-                            <button onClick={() => setTyping(false)} className='rounded-l-xl hover:bg-slate-200 hover:text-black text-white duration-300 h-fit py-2 w-1/2'><code>Cancel</code></button>
+                            <button onClick={() => setTyping(false)} className='rounded-xl hover:bg-slate-200 hover:text-black text-white duration-300 h-full py-2 w-1/2'><code>Cancel</code></button>
                             <p>|</p>
-                            <button onClick={handlePostFeedback} className='rounded-r-xl hover:bg-slate-200 hover:text-black text-white duration-300 h-fit py-2 w-1/2'><code>Send</code></button>
+                            <button onClick={handlePostFeedback} className='rounded-xl hover:bg-slate-200 hover:text-black text-white duration-300 h-full py-2 w-1/2'><code>Send</code></button>
                         </div>
                     </div>
                 </div>

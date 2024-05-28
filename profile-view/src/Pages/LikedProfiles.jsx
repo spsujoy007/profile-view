@@ -13,7 +13,7 @@ const LikedProfiles = () => {
     const [likedProfiles, setLikedProfiles] = useState([])
     useEffect(() => {
         setLoading(true)
-        fetch(`https://profile-view-be.vercel.app/mylikedProfiles?username=${username}`, {
+        fetch(`http://localhost:5000/mylikedProfiles?username=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -30,9 +30,9 @@ const LikedProfiles = () => {
     return (
         <div className='min-h-screen pt-20'>
             <div className='max-w-[800px] mx-auto p-5 bg-[#171717a0] rounded-lg '>
-                <div className='flex justify-end'>
+                {/* <div className='flex justify-end'>
                     <p onClick={() => navigate('/')} className='mr-5 py-2 flex items-end gap-3 text-white cursor-pointer duration-200 '>tap to back<IoReturnDownBack /></p>
-                </div>
+                </div> */}
                 <h3 className='text-md mb-2 text-white'>Liked Profiles: {likedProfiles.length}</h3>
                 <hr />
                 {
