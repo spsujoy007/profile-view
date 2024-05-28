@@ -23,7 +23,7 @@ const FeedbackField = () => {
         }
         if(feedbackText.length > 1){
 
-            fetch(`http://localhost:5000/feedback?username=${findUser.username}`, {
+            fetch(`https://profile-view-be.vercel.app/feedback?username=${findUser.username}`, {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -32,7 +32,6 @@ const FeedbackField = () => {
             })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
                 if(data.acknowledged){
                     setLoading(false)
                     refetch()
@@ -40,7 +39,7 @@ const FeedbackField = () => {
                 }
             })
             .catch(e => {
-                console.log(e)
+                console.error(e)
                 setLoading(false)
                 setTyping(false)
             })
@@ -55,12 +54,13 @@ const FeedbackField = () => {
     }, [])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/getfeedbacks`, {
+        fetch(`https://profile-view-be.vercel.app/getfeedbacks`, {
             method: "GET"
         })
         .then(res => res.json())
         .then(data => {
             setFeedbackDatas(data)
+            // console.log(data);
         })
     }
 
@@ -89,7 +89,7 @@ const FeedbackField = () => {
                 <div className='space-y-5'>
                     {
                         feedbackDatas.map(feedback => <FeedbackCard
-                            key={feedback.username}
+                            key={feedback._id}
                             feedbackData={feedback}
                         ></FeedbackCard>)
                     }

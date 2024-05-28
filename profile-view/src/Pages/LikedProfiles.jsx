@@ -13,7 +13,7 @@ const LikedProfiles = () => {
     const [likedProfiles, setLikedProfiles] = useState([])
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:5000/mylikedProfiles?username=${username}`, {
+        fetch(`https://profile-view-be.vercel.app/mylikedProfiles?username=${username}`, {
             method: "GET"
         })
         .then(res => res.json())

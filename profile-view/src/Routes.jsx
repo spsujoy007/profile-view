@@ -34,7 +34,7 @@ export const routes = createBrowserRouter([
     },
     {
         path: '/feedback',
-        element: <ProtectedRoute><FeedbackField></FeedbackField></ProtectedRoute>
+        element:  <ProtectedRoute><FeedbackField></FeedbackField></ProtectedRoute>
     },
     {
         path: '/likedprofiles',
@@ -42,7 +42,7 @@ export const routes = createBrowserRouter([
     },
     {
         path: '/profile/:username',
-        loader: async ({params}) =>  await fetch(`http://localhost:5000/profile/${params.username}`),
+        loader: async ({params}) =>  await fetch(`https://profile-view-be.vercel.app/profile/${params.username}`),
         element: <UserProfile></UserProfile>
     }
 ])

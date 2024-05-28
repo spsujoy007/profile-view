@@ -68,7 +68,7 @@ const Signup = ({signup}) => {
             }
             // console.log(userinfo)
 
-            fetch('http://localhost:5000/signup', {
+            fetch('https://profile-view-be.vercel.app/signup', {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -77,7 +77,7 @@ const Signup = ({signup}) => {
             })
             .then(res => res.json())
             .then(data => {
-                if(data.code === 20){
+                if(data.code === 22){
                     toast.error('username already exists')
                     setError(true)
                     setMessage(false)

@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//http://localhost:5000/
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -33,7 +33,7 @@ async function run(){
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
         const existUser = await usersCollection.findOne({ username: userinfo.username });
-        console.log(userinfo);
+        // console.log(userinfo);
         if (existUser?.username === userinfo.username) {
             return res.status(400).json({ error: 'Username already exists.', code: 22 });
         } else {
@@ -77,7 +77,7 @@ async function run(){
         const filter = {username: query}
         const option = {upsert: true}
         const userprofile = await userProfileCollection.findOne(filter)
-        const old_views = userprofile.profile_view
+        const old_views = userprofile?.profile_view
         
         const updatedDoc = {
           $set: {
@@ -221,8 +221,8 @@ async function run(){
       app.get('/mylikedProfiles', async(req, res) => {
           const query = req.query.username
           const result = await likedProfileCollect.findOne({username: query})
-          
-          res.send(result.likedProfiles)
+          // console.log(result);
+          res.send(result?.likedProfiles)
       })
 
       // ranking by likedcount of profile

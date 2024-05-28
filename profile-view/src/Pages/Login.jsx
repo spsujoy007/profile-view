@@ -28,7 +28,7 @@ const Login = () => {
             username = `@${username}`
         }
         // console.log(name, password)
-        fetch(`http://localhost:5000/login?username=${username}&pass=${password}`, {
+        fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
             method: 'GET'
         })
         .then(res => res.json())

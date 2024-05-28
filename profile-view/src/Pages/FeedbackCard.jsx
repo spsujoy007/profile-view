@@ -11,7 +11,7 @@ const FeedbackCard = ({feedbackData}) => {
 
     useEffect(() => {
         setLoading(true)
-            fetch(`http://localhost:5000/profile/${username}`, {
+            fetch(`https://profile-view-be.vercel.app/profile/${username}`, {
             method: "GET"
         })
         .then(res => res.json()) // Convert response to text
