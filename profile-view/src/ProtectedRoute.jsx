@@ -11,7 +11,7 @@ const ProtectedRoute = ({children}) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`https://profile-view-be.vercel.app/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
+                const response = await fetch(`http://localhost:5000/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
                 const data = await response.json();
                 console.log("Protect: ", data)
                 setUserProfile(data);

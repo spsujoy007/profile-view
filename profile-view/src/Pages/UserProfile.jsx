@@ -85,7 +85,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -98,7 +98,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
+        fetch(`http://localhost:5000/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -159,7 +159,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `https://profile-view-be.vercel.app/likeprofile`
+        const url = `http://localhost:5000/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -184,7 +184,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())

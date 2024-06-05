@@ -23,7 +23,7 @@ const FeedbackField = () => {
         }
         if(feedbackText.length > 1){
 
-            fetch(`https://profile-view-be.vercel.app/feedback?username=${findUser.username}`, {
+            fetch(`http://localhost:5000/feedback?username=${findUser.username}`, {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -54,7 +54,7 @@ const FeedbackField = () => {
     }, [])
 
     const refetch = () => {
-        fetch(`https://profile-view-be.vercel.app/getfeedbacks`, {
+        fetch(`http://localhost:5000/getfeedbacks`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -72,7 +72,7 @@ const FeedbackField = () => {
                 </div> */}
             <div className='mx-auto md:w-[1040px] '>
                 <div className='flex justify-center '>
-                    <input onFocus={() => setTyping(true)} placeholder='type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500' />
+                    <input onFocus={() => setTyping(true)} placeholder='type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500 bg-[#242424]' />
                 </div>
             </div>
 
@@ -109,7 +109,7 @@ const FeedbackField = () => {
                             placeholder='type your feedback...' 
                             autoFocus
                             onChange={(e) => setFeedbackText(e.target.value)}
-                            className='w-full min-h-[200px] max-h-[200px] rounded-xl btn-bg border-[1px] border-[#242424] placeholder:text-gray-500 outline-none p-2 font-mono text-lg'>
+                            className='w-full min-h-[200px] max-h-[200px] rounded-xl bg-[#242424] border-[1px] border-[#242424] placeholder:text-gray-500 outline-none p-2 font-mono text-lg text-white'>
                         </textarea>
 
                         <div className='flex items-center mt-3'>

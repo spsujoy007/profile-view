@@ -32,13 +32,10 @@ const Navbar = () => {
         </a>
     </div>
     <div className="navbar-center hidden lg:flex ml-auto">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 text-white">
             <li><a href='/'>Home</a></li>
             <li><a href='/likedprofiles'>Liked profiles</a></li>
             <li><a href='/ranks'>Ranking</a></li>
-            {
-                
-            }
             <li><a href='/feedback'>Feedback</a></li>
         </ul>
     </div>

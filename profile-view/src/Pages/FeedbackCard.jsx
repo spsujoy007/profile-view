@@ -11,7 +11,7 @@ const FeedbackCard = ({feedbackData}) => {
 
     useEffect(() => {
         setLoading(true)
-            fetch(`https://profile-view-be.vercel.app/profile/${username}`, {
+            fetch(`http://localhost:5000/profile/${username}`, {
             method: "GET"
         })
         .then(res => res.json()) // Convert response to text
@@ -32,7 +32,7 @@ const FeedbackCard = ({feedbackData}) => {
     return (
         <div className='bg-[#090909] p-5 rounded-xl border-[#1d1d1d] border-[1px]'>
             <div className='p-2  rounded-xl'>
-                <code><h1><span className='text-green-500'>{`${username} ->`}</span> {feedback}</h1></code>
+                <code><h1><span className='text-green-500 '>{`${username} ->`}</span> <span className='text-white'>{feedback}</span></h1></code>
                 {/* <div dangerouslySetInnerHTML={{ __html: formattedText }} ></div> */}
             </div>
             {
@@ -48,8 +48,8 @@ const FeedbackCard = ({feedbackData}) => {
                 <div className='flex items-center gap-2 mt-5 cursor-pointer'>
                     <img onClick={() => navigate(`/profile/${username}`)} className='w-[45px] h-[45px] rounded-full' src={userProfile.profile_pic} alt="" />
                     <div>
-                        <code><h5>{userProfile.name ? userProfile.name : userProfile.username}</h5></code>
-                        <p className='text-sm'>{postedDate}</p>
+                        <code><h5 className='text-[#dcdcdc]'>{userProfile.name ? userProfile.name : userProfile.username}</h5></code>
+                        <p className='text-sm text-white'>{postedDate}</p>
                     </div>
                 </div>
             }

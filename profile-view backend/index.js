@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//https://profile-view-be.vercel.app/
+//http://localhost:5000/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -32,9 +32,9 @@ async function run(){
 
       app.post('/signup', async (req, res) => {
         const userinfo = req.body;
-        const existUser = await usersCollection.findOne({ username: userinfo.username });
+        const existUser = await usersCollection.findOne({ username: userinfo.username.toLowerCase() });
         // console.log(userinfo);
-        if (existUser?.username === userinfo.username) {
+        if (existUser?.username.toLowerCase() === userinfo.username.toLowerCase()) {
             return res.status(400).json({ error: 'Username already exists.', code: 22 });
         } else {
             try {
