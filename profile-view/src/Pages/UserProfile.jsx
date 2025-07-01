@@ -70,13 +70,13 @@ const UserProfile = () => {
         isFirstRun.current = false;
 
         if(!findUser.username){
+            visitedProfileHistory()
+        }
+        else if(findUser.username === username){
             if(findUser.username !== username)
             {
                 viewedProfile()
             }
-        }
-        else if(findUser.username === username){
-            visitedProfileHistory()
         }
         return;
     }
@@ -85,7 +85,7 @@ const UserProfile = () => {
 //-----------------------=========--------------------------------
 
     function viewedProfile(){
-        fetch(`http://localhost:5000/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
+        fetch(`https://profile-view-be.vercel.app/count_view?username=${username}&loginUSERNAME=${findUser.username ? findUser.username : null}`, {
             method: "GET",
         })
         .then(res => res.json())
@@ -98,7 +98,7 @@ const UserProfile = () => {
     }
 
     function visitedProfileHistory(){
-        fetch(`http://localhost:5000/visited_profile`, {
+        fetch(`https://profile-view-be.vercel.app/visited_profile`, {
             method: "POST",
             headers:{
                 "Content-type": "application/json"
@@ -159,7 +159,7 @@ const UserProfile = () => {
             ]
         }
 
-        const url = `http://localhost:5000/likeprofile`
+        const url = `https://profile-view-be.vercel.app/likeprofile`
         fetch(url, {
             method: "POST",
             headers: {
@@ -184,7 +184,7 @@ const UserProfile = () => {
     const [ifliked, setIfLiked] = useState(false)
     // view liked or not
     useEffect(() => {
-        fetch(`http://localhost:5000/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
+        fetch(`https://profile-view-be.vercel.app/profilelike_history?username=${findUser.username}&visitprofile=${username}`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -464,6 +464,16 @@ const UserProfile = () => {
                     }
                 </>
             }
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5174328234299669"
+                crossorigin="anonymous"></script>
+            {/* <!-- ManuallAds --> */}
+            <ins class="adsbygoogle"
+                style={{ display: 'inline-block', width: '600px', height: '90px' }}
+                data-ad-client="ca-pub-5174328234299669"
+                data-ad-slot="3050468736"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
     );
 };

@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import useProfileData from './Hooks/useProfileData';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ProtectedRoute = ({children}) => {
@@ -7,31 +6,41 @@ const ProtectedRoute = ({children}) => {
     const user = JSON.parse(jsonuser && jsonuser)
     // const userProfile = useProfileData();
     const [userProfile, setUserProfile] = useState({});
+    const [calldata, setCalldata] = useState(null);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
+
+    // const hasFetched = useRef(false); // Ref to track if fetchUserData has been called
+
+    const fetchUserData = async () => {
+        if (user) {
             try {
-                const response = await fetch(`http://localhost:5000/userdata?username=${user?.username}&token_id=${user?.user_token.split("%")[0]}`);
+                const response = await fetch(`https://profile-view-be.vercel.app/userdata?username=${user.username}&token_id=${user.user_token.split("%")[0]}`);
                 const data = await response.json();
-                console.log("Protect: ", data)
                 setUserProfile(data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
-        };
-        fetchUserData()
-    }, [])
+        }
+    };
 
-
-    const navigate = useNavigate()
-    try{
-        if(user?.username && userProfile.code === 22){
+    useEffect(() => {
+        fetchUserData();
+        // if (!hasFetched.current) {
+        //     hasFetched.current = true;
+        //     fetchUserData();
+        // }
+    }, [ user]);
+        
+        
+        const navigate = useNavigate()
+        try{
+            if(user?.username && userProfile.code === 22){
             localStorage.removeItem("userinfo")
-            return navigate('/signup')
+            navigate('/login')
         }
         else if(!user?.username){
             localStorage.removeItem("userinfo")
-            return navigate('/signup')
+            navigate('/login')
         }
         else{
             return children

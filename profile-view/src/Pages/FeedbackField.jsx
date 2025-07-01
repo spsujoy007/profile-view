@@ -23,7 +23,7 @@ const FeedbackField = () => {
         }
         if(feedbackText.length > 1){
 
-            fetch(`http://localhost:5000/feedback?username=${findUser.username}`, {
+            fetch(`https://profile-view-be.vercel.app/feedback?username=${findUser.username}`, {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -54,7 +54,7 @@ const FeedbackField = () => {
     }, [])
 
     const refetch = () => {
-        fetch(`http://localhost:5000/getfeedbacks`, {
+        fetch(`https://profile-view-be.vercel.app/getfeedbacks`, {
             method: "GET"
         })
         .then(res => res.json())
@@ -65,14 +65,14 @@ const FeedbackField = () => {
     }
 
     return (
-        <div className='min-h-full bg-black pt-[100px]'>
+        <div className='min-h-full bg-black pt-[100px] md:px-0 px-2'>
             <div className=''>
                 {/* <div className='flex justify-end w-full mx-auto bg-[#2e2e2e] top-0 fixed z-10 px-5' >
                     <p onClick={() => navigate('/')} className='py-2 flex items-end gap-3 hover:underline cursor-pointer duration-200 text-slate-200 text-right'>back to home page<IoReturnDownBack /></p>
                 </div> */}
-            <div className='mx-auto md:w-[1040px] '>
+            <div className='mx-auto md:w-[1040px] sticky top-14 py-5 bg-[#000]'>
                 <div className='flex justify-center '>
-                    <input onFocus={() => setTyping(true)} placeholder='type your feedback' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500 bg-[#242424]' />
+                    <input onFocus={() => setTyping(true)} placeholder='type your feedback or any message' type="text" className='btn-bg border-[1px] w-[800px] sticky top-3 px-2 py-2 rounded-lg outline-none border-[#242424] placeholder:text-gray-500 bg-[#242424]' />
                 </div>
             </div>
 
@@ -101,7 +101,7 @@ const FeedbackField = () => {
                 typing &&
                 <div className=' top-0 fixed textBox bg-[#0a0a0aca] w-full h-full'>
                      <div className='flex justify-center items-center h-full '>
-                    <div className='min-w-[500px] max-w-[500px] min-h-[290px] shadow-2xl shadow-[#a6a6a61a] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
+                    <div className='md:min-w-[500px] w-[90%] md:max-w-[500px] min-h-[290px] shadow-2xl shadow-[#a6a6a61a] max-h-[290px] bg-[#050505] p-5 rounded-xl'>
                         
                         <textarea 
                             name="feedbacktext" 

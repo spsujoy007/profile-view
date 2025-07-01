@@ -17,7 +17,7 @@ const LikedProfileCard = ({likedData}) => {
 
     useEffect(() => {
         setLoading(true)
-            fetch(`http://localhost:5000/profile/${likedData?.username}`, {
+            fetch(`https://profile-view-be.vercel.app/profile/${likedData?.username}`, {
             method: "GET"
         })
         .then(res => res.json()) // Convert response to text

@@ -2,7 +2,7 @@ const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = process.env.PORT || 5000 
-//http://localhost:5000/
+//https://profile-view-be.vercel.app/
 
 const cors = require('cors');
 require('dotenv').config();
@@ -85,19 +85,19 @@ async function run(){
           }
         }
 
-          if(req.query.loginUSERNAME === 'undefined'){
-            const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
-            return res.send(saveInfo)
-          }
-          else{
+          if(req.query.loginUSERNAME !== 'undefined'){
             const visitedCollec = await visitedProfilesCollect.findOne({username: loginuserdata})
             if(visitedCollec?.visitedProfiles?.find(p => p.username === query)){
-               return res.status(404).json({message: "Already added this user in user collection"})
-            }
-            else{
-              const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
-              return res.send(saveInfo)
-            }
+              return res.status(404).json({message: "Already added this user in user collection"})
+              }
+              else{
+                const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
+                return res.send(saveInfo)
+                }
+                }
+          else{
+            const saveInfo = await userProfileCollection.updateOne(filter, updatedDoc, option)
+            return res.send(saveInfo)
           }
     })
 

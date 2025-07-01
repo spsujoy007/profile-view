@@ -28,7 +28,7 @@ const Login = () => {
             username = `@${username}`
         }
         // console.log(name, password)
-        fetch(`http://localhost:5000/login?username=${username}&pass=${password}`, {
+        fetch(`https://profile-view-be.vercel.app/login?username=${username}&pass=${password}`, {
             method: 'GET'
         })
         .then(res => res.json())
@@ -57,18 +57,19 @@ const Login = () => {
     return (
         <div className='h-screen md:w-[70%] mx-auto'>
                 <div className='flex items-center justify-center h-screen md:p-0 p-5  '>
-                    <div className='border-[1px] border-[#262626] flex items-center md:flex-row flex-col'>
-                        <img className='md:w-[30%]' style={{imageRendering: 'optimizeSpeed'}} src={loginboy} alt="" />
+                    {/* <div className='border-[1px] border-[#262626] flex items-center md:flex-row flex-col'> */}
+                    <div className='border-[1px] border-[#262626] w-full rounded-3xl py-10 bg-[#2424246c]'>
+                        {/* <img className='md:w-[30%]' style={{imageRendering: 'optimizeSpeed'}} src={loginboy} alt="" /> */}
                             <form onSubmit={handleSubmitForm} className='w-full md:px-10 p-5 pb-5 md:pb-0'>
                             <div className='w-full'>
-                                    <h1 className='text-[50px] font-bold text-slate-100'>LOGIN</h1>
-                                    <p className='text-white'>Enter your username and password</p> <br />
-                                    <input required name='username' className='text-md text-slate-200 outline-none py-2 md:w-[90%] w-full  bg-transparent border-b-[1px] border-[#262626] mb-5' placeholder='type your user name here...' id='username' type="text" /> 
+                                    <h1 className='text-[50px] font-bold mb-5 text-slate-100'>LOGIN</h1>
+                                    {/* <p className='text-white'>Enter your username and password</p> <br /> */}
+                                    <input required name='username' className='text-md text-slate-200 outline-none py-2 md:w-[90%] w-full  text-lg placeholder:text-[#525252] font-normal bg-transparent border-b-[1px] border-[#262626] mb-5' placeholder='type your user name' id='username' type="text" /> 
                                     <br />
                                     
                                     {/* <label htmlFor="password" className='text-white  mt-5'>create a strong password</label> <br /> */}
                                     <div className='flex items-center'>
-                                        <input required name='password' className='text-md text-slate-200 outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' placeholder='type your password here...' id='password' type={viewPass ? "text" : "password"} />
+                                        <input required name='password' className='text-md text-slate-200 outline-none py-2 md:w-[90%] w-full text-lg placeholder:text-[#525252] font-normal bg-transparent border-b-[1px] border-[#262626]' placeholder='type your password' id='password' type={viewPass ? "text" : "password"} />
                                         <button onClick={() => setViewPass(!viewPass)} title={viewPass ? 'hide password':'view password'} type='button' className='-ml-5 text-white text-xl'>{viewPass ? <FaEye></FaEye> : <FaEyeSlash />}</button>
                                     </div>
                                      <br />

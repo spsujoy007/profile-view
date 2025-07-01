@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import boyimg from '../pics/singupimage.jpg'
 import './signup.css'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -68,7 +67,7 @@ const Signup = ({signup}) => {
             }
             // console.log(userinfo)
 
-            fetch('http://localhost:5000/signup', {
+            fetch('https://profile-view-be.vercel.app/signup', {
                 method: "POST",
                 headers: {
                     'content-type' : 'application/json'
@@ -104,8 +103,9 @@ const Signup = ({signup}) => {
     return (
         <div className='h-screen md:w-[70%] mx-auto'>
                 <div className='flex items-center justify-center h-screen md:p-0 p-2'>
-                    <div className=' border-[1px] border-[#262626] flex items-center md:flex-row flex-col'>
-                        <img className='md:w-[30%]' src={boyimg} style={{imageRendering: 'optimizeSpeed'}} alt="" />
+                    {/* <div className=' border-[1px] border-[#262626] flex items-center md:flex-row flex-col'> */}
+                    <div className=' border-[1px] border-[#262626] w-full rounded-3xl py-10 bg-[#2424246c]'>
+                        {/* <img className='md:w-[30%]' src={boyimg} style={{imageRendering: 'optimizeSpeed'}} alt="" /> */}
                             <form onSubmit={handleSubmitForm} className='w-full md:px-10 p-5 pb-5 md:pb-0'>
                             <div className='w-full'>
                                     <h1 className='text-[50px] font-bold text-slate-100'>SIGN UP</h1>
@@ -114,7 +114,7 @@ const Signup = ({signup}) => {
                                      required 
                                      autoComplete="false" 
                                      name='username' 
-                                     className='text-md pl-2 text-white outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
+                                     className='text-md pl-2 text-white outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626] text-lg placeholder:text-[#525252]' 
                                      placeholder='create a username...' 
                                      id='username' 
                                      type="text" /> 
@@ -128,7 +128,7 @@ const Signup = ({signup}) => {
                                         required 
                                         autoComplete="new-password" 
                                         name='password' 
-                                        className='mt-5 pl-2 text-white text-md outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626]' 
+                                        className='mt-5 pl-2 text-white text-md outline-none py-2 md:w-[90%] w-full bg-transparent border-b-[1px] border-[#262626] text-lg placeholder:text-[#525252]' 
                                         placeholder='create a password...' 
                                         id='password' 
                                         onChange={(e) => setPass(e.target.value)}
@@ -137,7 +137,7 @@ const Signup = ({signup}) => {
                                     </div>
                                     <span className='text-red-500 block'> {password_issue && `Password must be 6+ characters.`}</span>
                                      <br />
-                                    <button type="submit" className='bg-[#101317] text-slate-200 border-[1px] capitalize border-[#262626] px-5 py-2 mt-2 md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200' >Create account or Press Enter</button>
+                                    <button type="submit" className='bg-[#1b1b1b] border-[1px] uppercase border-[#262626] px-5 py-2 mt-2  md:w-[90%] w-full hover:bg-[#2c2c2c] duration-200 text-slate-200' >Create account or Press Enter</button>
                                     <p className='mt-2 text-slate-200'>Do you have an account? <span onClick={() => navigate('/login')} className=' underline font-semibold cursor-pointer text-yellow-500'>click to log in</span></p>
                             </div>
                             </form>
