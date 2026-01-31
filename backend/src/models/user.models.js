@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
     first_name: {
@@ -51,17 +52,50 @@ const userSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    refreshToken: String
 }, { timestamps: true });
 
+
+// Pre-save hook to hash password before saving
 userSchema.pre('save', function (next) {
-    if(!this.isModified('password')) return next();
+    if(!this.isModified('password')) return next(); // If password is not modified, proceed without hashing
 
     // Hash password logic can be added here
     const salt = bcrypt.genSaltSync(10);
     this.password = bcrypt.hashSync(this.password, salt);
     next();
 })
+
+// Method to compare entered password with hashed password
+userSchema.methods.isPasswordCorrect = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password); // Returns true if passwords match
+}
+
+userSchema.methods.generateAccessToken = function () {
+    jwt.sign({
+        id: this._id,
+        username: this.username,
+        email: this.email,
+        name: `${this.first_name} ${this.last_name}`
+    }, 
+        process.env.ACCESS_TOKEN_SECRET, 
+    {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+    });
+}
+
+userSchema.methods.generateRefreshToken = function () {
+    jwt.sign({
+        id: this._id,
+        username: this.username
+    }, 
+        process.env.REFRESH_TOKEN_SECRET, 
+    {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+    });
+}
+
 
 export const User = mongoose.model('User', userSchema);
 
