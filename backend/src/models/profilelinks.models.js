@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const profileLinkSchema = new mongoose.Schema({
-    user_id: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
@@ -50,6 +50,6 @@ const profileLinkSchema = new mongoose.Schema({
 export const ProfileLink = mongoose.model("ProfileLink", profileLinkSchema);
 
 //   id varchar [pk, not null]
-//   user_id varchar [unique]
+//   userId varchar [unique]
 //   platform varchar
 //   url text
