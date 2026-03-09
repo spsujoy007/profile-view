@@ -232,7 +232,7 @@ connectDB()
     app.post('/assistant', async(req, res) => {
 
       const { error, output } = await AiPower(req.body.message);
-      
+
       console.log({reply: output.content});
       res.send({reply: output.content});
     })

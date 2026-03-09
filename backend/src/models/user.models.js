@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true,
         unique: true,
         index: true
     },
@@ -59,13 +58,13 @@ const userSchema = new mongoose.Schema({
 
 
 // Pre-save hook to hash password before saving
-userSchema.pre('save', function (next) {
-    if(!this.isModified('password')) return next(); // If password is not modified, proceed without hashing
+userSchema.pre('save', function () {
+    if(!this.isModified('password')) return  // If password is not modified, proceed without hashing
 
     // Hash password logic can be added here
     const salt = bcrypt.genSaltSync(10);
     this.password = bcrypt.hashSync(this.password, salt);
-    next();
+    
 })
 
 // Method to compare entered password with hashed password
