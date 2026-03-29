@@ -1,7 +1,53 @@
 import { User } from "../models/user.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const sendEmailVerifcation = async (newUser) => {
+
+    // Create a transporter using SMTP
+    const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // use STARTTLS (upgrade connection to TLS after connecting)
+    auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+    },
+    });
+
+    try {
+        const info = await transporter.sendMail({
+            from: '"ProfileView" <sujoypaul728@gmail.com>', // sender address
+            to: newUser?.email, // list of recipients
+            subject: `Please verify your email`, // subject line
+            text: `Welcome to ProfileView! Please verify your email Mr/Ms. ${newUser?.first_name} ${newUser.last_name}.`, // plain text body
+            html: `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Email Verification</title>
+            </head>
+            <body>
+                <h1>Email Verification</h1>
+                <p>${newUser?.email}</p>
+                <p>Thank you for registering with us!</p>
+            </body>
+            </html>`, // HTML body
+        });
+
+        console.log("Message sent: %s", info.messageId);
+        // Preview URL is only available when using an Ethereal test account
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        } catch (err) {
+        console.error("Error while sending mail:", err);
+        }
+    
+}
 
 const registerUser = asyncHandler( async (req, res) => {
     // step 1: taking user details from request body
@@ -12,14 +58,13 @@ const registerUser = asyncHandler( async (req, res) => {
     // step 6: generating a token for the user
 
     const {first_name, last_name, email, password} = req.body;
-    console.log(req.body)
 
     if([first_name, last_name, email, password].some(field => !field)){
         return res.status(400)
         .json(new ApiResponse(400, null, "All fields are required"))
     }
 
-    const existedUser = await User.findOne({ email, password });
+    const existedUser = await User.findOne({ email });
 
     if(existedUser){
         return res.status(400)
@@ -40,6 +85,8 @@ const registerUser = asyncHandler( async (req, res) => {
         return res.status(500)
         .json(new ApiResponse(500, null, "Failed to create user"))
     }
+
+    await sendEmailVerifcation(createdUser);
     
     res.status(201)
     .json(new ApiResponse(
@@ -48,4 +95,16 @@ const registerUser = asyncHandler( async (req, res) => {
         }, "User registered successfully"))
 })
 
-export { registerUser }
+
+
+const loginUser = asyncHandler( async (req, res) => {
+    // step 1: taking email and password from request body
+    // step 2: validating email and password
+    // step 3: checking if user exists in database
+    // step 4: comparing the password
+    // step 5: generating a token for the user
+
+
+})
+
+export { registerUser, loginUser }
