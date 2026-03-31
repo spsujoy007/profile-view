@@ -8,10 +8,10 @@ dotenv.config();
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).select('-password -refreshToken');
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
-
+        
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -121,7 +121,6 @@ const loginUser = asyncHandler( async (req, res) => {
     // step 5: generating access token and refresh token for the user
     // step 6: saving the refresh token in database
     // step 7: sending the access token and refresh token to client in httpOnly cookie
-
     const { email, password } = req.body;
 
     // validate email and password
@@ -146,7 +145,7 @@ const loginUser = asyncHandler( async (req, res) => {
 
     // generate a token for the user
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
-
+    console.log(accessToken, refreshToken)
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
 
     const options = {
@@ -163,4 +162,20 @@ const loginUser = asyncHandler( async (req, res) => {
     }, "User logged in successfully"))
 })
 
-export { registerUser, loginUser }
+const logutUser = asyncHandler( async(req, res) => {
+    
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, {
+        $set: {
+            refreshToken: null
+        }
+    }, 
+    { new : true })
+    console.log(updatedUser)
+
+    res.status(200)
+    .clearCookie("accessToken")
+    .clearCookie("refreshToken")
+    .json(new ApiResponse(200, null, "User logged out successfully"))
+})
+
+export { registerUser, loginUser, logutUser }
