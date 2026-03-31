@@ -6,6 +6,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const generateAccessAndRefreshToken = async (userId) => {
+    try {
+        const user = await User.findById(userId);
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
+
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return { accessToken, refreshToken };
+    }
+    catch (err) {
+        throw new Error("Error while generating tokens: " + err.message);
+    }
+}
+
 const sendEmailVerifcation = async (newUser) => {
 
     // Create a transporter using SMTP
@@ -102,9 +118,49 @@ const loginUser = asyncHandler( async (req, res) => {
     // step 2: validating email and password
     // step 3: checking if user exists in database
     // step 4: comparing the password
-    // step 5: generating a token for the user
+    // step 5: generating access token and refresh token for the user
+    // step 6: saving the refresh token in database
+    // step 7: sending the access token and refresh token to client in httpOnly cookie
 
+    const { email, password } = req.body;
 
+    // validate email and password
+    if(!email || !password){
+        return res.status(400)
+        .json(new ApiResponse(400, null, "Email and password are required"))
+    }
+
+    // check if user exists in database
+    const user = await User.findOne({ email });
+    if(!user) {
+        return res.status(404)
+        .json(new ApiResponse(404, null, "User not registered with this email"))
+    }
+
+    // compare the password
+    const isPasswordMatched = await user.isPasswordCorrect(password);
+    if(!isPasswordMatched){
+        return res.status(401)
+        .json(new ApiResponse(401, null, "The password you entered is incorrect"))
+    }
+
+    // generate a token for the user
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
+
+    const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
+
+    const options = {
+        httpOnly: true,
+        secure: true,
+    }
+
+    res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new ApiResponse(200, {
+        'user': loggedInUser,
+        accessToken, refreshToken
+    }, "User logged in successfully"))
 })
 
 export { registerUser, loginUser }
