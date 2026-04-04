@@ -211,6 +211,27 @@ const changePassword = asyncHandler( async (req, res) => {
     
 })
 
+const updateProfile = asyncHandler( async ( req, res ) => {
+    const { first_name, last_name, username, bio } = req.body;
+    console.log({first_name, last_name, username, bio})
+    const DU = req.user; // Default User (DU) is the currently authenticated user whose profile is being updated
+    const updateUser = await User.findByIdAndUpdate(req.user._id, {
+        $set: {
+            first_name: first_name || DU.first_name,
+            last_name: last_name || DU.last_name,
+            username: username || DU.username,
+            bio: bio || DU.bio
+        }
+    }, { new: true })
+    .select('-password -refreshToken');
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, {
+        user: updateUser
+    }, "Profile updated successfully"))
+})
+
 const refreshAccessToken = asyncHandler( async (req, res) => {
     // step 1: get the refresh token from cookies
     // step 2: verify the refresh token
@@ -256,4 +277,4 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
     }
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword, updateProfile }
