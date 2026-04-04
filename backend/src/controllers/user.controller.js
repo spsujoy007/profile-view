@@ -177,6 +177,40 @@ const logoutUser = asyncHandler( async(req, res) => {
     .json(new ApiResponse(200, null, "User logged out successfully"))
 })
 
+const changePassword = asyncHandler( async (req, res) => {
+    const { oldPassword, newPassword, confirmNewPassword } = req.body;
+
+    if([ oldPassword, newPassword, confirmNewPassword ].some(field => !field)){
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "All fields are required"));
+    }
+    
+    const user = await User.findById(req.user._id);
+
+    // compare the old password
+    const isPasswordMatched = await user.isPasswordCorrect(oldPassword);
+    if(!isPasswordMatched){
+        return res
+        .status(401)
+        .json(new ApiResponse(401, null, "The old password you entered is incorrect"))
+    }
+
+    if(newPassword !== confirmNewPassword) {
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "New password and confirm new password do not match"))
+    }
+
+    user.password = newPassword;
+    await user.save({validateBeforeSave: false});
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200, null, "Password changed successfully"))
+    
+})
+
 const refreshAccessToken = asyncHandler( async (req, res) => {
     // step 1: get the refresh token from cookies
     // step 2: verify the refresh token
@@ -222,4 +256,4 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
     }
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword }
