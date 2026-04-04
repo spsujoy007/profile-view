@@ -202,6 +202,12 @@ const changePassword = asyncHandler( async (req, res) => {
         .json(new ApiResponse(400, null, "New password and confirm new password do not match"))
     }
 
+    if(newPassword === oldPassword){
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "New password cannot be the same as old password"))
+    }
+
     user.password = newPassword;
     await user.save({validateBeforeSave: false});
 
@@ -213,7 +219,7 @@ const changePassword = asyncHandler( async (req, res) => {
 
 const updateProfile = asyncHandler( async ( req, res ) => {
     const { first_name, last_name, username, bio } = req.body;
-    console.log({first_name, last_name, username, bio})
+
     const DU = req.user; // Default User (DU) is the currently authenticated user whose profile is being updated
     const updateUser = await User.findByIdAndUpdate(req.user._id, {
         $set: {
