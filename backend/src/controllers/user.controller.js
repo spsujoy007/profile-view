@@ -4,6 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import jwt from "jsonwebtoken"
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -77,6 +78,7 @@ const sendEmailVerifcation = async (newUser) => {
     
 }
 
+
 const registerUser = asyncHandler( async (req, res) => {
     // step 1: taking user details from request body
     // step 2: validating user details
@@ -99,6 +101,18 @@ const registerUser = asyncHandler( async (req, res) => {
         .json(new ApiResponse(400, {}, "User already exists with this email"))
     }
 
+    // TODO: We can move the code for generating verification code and verification info to a separate function and also we can move the code for sending email to a separate function. This will make our code more modular and reusable. TODO: TODO: TODO: TODO: TODO:
+    const salt = bcrypt.genSaltSync(10);
+    const generateVerificationCode = bcrypt.hashSync(Math.floor(100000 + Math.random() * 900000).toString(), salt); // Generate a random 6-digit code
+    
+    const generateVerificationInfo = jwt.sign(
+        { email, code: generateVerificationCode },
+            process.env.EMAIL_VERIFICATION_SECRET,
+        { expiresIn: '3m' }
+    ); 
+
+    console.log(generateVerificationInfo);
+
     const user = await User.create({
         first_name,
         last_name,
@@ -119,7 +133,7 @@ const registerUser = asyncHandler( async (req, res) => {
     res.status(201)
     .json(new ApiResponse(
         201, {
-            'user': createdUser,
+            'user':  createdUser,
         }, "User registered successfully"))
 })
 
