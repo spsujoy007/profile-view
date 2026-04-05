@@ -7,6 +7,17 @@ import jwt from "jsonwebtoken"
 
 dotenv.config();
 
+const optionsForAccessToken = {
+    httpOnly: true,
+    secure: true,
+    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000) // 1 day
+}
+const optionsForRefreshToken = {
+    httpOnly: true,
+    secure: true,
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
+}
+
 const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId).select('-password -refreshToken');
@@ -147,14 +158,9 @@ const loginUser = asyncHandler( async (req, res) => {
     console.log(accessToken, refreshToken)
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
 
-    const options = {
-        httpOnly: true,
-        secure: true,
-    }
-
     res.status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken, optionsForAccessToken)
+    .cookie("refreshToken", refreshToken, optionsForRefreshToken)
     .json(new ApiResponse(200, {
         'user': loggedInUser,
         accessToken, refreshToken
@@ -262,14 +268,10 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
 
         const {accessToken, refreshToken} = await generateAccessAndRefreshToken(decodedToken);
 
-        const options = {
-            httpOnly: true,
-            secure: true,
-        }
         return res
         .status(200)
-        .cookie("refreshToken", refreshToken, options)
-        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, optionsForRefreshToken)
+        .cookie("accessToken", accessToken, optionsForAccessToken)
         .json( new ApiResponse(
             200,
             {accessToken, refreshToken},
