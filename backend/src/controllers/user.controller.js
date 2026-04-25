@@ -35,7 +35,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     }
 }
 
-const sendEmailVerifcation = async (newUser) => {
+const sendEmailVerifcation = async (newUser, generatedCode) => {
 
     // Create a transporter using SMTP
     const transporter = nodemailer.createTransport({
@@ -52,21 +52,100 @@ const sendEmailVerifcation = async (newUser) => {
         const info = await transporter.sendMail({
             from: '"ProfileView" <sujoypaul728@gmail.com>', // sender address
             to: newUser?.email, // list of recipients
-            subject: `Please verify your email`, // subject line
+            subject: `Please verify your email - ${new Date().toLocaleDateString()}`, // subject line
             text: `Welcome to ProfileView! Please verify your email Mr/Ms. ${newUser?.first_name} ${newUser.last_name}.`, // plain text body
             html: `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Email Verification</title>
-            </head>
-            <body>
-                <h1>Email Verification</h1>
-                <p>${newUser?.email}</p>
-                <p>Thank you for registering with us!</p>
-            </body>
-            </html>`, // HTML body
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification</title>
+</head>
+
+<body style="margin:0; padding:0; background-color:#0b0f14; font-family:Arial, sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
+    <tr>
+      <td align="center">
+
+        <!-- Main Container -->
+        <table width="100%" max-width="500px" cellpadding="0" cellspacing="0"
+          style="background:#111827; border-radius:16px; padding:30px; border:1px solid #1f2937; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+
+          <!-- Header -->
+          <tr>
+            <td align="center" style="padding-bottom:20px;">
+              <h1 style="color:#ffffff; margin:0; font-size:24px;">
+                Profiles<span style="color:#FF8225;">View</span>
+              </h1>
+              <p style="color:#9ca3af; font-size:13px; margin-top:5px;">
+                Email Verification
+              </p>
+            </td>
+          </tr>
+
+          <!-- Greeting -->
+          <tr>
+            <td style="color:#e5e7eb; font-size:14px; padding-bottom:20px;">
+              <p style="margin:0;">Hi <strong>${newUser?.first_name} ${newUser?.last_name}</strong>,</p>
+              <p style="margin-top:10px;">
+                Thanks for joining ProfileView. Please use the verification code below to complete your signup.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Code Box -->
+          <tr>
+            <td align="center" style="padding:25px 0;">
+              <div style="
+                display:inline-block;
+                padding:15px 30px;
+                background:#000000;
+                border:1px solid #374151;
+                border-radius:12px;
+                font-size:28px;
+                font-weight:bold;
+                letter-spacing:6px;
+                color:#ffffff;
+              ">
+                ${generatedCode}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Expiry -->
+          <tr>
+            <td align="center" style="padding-bottom:20px;">
+              <p style="color:#f87171; font-size:13px; margin:0;">
+                This code will expire in 3 minutes.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Info -->
+          <tr>
+            <td style="color:#9ca3af; font-size:13px; line-height:1.6;">
+              <p style="margin:0;">
+                If you didn’t request this, you can safely ignore this email.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding-top:25px; text-align:center; font-size:12px; color:#6b7280;">
+              © ${new Date().getFullYear()} ProfileView. All rights reserved.
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>`, // HTML body
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -78,6 +157,49 @@ const sendEmailVerifcation = async (newUser) => {
     
 }
 
+
+const verifyAndRegisterUser = asyncHandler( async ( req, res ) => {
+    const { email, code } = req.body;
+
+    if(!email || !code){
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Email and code are required"))
+    };
+
+    const existedUser = await User.findOne({email});
+
+    if(!isUserExist){
+        return res
+        .status(404)
+        .json(new ApiResponse(404, null, "User not found with this email"))
+    }
+
+    if(isUserExist.isVerified){
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "User already verified with this email"))
+    }
+
+    const getInfo = await jwt.verify(isUserExist.email, process.env.EMAIL_VERIFICATION_SECRET, (err, decoded) => { 
+        if(err){
+            return res.status(400)
+            .json(new ApiResponse(400, null, "Invalid or expired verification code"));
+        }
+    })
+
+    if(!getInfo){
+        return res.status(400)
+        .json(new ApiResponse(400, null, "Invalid or expired verification code"));
+    }
+    
+    const isUserWaitForVerification = await jwt.verify(email, process.env.EMAIL_VERIFICATION_SECRET, (err, decoded) => {
+        if(err){
+            return res.status(400)
+            .json(new ApiResponse(400, null, "Invalid or expired verification code"));
+        }
+    });
+})
 
 const registerUser = asyncHandler( async (req, res) => {
     // step 1: taking user details from request body
@@ -101,23 +223,29 @@ const registerUser = asyncHandler( async (req, res) => {
         .json(new ApiResponse(400, {}, "User already exists with this email"))
     }
 
-    // TODO: We can move the code for generating verification code and verification info to a separate function and also we can move the code for sending email to a separate function. This will make our code more modular and reusable. TODO: TODO: TODO: TODO: TODO:
+    // TODO: We can move the code for generating verification code and verification info to a separate function and also we can move the code for sending email to a separate function. This will make our code more modular and reusable.
+
+    const generatedCode = Math.floor(100000 + Math.random() * 900000).toString(); // Generate a random 6-digit code
     const salt = bcrypt.genSaltSync(10);
-    const generateVerificationCode = bcrypt.hashSync(Math.floor(100000 + Math.random() * 900000).toString(), salt); // Generate a random 6-digit code
-    
+    const generateEncryptedVerificationCode = bcrypt.hashSync(generatedCode, salt); // Generate a random 6-digit code
+
     const generateVerificationInfo = jwt.sign(
-        { email, code: generateVerificationCode },
+        { 
+            first_name,
+            last_name,
+            email, 
+            code: generateEncryptedVerificationCode 
+        },
             process.env.EMAIL_VERIFICATION_SECRET,
         { expiresIn: '3m' }
     ); 
-
-    console.log(generateVerificationInfo);
-
+    
     const user = await User.create({
         first_name,
         last_name,
         email,
         password,
+        expiresAt: Date.now() + 3 * 60 * 1000, // Set expiry time for the verification code (3 minutes)
         username: email.split('@')[0],
     })
 
@@ -128,7 +256,7 @@ const registerUser = asyncHandler( async (req, res) => {
         .json(new ApiResponse(500, null, "Failed to create user"))
     }
 
-    await sendEmailVerifcation(createdUser);
+    await sendEmailVerifcation(createdUser, generatedCode);
     
     res.status(201)
     .json(new ApiResponse(
@@ -299,4 +427,4 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
     }
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword, updateProfile }
+export { registerUser, loginUser, logoutUser, refreshAccessToken, changePassword, updateProfile, verifyAndRegisterUser }
