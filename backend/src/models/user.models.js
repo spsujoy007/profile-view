@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    expiresAt: Date, // Field to store the expiry time for the verification code
     refreshToken: String
 }, { timestamps: true });
 
@@ -66,6 +67,12 @@ userSchema.pre('save', function () {
     this.password = bcrypt.hashSync(this.password, salt);
     
 })
+
+// Index to automatically delete documents after the specified expiry time
+userSchema.index(
+  { expiresAt: 1 },
+  { expireAfterSeconds: 0 }
+);
 
 // Method to compare entered password with hashed password
 userSchema.methods.isPasswordCorrect = async function (enteredPassword) {

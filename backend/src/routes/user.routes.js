@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { changePassword, loginUser, logoutUser, refreshAccessToken, registerUser, updateProfile } from "../controllers/user.controller.js";
+import { changePassword, loginUser, logoutUser, refreshAccessToken, registerUser, updateProfile, verifyAndRegisterUser } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
@@ -15,5 +15,8 @@ router.route('/change-password').post(verifyJWT, changePassword);
 
 // update profile
 router.route('/update-profile').put(verifyJWT, updateProfile);
+
+// verify email
+router.route('/verify-email').post(verifyAndRegisterUser);
 
 export default router;

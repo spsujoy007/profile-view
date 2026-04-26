@@ -160,7 +160,7 @@ const sendEmailVerifcation = async (newUser, generatedCode) => {
 
 const verifyAndRegisterUser = asyncHandler( async ( req, res ) => {
     const { email, code } = req.body;
-
+    console.log(req.body)
     if(!email || !code){
         return res
         .status(400)
@@ -169,36 +169,58 @@ const verifyAndRegisterUser = asyncHandler( async ( req, res ) => {
 
     const existedUser = await User.findOne({email});
 
-    if(!isUserExist){
+    if(!existedUser){
         return res
         .status(404)
         .json(new ApiResponse(404, null, "User not found with this email"))
     }
 
-    if(isUserExist.isVerified){
+    if(existedUser.isVerified){
         return res
         .status(400)
         .json(new ApiResponse(400, null, "User already verified with this email"))
     }
 
-    const getInfo = await jwt.verify(isUserExist.email, process.env.EMAIL_VERIFICATION_SECRET, (err, decoded) => { 
+    const getInfo =  jwt.verify(
+        req.cookies?.emailVerificationInfo, 
+        process.env.EMAIL_VERIFICATION_SECRET, 
+        (err, decoded) => { 
         if(err){
             return res.status(400)
             .json(new ApiResponse(400, null, "Invalid or expired verification code"));
         }
+
+        return decoded;
     })
+    console.log(getInfo)
 
     if(!getInfo){
         return res.status(400)
         .json(new ApiResponse(400, null, "Invalid or expired verification code"));
     }
-    
-    const isUserWaitForVerification = await jwt.verify(email, process.env.EMAIL_VERIFICATION_SECRET, (err, decoded) => {
-        if(err){
-            return res.status(400)
-            .json(new ApiResponse(400, null, "Invalid or expired verification code"));
-        }
-    });
+
+    // Compare the entered code with the hashed code in the token
+    const isCodeMatched = await bcrypt.compare(code, getInfo.code);
+    if(!isCodeMatched){
+        return res
+        .status(400)
+        .json(new ApiResponse(400, null, "Invalid verification code"))
+    }
+
+    existedUser.isVerified = true;
+    existedUser.expiresAt = null; // Clear the expiry time since the user is now verified
+    const verifiedUser = await existedUser.save({ validateBeforeSave: false });
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(verifiedUser._id);
+
+    res.status(200)
+    .cookie("accessToken", accessToken, optionsForAccessToken)
+    .cookie("refreshToken", refreshToken, optionsForRefreshToken)
+    .clearCookie("emailVerificationInfo") // Clear the email verification info cookie after successful verification
+    .json(new ApiResponse(200, {
+        user: verifiedUser,
+        accessToken,
+        refreshToken
+    }, "Email verified and user registered successfully"))
 })
 
 const registerUser = asyncHandler( async (req, res) => {
@@ -258,11 +280,17 @@ const registerUser = asyncHandler( async (req, res) => {
 
     await sendEmailVerifcation(createdUser, generatedCode);
     
-    res.status(201)
+    res
+    .status(201)
+    .cookie("emailVerificationInfo", generateVerificationInfo, {
+        httpOnly: true,
+        secure: true,
+        expires: new Date(Date.now() + 3 * 60 * 1000) // 3 minutes
+    })
     .json(new ApiResponse(
         201, {
             'user':  createdUser,
-        }, "User registered successfully"))
+        }, "User registered successfully. Please verify your email to complete the registration process."))
 })
 
 const loginUser = asyncHandler( async (req, res) => {
