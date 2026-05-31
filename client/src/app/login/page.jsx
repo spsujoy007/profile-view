@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function LoginPage() {
   const features = [
     {
@@ -24,17 +26,18 @@ export default function LoginPage() {
   const socials = ['GitHub', 'Google', 'Vercel']
 
   return (
-    <main className='relative min-h-screen overflow-hidden bg-[#050505] text-white'>
-      <div className='absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.08),_transparent_32%),radial-gradient(circle_at_20%_80%,_rgba(255,255,255,0.08),_transparent_24%),linear-gradient(180deg,_#090909_0%,_#040404_100%)]' />
-      <div className='absolute inset-0 opacity-50 [background-image:radial-gradient(rgba(255,255,255,0.9)_0.7px,transparent_0.7px)] [background-size:44px_44px] [mask-image:linear-gradient(180deg,white,transparent_88%)]' />
+    <main className='relative h-screen overflow-hidden bg-[#040507] text-white'>
+      <div className='absolute inset-0 bg-[radial-gradient(circle_at_16%_18%,rgba(82,122,255,0.12),transparent_40%),radial-gradient(circle_at_85%_75%,rgba(255,255,255,0.06),transparent_35%),linear-gradient(180deg,#090b10_0%,#05060a_60%,#040507_100%)]' />
+      <div className='absolute inset-0 opacity-45 [background-image:radial-gradient(rgba(255,255,255,0.75)_0.55px,transparent_0.55px)] [background-size:36px_36px] [mask-image:linear-gradient(180deg,white,transparent_92%)]' />
 
-      <div className='relative mx-auto grid min-h-screen max-w-[1440px] gap-8 p-4 sm:p-6 lg:grid-cols-[1.08fr_0.92fr] lg:p-8'>
-        <section className='relative overflow-hidden rounded-[28px] border border-white/8 bg-[linear-gradient(180deg,rgba(13,13,13,0.9),rgba(6,6,6,0.92))] px-6 py-8 shadow-[0_30px_100px_rgba(0,0,0,0.55)] sm:px-8 lg:px-10 lg:py-9'>
-          <div className='absolute inset-x-[-12%] bottom-[-26%] h-[58%] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.28),rgba(255,255,255,0.12)_18%,rgba(255,255,255,0.04)_34%,transparent_68%)] blur-2xl' />
+      <div className='relative mx-auto grid h-full max-w-360 gap-6 p-3 sm:p-4 lg:grid-cols-[1.08fr_0.92fr] lg:p-5'>
+        <section className='relative hidden overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(8,11,19,0.88),rgba(6,8,13,0.94))] px-5 py-6 shadow-[0_30px_100px_rgba(0,0,0,0.55)] sm:px-7 lg:block lg:px-8 lg:py-7'>
+          <div className='absolute inset-x-[-12%] bottom-[-26%] h-[58%] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.22),rgba(255,255,255,0.07)_24%,rgba(255,255,255,0.02)_44%,transparent_70%)] blur-2xl' />
           <div className='absolute left-[12%] top-[22%] h-[56%] w-[78%] rounded-full border border-white/10 opacity-60' />
           <div className='absolute left-[24%] top-[18%] h-[46%] w-[62%] rounded-full border border-white/10 opacity-35' />
           <div className='absolute left-[38%] top-[34%] h-[28%] w-[38%] rounded-full border border-white/10 opacity-25' />
-          <div className='absolute bottom-[-18%] left-[-18%] h-[46vw] w-[46vw] max-h-[620px] max-w-[620px] rounded-full border border-white/20 bg-[radial-gradient(circle_at_36%_34%,rgba(255,255,255,0.45),rgba(255,255,255,0.12)_20%,rgba(255,255,255,0.05)_36%,rgba(255,255,255,0.01)_58%,transparent_68%)] shadow-[0_0_120px_rgba(255,255,255,0.08)]' />
+          <div className='absolute bottom-[-18%] left-[-18%] h-[46vw] w-[46vw] max-h-[620px] max-w-[620px] rounded-full border border-white/20 bg-[radial-gradient(circle_at_42%_36%,rgba(255,255,255,0.55),rgba(255,255,255,0.14)_24%,rgba(37,58,115,0.3)_52%,rgba(5,8,15,0.96)_74%)] shadow-[0_0_120px_rgba(255,255,255,0.12)]' />
+
           <div className='absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent' />
 
           <div className='relative flex h-full flex-col justify-between'>
@@ -49,26 +52,26 @@ export default function LoginPage() {
                 <span>profilesView</span>
               </div>
 
-              <div className='mt-16 max-w-xl lg:mt-28'>
-                <h1 className='max-w-lg text-5xl font-medium tracking-[-0.06em] text-white sm:text-6xl lg:text-[5rem] lg:leading-[0.95]'>
+              <div className='mt-8 max-w-xl lg:mt-12'>
+                <h1 className='max-w-lg text-4xl font-medium tracking-[-0.06em] text-white sm:text-5xl lg:text-[4.1rem] lg:leading-[0.95]'>
                   Your Profile.
                   <span className='block text-white/55'>Your Presence.</span>
                 </h1>
-                <p className='mt-7 max-w-md text-base leading-7 text-white/68 sm:text-lg'>
+                <p className='mt-5 max-w-md text-sm leading-6 text-white/68 sm:text-base'>
                   Showcase your work, skills, and experience to the world with a profile that feels polished, modern, and unmistakably yours.
                 </p>
 
-                <div className='mt-10 space-y-5'>
+                <div className='mt-7 space-y-4'>
                   {features.map((feature) => (
                     <article key={feature.title} className='flex items-start gap-4'>
-                      <div className='flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'>
-                        <svg viewBox='0 0 24 24' className='h-6 w-6 fill-none stroke-current stroke-[1.8]'>
+                      <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]'>
+                        <svg viewBox='0 0 24 24' className='h-5 w-5 fill-none stroke-current stroke-[1.8]'>
                           {feature.icon}
                         </svg>
                       </div>
                       <div>
-                        <h2 className='text-base font-medium text-white/95'>{feature.title}</h2>
-                        <p className='mt-1 max-w-sm text-sm leading-6 text-white/58 sm:text-[0.95rem]'>{feature.description}</p>
+                        <h2 className='text-[0.95rem] font-medium text-white/95'>{feature.title}</h2>
+                        <p className='mt-1 max-w-sm text-sm leading-5 text-white/58 sm:text-[0.9rem]'>{feature.description}</p>
                       </div>
                     </article>
                   ))}
@@ -76,32 +79,32 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className='relative mt-20 text-sm text-white/42'>
+            <div className='relative mt-8 text-xs text-white/42 sm:text-sm'>
               <span>© 2024 profilesView. All rights reserved.</span>
             </div>
           </div>
         </section>
 
         <section className='relative flex items-center justify-center'>
-          <div className='absolute inset-x-8 top-8 h-[75%] rounded-[30px] border border-white/6 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_42%)] blur-0' />
+          <div className='absolute inset-x-8 top-8 h-[75%] rounded-[30px] border border-white/6 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.09),transparent_44%)] blur-0' />
 
-          <div className='relative w-full max-w-[530px] rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,rgba(22,22,22,0.92),rgba(10,10,10,0.96))] px-5 py-7 shadow-[0_24px_90px_rgba(0,0,0,0.62)] backdrop-blur-xl sm:px-8 sm:py-9'>
-            <div className='mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/14 bg-white/6 text-white shadow-[0_0_34px_rgba(255,255,255,0.1)]'>
+          <div className='relative w-full max-w-[530px] rounded-[28px] border border-white/12 bg-[linear-gradient(180deg,rgba(17,20,28,0.92),rgba(8,10,14,0.96))] px-5 py-5 shadow-[0_24px_90px_rgba(0,0,0,0.62)] backdrop-blur-xl sm:px-7 sm:py-6'>
+            <div className='mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-white/14 bg-white/6 text-white shadow-[0_0_34px_rgba(255,255,255,0.1)]'>
               <svg viewBox='0 0 24 24' className='h-8 w-8 fill-none stroke-current stroke-[2.7]'>
                 <path d='m8 5 7 7-7 7' />
                 <path d='m13 5 7 7-7 7' />
               </svg>
             </div>
 
-            <div className='mt-6 text-center'>
-              <h2 className='text-3xl font-medium tracking-[-0.05em] text-white'>Welcome back</h2>
-              <p className='mt-2 text-sm text-white/58'>Login to continue to profilesView</p>
+            <div className='mt-4 text-center'>
+              <h2 className='text-[1.8rem] font-medium tracking-[-0.05em] text-white'>Welcome back</h2>
+              <p className='mt-1.5 text-sm text-white/58'>Login to continue to profilesView</p>
             </div>
 
-            <form className='mt-8 space-y-5'>
+            <form className='mt-5 space-y-4'>
               <label className='block'>
                 <span className='mb-2 block text-sm font-medium text-white/82'>Email address</span>
-                <div className='flex h-14 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus-within:border-white/20 focus-within:bg-white/[0.05]'>
+                <div className='flex h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus-within:border-white/20 focus-within:bg-white/[0.05]'>
                   <svg viewBox='0 0 24 24' className='h-5 w-5 shrink-0 fill-none stroke-current stroke-[1.8]'>
                     <path d='M4 6h16v12H4z' />
                     <path d='m4 7 8 6 8-6' />
@@ -116,7 +119,7 @@ export default function LoginPage() {
 
               <label className='block'>
                 <span className='mb-2 block text-sm font-medium text-white/82'>Password</span>
-                <div className='flex h-14 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus-within:border-white/20 focus-within:bg-white/[0.05]'>
+                <div className='flex h-12 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition focus-within:border-white/20 focus-within:bg-white/[0.05]'>
                   <svg viewBox='0 0 24 24' className='h-5 w-5 shrink-0 fill-none stroke-current stroke-[1.8]'>
                     <path d='M7 11V8a5 5 0 0 1 10 0v3' />
                     <rect x='5' y='11' width='14' height='10' rx='2' />
@@ -141,7 +144,7 @@ export default function LoginPage() {
 
               <button
                 type='submit'
-                className='group flex h-14 w-full items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#fbfbfb,#dbdbdb)] px-5 text-base font-medium text-black shadow-[0_16px_30px_rgba(255,255,255,0.08)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(255,255,255,0.12)]'
+                className='group flex h-12 w-full items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#fbfbfb,#dbdbdb)] px-5 text-base font-medium text-black shadow-[0_16px_30px_rgba(255,255,255,0.08)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(255,255,255,0.12)]'
               >
                 <span>Login</span>
                 <svg viewBox='0 0 24 24' className='ml-3 h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5' fill='none' stroke='currentColor' strokeWidth='1.8'>
@@ -156,12 +159,12 @@ export default function LoginPage() {
                 <span className='h-px flex-1 bg-white/10' />
               </div>
 
-              <div className='grid gap-3 sm:grid-cols-3'>
+              <div className='grid gap-2.5 sm:grid-cols-3'>
                 {socials.map((social) => (
                   <button
                     key={social}
                     type='button'
-                    className='flex h-12 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] text-sm font-medium text-white/80 transition hover:border-white/20 hover:bg-white/[0.06]'
+                    className='flex h-11 items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] text-sm font-medium text-white/80 transition hover:border-white/20 hover:bg-white/[0.06]'
                   >
                     {social === 'GitHub' && (
                       <svg viewBox='0 0 24 24' className='h-4.5 w-4.5 fill-current'>
@@ -186,11 +189,11 @@ export default function LoginPage() {
                 ))}
               </div>
 
-              <p className='pt-3 text-center text-sm text-white/54'>
+              <p className='pt-2 text-center text-sm text-white/54'>
                 Don&apos;t have an account?{' '}
-                <a href='#' className='font-medium text-white transition hover:opacity-80'>
+                <Link href='/signup' className='font-medium text-white transition hover:opacity-80'>
                   Sign up
-                </a>
+                </Link>
               </p>
             </form>
           </div>
