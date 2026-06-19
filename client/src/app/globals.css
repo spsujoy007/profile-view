@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
-
 * {
   box-sizing: border-box;
 }
-
-
 
 body {
   min-height: 100%;
   background: #e9ecf2;
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   margin: 0;
+}
+
+.dark body,
+body.dark-mode {
+  background: #111318;
 }
 
 a {
@@ -23,3 +25,5 @@ button,
 input {
   font: inherit;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));

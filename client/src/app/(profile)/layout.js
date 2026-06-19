@@ -9,7 +9,7 @@ const nunito = Nunito({
 
 export default function ProfileLayout({ children }) {
 	return (
-		<section className={`min-h-screen bg-[#e9ecf2] text-gray-900 ${nunito.variable} `}>
+		<section className={`min-h-screen bg-[#e9ecf2] dark:bg-[#111318] text-gray-900 dark:text-gray-100 transition-colors duration-300 ${nunito.variable} `}>
 
 			<div className='flex p-5 h-screen gap-10'>
 				<Navbar></Navbar>

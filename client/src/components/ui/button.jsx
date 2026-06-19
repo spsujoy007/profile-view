@@ -1,10 +1,10 @@
 import React from 'react'
 
 const variantStyles = {
-  normal: 'border border-transparent bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900',
-  bordered: 'border border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50',
-  filled: 'border border-gray-900 bg-gray-900 text-white hover:bg-gray-800 hover:border-gray-800',
-  ghost: 'border border-transparent bg-transparent text-gray-700 hover:border-gray-200 hover:bg-transparent hover:text-gray-900',
+  normal: 'border border-transparent bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white',
+  bordered: 'border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-750',
+  filled: 'border border-gray-900 dark:border-white bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 hover:border-gray-800 dark:hover:border-gray-200',
+  ghost: 'border border-transparent bg-transparent text-gray-700 dark:text-gray-300 hover:border-gray-200 dark:hover:border-gray-700 hover:bg-transparent hover:text-gray-900 dark:hover:text-white',
 }
 
 const sizeStyles = {
