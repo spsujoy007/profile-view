@@ -1,20 +1,22 @@
-export const metadata = {
-  title: 'Profile',
-  description: 'User profile page',
-};
+import Navbar from "@/components/navbar";
+import { Nunito } from "next/font/google";
+
+
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+});
 
 export default function ProfileLayout({ children }) {
-  return (
-    <div className="profile-layout">
-      <header className="profile-header">
-        <h1>Profile</h1>
-      </header>
-      <main className="profile-content">
-        {children}
-      </main>
-      <footer className="profile-footer">
-        <p>&copy; 2024 Profile View</p>
-      </footer>
-    </div>
-  );
+	return (
+		<section className={`min-h-screen bg-[#e9ecf2] text-gray-900 ${nunito.variable} `}>
+
+			<div className='flex p-5 h-screen gap-10'>
+				<Navbar></Navbar>
+				<div className=" ml-[340px]">
+					{children}
+				</div>
+			</div>
+		</section>
+	);
 }
