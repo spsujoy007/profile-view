@@ -20,12 +20,14 @@ export default function Navbar() {
         }
     ];
 
-    const navItemDesigns = "text-lg font-medium text-gray-700 dark:text-gray-300 cursor-pointer py-3 border border-[#fff] dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 duration-300 pl-5 rounded-[20px] mb-2 flex justify-start items-center gap-3";
+    const navItemDesigns = "text-lg font-medium text-gray-700 dark:text-gray-300 cursor-pointer py-3 border border-[#fff] dark:border-transparent hover:border-gray-200 dark:hover:border-gray-600 duration-300 pl-5 rounded-[20px] mb-2 flex justify-start items-center gap-3";
 
 
   return (
     <div className='w-80 p-5 fixed bg-[#fdfdfe] dark:bg-[#1a1d24] h-screen rounded-3xl shadow-2xl shadow-mauve-300 dark:shadow-none dark:border dark:border-gray-800 transition-colors duration-300'>
-        <h1 className='text-2xl font-bold mb-5 pl-5'>ProfilesView</h1>
+        <div className='relative h-full'>
+            <div>
+            <h1 className='text-2xl font-bold mb-5 pl-5'>ProfilesView</h1>
         <ul>
             {navItems.map((item, index) => (
                 <li key={index} className={navItemDesigns}>
@@ -34,8 +36,10 @@ export default function Navbar() {
                 </li>
             ))}
         </ul>
-        <div className="mt-auto pt-10 pl-5">
+        </div>
+        <div className=" absolute bottom-5 w-full pt-10">
           <ThemeToggle />
+        </div>
         </div>
     </div>
   )
